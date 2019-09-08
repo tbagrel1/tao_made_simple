@@ -1,0 +1,6 @@
+**/.idea
+**/.vscode
+**/.directory
+**/*.env
+node_modules
+index.html
