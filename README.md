@@ -11,10 +11,10 @@ Additional interfaces for the TAO system.
 
 ## Authors
 
-+ Timothée ADAM [<timothee.adam@telecomnancy.eu>](mailto:timothee.adam@telecomnancy.eu)
-+ Julien DUMAS [<julien.dumas@telecomnancy.eu>](mailto:julien.dumas@telecomnancy.eu)
-+ Alexandre CESARI [<alexandre.cesari@telecomnancy.eu>](mailto:alexandre.cesari@telecomnancy.eu)
-+ Thomas BAGREL [<thomas.bagrel@telecomnancy.eu>](mailto:thomas.bagrel@telecomnancy.eu)
++ Timothée ADAM <timothee.adam@telecomnancy.eu>
++ Julien DUMAS <julien.dumas@telecomnancy.eu>
++ Alexandre CESARI <alexandre.cesari@telecomnancy.eu>
++ Thomas BAGREL <thomas.bagrel@telecomnancy.eu>
 
 ## Licence
 
