@@ -13,12 +13,16 @@
           h2 Posts
             ul
               li(v-for="post in posts" :key="post.id") {{ post.title }} ({{ post.author }})
+    Test
 </template>
 
 <script>
+import Test from './Test'
 export default {
   name: 'App',
-  components: {},
+  components: {
+    Test
+  },
   data: () => ({
     users: [{
       id: -1,
