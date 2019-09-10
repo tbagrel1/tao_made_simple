@@ -41,9 +41,9 @@ def insert_test_data():
     HikArrow = User(id=14, username="HikArrow", email="hik.w@joke.eu")
     SCRUM = Post(id=2, title="SCRUM", content="Nothing there yet.", author=tbagrel1)
 
-    db.session.save(tbagrel1)
-    db.session.save(HikArrow)
-    db.session.save(SCRUM)
+    db.session.add(tbagrel1)
+    db.session.add(HikArrow)
+    db.session.add(SCRUM)
     db.session.commit()
     return "", 204
 

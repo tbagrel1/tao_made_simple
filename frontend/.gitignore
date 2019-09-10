@@ -3,4 +3,5 @@
 **/.directory
 **/*.env
 node_modules
-index.html
+src/index.html
+
