@@ -9,5 +9,5 @@
 + Détermination des User Stories (Maxissues)
 + Détermination partielle des Minissues
 + Mise en place du (des) serveurs Web
-++ tao.tbagrel1.com
+    * tao.tbagrel1.com
 + Installation de TAO (pour tests)
