@@ -26,10 +26,12 @@ présent : ADAM Timothée, BAGREL Thomas, CESARI Alexandre, DUMAS Julien
 + Variable global du front dans frontend.js
 
 ## Prochaine réunion client : 
-    Da Silva / Youssef : 12/09 à 12h
-	Démo d’un test standard
-	Dégrossir le sujet / projet / demande (fct caché)
-	Point sur l’aperçu de l’interface graphique 
+Da Silva / Youssef : 12/09 à 12h
++ Démo d’un test standard
++ Dégrossir le sujet / projet / demande (fct caché)
++ Point sur l’aperçu de l’interface graphique 
 
 ## Prochaine réu entre nous : 
-    Vendredi 13/09 13h15
+Vendredi 13/09 13h15
++ Définition des user stories
++ Début du code
