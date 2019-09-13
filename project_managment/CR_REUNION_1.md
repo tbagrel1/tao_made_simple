@@ -1,6 +1,6 @@
 # Réunion n°1
 
-## ordre du jour : 
+## Ordre du jour : 
 + Présentation de la structure par T.BAGREL
 + Mise au point sur l'organisation SRUM
 + Découpage projet 
@@ -32,4 +32,4 @@ présent : ADAM Timothée, BAGREL Thomas, CESARI Alexandre, DUMAS Julien
 	Point sur l’aperçu de l’interface graphique 
 
 ## Prochaine réu entre nous : 
-    Vendredi 13/09 10h
+    Vendredi 13/09 13h15
