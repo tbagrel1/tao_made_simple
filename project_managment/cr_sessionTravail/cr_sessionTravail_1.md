@@ -15,7 +15,7 @@
 
 ## Réunion
 + Définition des rôles et pour le 1er sprint
-* Product Owner : Thomas BAGREL
+    * Product Owner : Thomas BAGREL
     * SCRUM Master : Timothée ADAM
     * Tic : Alexandre CESARI
     * Tac : Julien DUMAS
