@@ -14,13 +14,14 @@
 + Installation de TAO (pour tests)
 
 ## Réunion
-+ Définition des rôles et pour le 1er sprint
++ Définition des rôles pour le 1er sprint
+    * Durée : 1 semaine | date de fin : 20/09/2019 13h15
     * Product Owner : Thomas BAGREL
     * SCRUM Master : Timothée ADAM
     * Tic : Alexandre CESARI
     * Tac : Julien DUMAS  
 + Définition du travail de chacun pour le sprint à venir
-    * Julien DUMAS
-    * Alexandre CESARI
-    * Thomas BAGREL
-    * Timothée ADAM
+    * Découvrir la base de donnée
+    * Découvrir TAO
+    * Exploiter les données de test
+    * Réaliser le modèle SQL Alchemy
