@@ -109,4 +109,4 @@ S. DA SILVA a approuvé le schéma réalisé au tableau lors de la dernière ré
 - Jeu de données
 - Document Powerpoint "Ordonnancement oraux. 6-8 jurys"
 
-## Prochaine réunion## : mercredi 18 septembre 2019 (13:15 - 14:00)
+## Prochaine réunion : mercredi 18 septembre 2019 (13:15 - 14:00)
