@@ -18,9 +18,7 @@
     * Product Owner : Thomas BAGREL
     * SCRUM Master : Timothée ADAM
     * Tic : Alexandre CESARI
-    * Tac : Julien DUMAS  
-    
-
+    * Tac : Julien DUMAS
 + Définition du travail de chacun pour le sprint à venir
     * Julien DUMAS
     * Alexandre CESARI
