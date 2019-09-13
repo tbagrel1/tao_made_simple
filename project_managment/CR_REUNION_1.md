@@ -1,6 +1,6 @@
 # Réunion n°1
 
-**ordre du jour** : 
+## ordre du jour : 
 + Présentation de la structure par T.BAGREL
 + Mise au point sur l'organisation SRUM
 + Découpage projet 
@@ -8,7 +8,7 @@
  
 présent : ADAM Timothée, BAGREL Thomas, CESARI Alexandre, DUMAS Julien
 
-A faire :
+## A faire :
 + Avoir un OS Linus ou Mac pour utiliser grep et make
 + Installer docker et docker compose
 + Utilisation de Pycharm et WebStorm
@@ -16,7 +16,7 @@ A faire :
 + Se documenter sur SQL Alchemy (++ utilisation des éléments comme objets)
 + Se documenter sur Flask
 
-Présentation structure : 
+## Présentation structure : 
 + Makefile (déploiement rapide / docker)
 + Base de donnée Postgres (models)
 + Variables d'environnement (regrouper dans .env)
@@ -25,9 +25,11 @@ Présentation structure :
 + Pug à la place de HTML
 + Variable global du front dans frontend.js
 
-Réu Sa Silva / Youssef : 12/09 à 12h
+## Prochaine réunion client : 
+    Da Silva / Youssef : 12/09 à 12h
 	Démo d’un test standard
 	Dégrossir le sujet / projet / demande (fct caché)
 	Point sur l’aperçu de l’interface graphique 
-Prochaine réu : 
-Vendredi 13/09 10h
+
+## Prochaine réu entre nous : 
+    Vendredi 13/09 10h
