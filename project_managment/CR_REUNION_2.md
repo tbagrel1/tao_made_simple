@@ -41,7 +41,7 @@ Un examen se décompose généralement en plusieurs phases (voir le fichier Powe
 - Le candidat se connecte sur une machine avec ses identifiants. En cas de problème, il le signal à un examinateur.
 - Lorsque l'examen est ouvert, le candidat lance l'examen. Il dispose d'une plage de temps (généralement quelques minutes, mais cela dépend de l'examen) avant de lancer l'examen et de disposer de tout le temps consacré à sa réalisation.
 - Lorsque le candidat a terminé de répondre aux questions et qu'il a validé l'examen ou que l'examen est clôturé, ce dernier est considéré comme terminé, et le candidat ne peut plus répondre aux questions. Il ne peut plus modifier ses réponses. Généralement, il reste dans la salle tant que l'examen n'est pas clôturé.
-- Ses résultats l'examen peuvent être envoyés plus tard au candidat. Si le candidat a utilisé un compte de secours, la liaison entre les résultats de ce compte et le compte du candidat est effectuée après l'examen.
+- Ses résultats à l'examen peuvent être envoyés plus tard au candidat. Si le candidat a utilisé un compte de secours, la liaison entre les résultats de ce compte et le compte du candidat est effectuée après l'examen.
 
 Un numéro SCEI unique est généré pour chaque candidat. Ce numéro permet de conserver l'anonymat du candidat. Ce numéro permet d'identifier ce candidat par l'examinateur et par le système TAO.
 
