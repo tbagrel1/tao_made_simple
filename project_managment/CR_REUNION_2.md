@@ -2,19 +2,19 @@
 
 **Date** : jeudi 12 septembre 2019 (12:15 - 13:30)
 
-**Participants** :
+##Participants## :
 
 - T. ADAM
 - T. BAGREL
 - A. CESARI
 - J. DUMAS
 
-**Intervenants externes** :
+##Intervenants externes## :
 
 - S. DA SILVA (client)
 - Y. SEDDIKI (ingénieur)
 
-**Ordre du jour** :
+##Ordre du jour## :
 
 - Formulation du besoin
 - Présentation du déroulement d'un examen
@@ -23,9 +23,11 @@
 - Retours sur le schéma
 - Méthode et rôles de Scrum
 
-**Besoin** : avoir un tableau de bord pour le suivi d'une épreuve concours. Le tableau de bord doit comporter une interface simple d'utilisation, à destination de personnels non formés et non techniques.
+##Contenu de la réunion##
 
-**Précisions sur le fonctionnement de TAO** :
+###Besoin### : avoir un tableau de bord pour le suivi d'une épreuve concours. Le tableau de bord doit comporter une interface simple d'utilisation, à destination de personnels non formés et non techniques.
+
+###Précisions sur le fonctionnement de TAO### :
 
 L'examen possède une heure d'ouverture et une heure de clôture. Pendant cette période de temps, un candidat peut se connecter et passer un examen. Il ne dispose cependant que d'une durée fixe de temps pour le réaliser : c'est le temps d'examen. Si ce temps l'amène à dépasser l'heure de clôture, alors l'examen est terminé. Ainsi, tous les participants disposent du même temps d'examen s'ils le lancent de telle sorte que, l'heure de clôture ne soit pas contenue dans le temps d'examen. Chaque candidat dispose donc d'un chronomètre qui indique le temps d'examen qui lui reste.
 
@@ -45,7 +47,7 @@ Un numéro SCEI unique est généré pour chaque candidat. Ce numéro permet de 
 
 Dans TAO, un examen est placé dans un delivery, programmé à l'avance. Il contient notamment l'heure d'ouverture, l'heure de clôture et le temps d'examen. Il est affilié à un groupe de candidats. Le delivery est ensuite appelé lorsque l'examen est ouvert.
 
-**Fonctionnalités demandées** :
+###Fonctionnalités demandées### :
 
 1. Le seul bouton de contrôle de l'interface de supervision est le bouton "Démarrer" (ou "Start"). Il ne peut être activé qu'après l'heure de lancement de l'examen. Il doit disposer d'un petit décompte de temps avant de lancer l'examen (3 - 2 - 1 secondes, par exemple).
 
@@ -80,11 +82,11 @@ Dans TAO, un examen est placé dans un delivery, programmé à l'avance. Il cont
 
 14. Comme un examen classique sur TAO, l'examen doit se clôturer automatiquement.
 
-**Retours sur le schéma** :
+###Retours sur le schéma### :
 
 S. DA SILVA a approuvé le schéma réalisé au tableau lors de la dernière réunion. Mis à part pour ajouter et modifier les fonctionnalités demandées, il n'a pas été demandé de le modifier.
 
-**À faire** :
+###À faire### :
 
 1. Définir les rôles au sein de l'équipe (Scrum master, project owner, developers)
 
@@ -102,9 +104,9 @@ S. DA SILVA a approuvé le schéma réalisé au tableau lors de la dernière ré
 
 8. Regarder le jeu de données et les tables de la base de données TAO.
 
-**Documents fournis depuis la dernière réunion** :
+##Documents fournis depuis la dernière réunion## :
 
 - Jeu de données
 - Document Powerpoint "Ordonnancement oraux. 6-8 jurys"
 
-**Prochaine réunion** : mercredi 18 septembre 2019 (13:15 - 14:00)
+##Prochaine réunion## : mercredi 18 septembre 2019 (13:15 - 14:00)
