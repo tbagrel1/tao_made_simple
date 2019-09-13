@@ -35,3 +35,7 @@ Da Silva / Youssef : 12/09 à 12h
 Vendredi 13/09 13h15
 + Définition des user stories
 + Début du code
+
+## Logo Scrum
+
+![scrum logo][https://previews.123rf.com/images/tigatelu/tigatelu1311/tigatelu131100185/23820615-hairy-green-monster-cartoon.jpg]
