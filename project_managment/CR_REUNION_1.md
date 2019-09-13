@@ -38,4 +38,4 @@ Vendredi 13/09 13h15
 
 ## Logo Scrum
 
-![scrum logo][https://previews.123rf.com/images/tigatelu/tigatelu1311/tigatelu131100185/23820615-hairy-green-monster-cartoon.jpg]
+![scrum logo](https://previews.123rf.com/images/tigatelu/tigatelu1311/tigatelu131100185/23820615-hairy-green-monster-cartoon.jpg)
