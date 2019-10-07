@@ -7,20 +7,21 @@
       b-row#app-row(align-h="center")
         b-col#app-col(xs="12" sm="11" md="10" lg="9" xl="8")
           h1 Welcome on TAO Made Simple !
-          h2 Users
             ul
               li(v-for="user in users" :key="user.id") {{ user.username }}
           h2 Posts
             ul
               li(v-for="post in posts" :key="post.id") {{ post.title }} ({{ post.author }})
-    Test
+    GeneralInformation
 </template>
 
 <script>
 import Test from './Test'
+import GeneralInformation from './GeneralInformation.Vue'
 export default {
   name: 'App',
   components: {
+    GeneralInformation,
     Test
   },
   data: () => ({
