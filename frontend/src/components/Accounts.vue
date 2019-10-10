@@ -14,6 +14,8 @@ export default {
 
   }),
   mounted () {
+      // Divide accounts into candidates and emergency accounts.
+      // Then pass them to the Tabs component as an object.
   },
   methods: {}
 }

@@ -15,6 +15,7 @@ export default {
       Details,
   },
   props: {
+      type: String,
       name: String,
       id: String,
       status: Number,
