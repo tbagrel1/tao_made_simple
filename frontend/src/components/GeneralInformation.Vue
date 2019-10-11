@@ -9,12 +9,12 @@
 export default {
   name: 'GeneralInformation',
   props: {
-      moduleName: String,
-      testName: String,
+    moduleName: String,
+    testName: String
   },
   data: () => ({
-      currentDate: (new Date()).getDate(), // Today's date.
-  }),
+    currentDate: (new Date()).getDate() // Today's date.
+  })
 }
 </script>
 

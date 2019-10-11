@@ -11,23 +11,23 @@ export default {
   name: 'App',
   components: {
     Header,
-    Accounts,
+    Accounts
   },
   data: () => ({
-      header: {
-          time: {
-              startTime: null,
-              endFirstTime: null,
-              endTime: null,
-          },
-          generalInformation: {
-              moduleName: '',
-              testName: '',
-          },
+    header: {
+      time: {
+        startTime: null,
+        endFirstTime: null,
+        endTime: null
       },
-      accounts: {
+      generalInformation: {
+        moduleName: '',
+        testName: ''
+      }
+    },
+    accounts: {
 
-      },
+    }
   }),
   mounted () {
     // Retrieve all data here.

@@ -8,8 +8,8 @@
 export default {
   name: 'Timers',
   props: {
-      message: String,
-      time: Date,
+    message: String,
+    time: Date
   },
   mounted () {
     // Split hours in segment here.

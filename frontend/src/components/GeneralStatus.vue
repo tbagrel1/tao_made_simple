@@ -10,10 +10,10 @@
 export default {
   name: 'GeneralStatus',
   props: {
-      numberConnected,
-      numberInTest,
-      numberFinished,
-      globalProgress,
+    numberConnected,
+    numberInTest,
+    numberFinished,
+    globalProgress
   },
   data: () => ({
   }),

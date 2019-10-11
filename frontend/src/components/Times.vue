@@ -11,25 +11,25 @@ import Hours from './Hours.Vue'
 export default {
   name: 'Times',
   components: {
-      Timers,
-      Hours,
+    Timers,
+    Hours
   },
   props: {
-      startTime: Date,
-      endFirstTime: Date,
-      endTime: Date,
+    startTime: Date,
+    endFirstTime: Date,
+    endTime: Date
   },
   computed: {
-      remainingEndTime: () => { // Time left before the end of the exam.
-          return this.endTime - this.currentTime();
-      },
-      remainingFirstEndTime: () => { // Time left before the end of the exam.
-          return this.endFirstTime - this.currentTime();
-      },
-      currentTime: () => {
-          return (new Date).getTime();
-      },
-  },
+    remainingEndTime: () => { // Time left before the end of the exam.
+      return this.endTime - this.currentTime()
+    },
+    remainingFirstEndTime: () => { // Time left before the end of the exam.
+      return this.endFirstTime - this.currentTime()
+    },
+    currentTime: () => {
+      return (new Date()).getTime()
+    }
+  }
 }
 </script>
 

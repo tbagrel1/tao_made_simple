@@ -22,35 +22,35 @@ export default {
   data: () => ({
     child1Text: 'Hello',
     child2Text: 'World!',
-      users: [{
-          id: -1,
-          username: '... loading ...',
-          email: ''
-      }],
-      posts: [{
-          id: -1,
-          title: '... loading ...',
-          content: '',
-          author_id: -1
-      }]
+    users: [{
+      id: -1,
+      username: '... loading ...',
+      email: ''
+    }],
+    posts: [{
+      id: -1,
+      title: '... loading ...',
+      content: '',
+      author_id: -1
+    }]
   }),
+  mounted () {
+    this.$axios.get('http://localhost:10080/api/user')
+      .then(response => {
+        this.$jsonLog(response)
+        this.users = response.data
+      })
+    this.$axios.get('http://localhost:10080/api/post')
+      .then(response => {
+        this.$jsonLog(response)
+        this.posts = response.data
+      })
+  },
   methods: {
     changeText () {
       this.child1Text = 'Yop!!'
     }
-  },
-    mounted () {
-        this.$axios.get('http://localhost:10080/api/user')
-            .then(response => {
-                this.$jsonLog(response)
-                this.users = response.data
-            })
-        this.$axios.get('http://localhost:10080/api/post')
-            .then(response => {
-                this.$jsonLog(response)
-                this.posts = response.data
-            })
-    },
+  }
 }
 /*
 
@@ -86,11 +86,6 @@ export default {
         mounted() {
         }
     }
-
-
-
-
-
 
 <template lang="pug">
   div#general
@@ -131,7 +126,6 @@ export default {
             this.endTime = new Date('October 6 2019 16:40');
         }
     }
-
 
  */
 

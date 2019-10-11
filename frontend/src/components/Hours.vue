@@ -10,11 +10,11 @@
 export default {
   name: 'Hours',
   props: {
-      startTime: Date,
-      currentTime: Date,
-      firstEndTime: Date,
-      endTime: Date,
-  },
+    startTime: Date,
+    currentTime: Date,
+    firstEndTime: Date,
+    endTime: Date
+  }
 }
 </script>
 

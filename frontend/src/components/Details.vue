@@ -6,8 +6,8 @@
 export default {
   name: 'Details',
   props: {
-      // Not defined yet
-  },
+    // Not defined yet
+  }
 }
 </script>
 

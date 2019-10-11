@@ -12,20 +12,20 @@ import GeneralStatus from './GeneralStatus.Vue'
 export default {
   name: 'Header',
   components: {
-      GeneralStatus,
-      GeneralInformation,
-      Times,
+    GeneralStatus,
+    GeneralInformation,
+    Times
   },
   props: {
-      times: {
-          startTime: Date,
-          endFirstTime: Date,
-          endTime: Date,
-      },
-      generalInformation: {
-          moduleName: String,
-          testName: String,
-      },
+    times: {
+      startTime: Date,
+      endFirstTime: Date,
+      endTime: Date
+    },
+    generalInformation: {
+      moduleName: String,
+      testName: String
+    }
   },
   data: () => ({
   }),
