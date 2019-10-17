@@ -16,19 +16,43 @@ export default {
   data: () => ({
     header: {
       time: {
-        startTime: null,
-        endFirstTime: null,
-        endTime: null
+        start: null,
+        close: null
       },
       generalInformation: {
-        moduleName: '',
-        testName: ''
+        moduleLabel: '',
+        testLabel: ''
       }
     },
-    accounts: {
-
-    }
+    accounts: [{
+      id: null,
+      type: null,
+      firstname: '',
+      surname: '',
+      status: '',
+      questionNo: null,
+      startTime: null
+    }],
+    nbQuestion: '',
+    testDuration: null
   }),
+  computed: {
+    globalProgression: () => {
+      return null
+    },
+    nbConnected: () => {
+      return null
+    },
+    nbInTest: () => {
+      return null
+    },
+    nbFinished: () => {
+      return null
+    },
+    endTime: () => { // Last testaker's ending date
+      return null
+    }
+  },
   mounted () {
     // Retrieve all data here.
   },

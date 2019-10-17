@@ -18,13 +18,12 @@ export default {
   },
   props: {
     times: {
-      startTime: Date,
-      endFirstTime: Date,
-      endTime: Date
+      type: Object,
+      required: true
     },
     generalInformation: {
-      moduleName: String,
-      testName: String
+      type: Object,
+      required: true
     }
   },
   data: () => ({

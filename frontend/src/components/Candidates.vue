@@ -15,19 +15,49 @@ export default {
     Details
   },
   props: {
-    type: String,
-    name: String,
-    id: String,
-    status: Number,
-    questionNumber: Number,
-    numberOfQuestions: Number
+    id: {
+      type: String,
+      required: true
+    },
+    type: {
+      type: String,
+      required: true
+    },
+    firstname: {
+      type: String,
+      required: true
+    },
+    surname: {
+      type: String,
+      required: true
+    },
+    status: {
+      type: String,
+      required: true
+    },
+    questionNo: {
+      type: String,
+      required: true
+    },
+    nbQuestions: {
+      type: String,
+      required: true
+    },
+    startTime: {
+      type: String,
+      required: true
+    },
+    testDuration: {
+      type: String,
+      required: true
+    }
   },
   data: () => ({
     detailsActive: false
   }),
   computed: {
     progress: () => { // Progress of the candidate
-      return Math.floor(this.questionNumber / this.numberOfQuestions)
+      return Math.floor(this.questionNo / this.nbQuestion)
     },
     statusMessage: () => { // Status message displayed
       switch (this.status) {

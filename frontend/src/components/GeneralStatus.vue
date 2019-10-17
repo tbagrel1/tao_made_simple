@@ -10,10 +10,22 @@
 export default {
   name: 'GeneralStatus',
   props: {
-    numberConnected,
-    numberInTest,
-    numberFinished,
-    globalProgress
+    numberConnected: {
+      type: Number,
+      required: true
+    },
+    numberInTest: {
+      type: Number,
+      required: true
+    },
+    numberFinished: {
+      type: Number,
+      required: true
+    },
+    globalProgress: {
+      type: Number,
+      required: true
+    }
   },
   data: () => ({
   }),

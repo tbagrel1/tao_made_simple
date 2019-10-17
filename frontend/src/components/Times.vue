@@ -15,9 +15,18 @@ export default {
     Hours
   },
   props: {
-    startTime: Date,
-    endFirstTime: Date,
-    endTime: Date
+    startTime: {
+      type: Date,
+      required: true
+    },
+    endFirstTime: {
+      type: Date,
+      required: true
+    },
+    endTime: {
+      type: Date,
+      required: true
+    }
   },
   computed: {
     remainingEndTime: () => { // Time left before the end of the exam.

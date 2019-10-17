@@ -9,8 +9,14 @@
 export default {
   name: 'GeneralInformation',
   props: {
-    moduleName: String,
-    testName: String
+    moduleName: {
+      type: String,
+      required: true
+    },
+    testName: {
+      type: String,
+      required: true
+    }
   },
   data: () => ({
     currentDate: (new Date()).getDate() // Today's date.

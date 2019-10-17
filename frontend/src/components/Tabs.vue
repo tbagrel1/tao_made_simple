@@ -2,20 +2,20 @@
   div#tabs
     span#candidates(@click="switchTab(1)")
       Candidates(v-if="currentTab = 1"
-        v-for="can in candidates" :key="candidates.id"
-        type="Candidat"
-        :name="can.name"
-        :id="can.id"
-        :status="can.status"
-        :questionNumber="can.questionNumber")
+        v-for="el in followed" :key="followed.id"
+        type="Participant"
+        :name="el.name"
+        :id="el.id"
+        :status="el.status"
+        :questionNumber="el.questionNo")
     span#emergency(@click="switchTab(2)")
       Candidates(v-if="currentTab = 2"
-        v-for="eme in emergencyAccounts" :key="emergencyAccounts.id"
-        type="Compte de secours"
-        :name="eme.name"
-        :id="eme.id"
-        :status="eme.status"
-        :questionNumber="eme.questionNumber")
+        v-for="el in unfollowed" :key="unfollowed.id"
+        type="Autres types de compte"
+        :name="el.name"
+        :id="el.id"
+        :status="el.status"
+        :questionNumber="el.questionNo")
 </template>
 
 <script>
@@ -26,18 +26,25 @@ export default {
     Candidates
   },
   props: {
-    candidates: Object,
-    /* {
-          name: Array,
-          id: Array,
-          status: Array,
-          questionNumber: Array,
-      } */
-    emergencyAccounts: Object,
-    numberOfQuestions: Number
+    followed: {
+      type: Array[Object],
+      required: true
+    },
+    unfollowed: {
+      type: Array[Object],
+      required: true
+    },
+    nbQuestions: {
+      type: Number,
+      required: true
+    },
+    testDuration: {
+      type: Date,
+      required: true
+    }
   },
   data: () => ({
-    currentTab: 1 // Tab displayed (e.g. 1 : candidates tab, 2 : emergency accounts tab).
+    currentTab: 1 // Tab displayed (e.g. 1 : followed accounts tab, 2 : unfollowed accounts tab).
   }),
   mounted () {
   },
@@ -45,19 +52,15 @@ export default {
     switchTab (tabNumber) {
       this.currentTab = tabNumber
     },
-    candidateToEmergency (id) {
+    arrayToArray (id, source, destination) {
       // Important : don't use 'array[i] = a' because Vue JS don't update with that kind of assignation.
       // Prefer things like 'array.push', 'array.split' or 'Vue.set(object)' instead.
       // See https://vuejs.org/v2/guide/reactivity.html for more details.
-      let ca = this.candidates
-      this.candidates.split()
-      this.emergencyAccounts.push()
+      let index = source.findIndex(x => x.id === id);
+      let el = source[index];
+      source.splice(index, 1, source[index]);
+      destination.push(el);
     },
-    emergencyToCandidate (id) {
-      let ca = this.emergencyAccounts
-      this.emergencyAccounts.split()
-      this.candidates.push()
-    }
   }
 }
 </script>
