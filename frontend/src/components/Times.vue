@@ -1,7 +1,7 @@
 <template lang="pug">
   div#times
-    Timers(message="Temps restant avant la clôture" :time="remainingEndTime")
-    Timers(message="Temps restant avant la fin du dernier candidat" :time="remainingFirstEndTime")
+    Timers(message="Temps restant avant la clôture" :time="remainingCloseTime")
+    Timers(message="Temps restant avant la fin du dernier candidat" :time="remainingEndTime")
     Hours
 </template>
 
@@ -19,21 +19,21 @@ export default {
       type: Date,
       required: true
     },
-    endFirstTime: {
+    endTime: {
       type: Date,
       required: true
     },
-    endTime: {
+    closeTime: {
       type: Date,
       required: true
     }
   },
   computed: {
+    remainingCloseTime: () => { // Time left before the end of the exam.
+      return this.closeTime - this.currentTime()
+    },
     remainingEndTime: () => { // Time left before the end of the exam.
       return this.endTime - this.currentTime()
-    },
-    remainingFirstEndTime: () => { // Time left before the end of the exam.
-      return this.endFirstTime - this.currentTime()
     },
     currentTime: () => {
       return (new Date()).getTime()

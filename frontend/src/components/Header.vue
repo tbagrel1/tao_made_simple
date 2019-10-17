@@ -24,13 +24,27 @@ export default {
     generalInformation: {
       type: Object,
       required: true
+    },
+    generalStatus: {
+      type: Object,
+      required: true
     }
   },
   data: () => ({
   }),
   mounted () {
   },
-  methods: {}
+  methods: {
+    getCurrentTime () {
+      this.currentTime = new Date()
+    },
+    remainClose () { // Time left before the close of the exam.
+      this.close = this.currentTime + this.times.close
+    },
+    remainEnd () { // Time left before the end of the exam.
+      this.end = this.currentTime + this.times.end
+    }
+  }
 }
 </script>
 

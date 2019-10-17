@@ -17,11 +17,19 @@ export default {
     header: {
       time: {
         start: null,
-        close: null
+        close: null,
+        end: null
       },
       generalInformation: {
+        duration: null,
         moduleLabel: '',
         testLabel: ''
+      },
+      generalStatus: {
+        globalProgression: null,
+        nbConnected: null,
+        nbInTest: null,
+        nbFinished: null
       }
     },
     accounts: [{
