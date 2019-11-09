@@ -1,7 +1,7 @@
 <template lang="pug">
   div#timers
-    span#message {{ message }}
-    span#time {{ time }}
+    span#message {{ spanMessage }}
+    span#time {{ spanTimer }}
 </template>
 
 <script>
@@ -14,6 +14,20 @@ export default {
   mounted () {
     // Split hours in segment here.
     // Make it beautiful.
+    this.spanMessage = this.message
+    this.spanTimer = this.getHour + this.getMinute + this.getSecond
+  },
+  methods: {
+    getHour () {
+      let hours = this.time.getHours()
+      return hours ? hours + ' : ' : ''
+    },
+    getMinute () {
+      return this.time.getMinutes() + ' : '
+    },
+    getSecond () {
+      return this.time.getSeconds()
+    }
   }
 }
 </script>
