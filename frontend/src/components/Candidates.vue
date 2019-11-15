@@ -61,11 +61,12 @@ export default {
     },
     statusMessage: () => { // Status message displayed
       switch (this.status) {
-        case 0: return 'disconnected'
-          break
-        case 1: return 'connected'
-          break
-        default: return 'unknown'
+        case 0:
+          return 'disconnected'
+        case 1:
+          return 'connected'
+        default:
+          return 'unknown'
       }
     }
   },

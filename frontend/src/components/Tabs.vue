@@ -56,11 +56,11 @@ export default {
       // Important : don't use 'array[i] = a' because Vue JS don't update with that kind of assignation.
       // Prefer things like 'array.push', 'array.split' or 'Vue.set(object)' instead.
       // See https://vuejs.org/v2/guide/reactivity.html for more details.
-      let index = source.findIndex(x => x.id === id);
-      let el = source[index];
-      source.splice(index, 1, source[index]);
-      destination.push(el);
-    },
+      let index = source.findIndex(x => x.id === id)
+      let el = source[index]
+      source.splice(index, 1, source[index])
+      destination.push(el)
+    }
   }
 }
 </script>
