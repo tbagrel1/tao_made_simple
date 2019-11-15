@@ -2,7 +2,7 @@
   div#times
     Timers(message="Temps restant avant la clôture" :time="remainingCloseTime")
     Timers(message="Temps restant avant la fin du dernier candidat" :time="remainingEndTime")
-    Hours
+    Hours(:startTime ="this.startTime" :currentTime ="currentTime" :endTime ="remainingEndTime" :closingTime ="remainingCloseTime")
 </template>
 
 <script>
