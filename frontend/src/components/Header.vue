@@ -6,9 +6,9 @@
 </template>
 
 <script>
-import GeneralInformation from './GeneralInformation.Vue'
-import Times from './Times.Vue'
-import GeneralStatus from './GeneralStatus.Vue'
+import GeneralInformation from './GeneralInformation.vue'
+import Times from './Times.vue'
+import GeneralStatus from './GeneralStatus.vue'
 export default {
   name: 'Header',
   components: {

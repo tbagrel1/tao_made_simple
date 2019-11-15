@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import Candidates from './Candidates.Vue'
+import Candidates from './Candidates.vue'
 export default {
   name: 'Tabs',
   components: {

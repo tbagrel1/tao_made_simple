@@ -5,8 +5,8 @@
 </template>
 
 <script>
-import Header from './Header.Vue'
-import Accounts from './Accounts.Vue'
+import Header from './Header.vue'
+import Accounts from './Accounts.vue'
 export default {
   name: 'App',
   components: {

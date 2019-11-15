@@ -4,7 +4,7 @@
 </template>
 
 <script>
-import Tabs from './Tabs.Vue'
+import Tabs from './Tabs.vue'
 export default {
   name: 'Accounts',
   components: {

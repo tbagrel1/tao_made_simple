@@ -6,8 +6,8 @@
 </template>
 
 <script>
-import Timers from './Timers.Vue'
-import Hours from './Hours.Vue'
+import Timers from './Timers.vue'
+import Hours from './Hours.vue'
 export default {
   name: 'Times',
   components: {

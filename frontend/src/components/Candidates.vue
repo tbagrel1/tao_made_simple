@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import Details from './Details.Vue'
+import Details from './Details.vue'
 export default {
   name: 'Candidates',
   components: {
