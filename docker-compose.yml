@@ -8,18 +8,4 @@ services:
             - '10080:80'
         volumes:
             - './backend/instance:/var/lib/tao_made_simple'
-        env_file:
-            - './backend/env.env'
-        depends_on:
-            - 'test_db'
-    # for SQLAlchemy tests only
-    test_db:
-        image: 'postgres'
-        container_name: 'test_db-container'
-        environment:
-            POSTGRES_USER: 'postgres'
-            POSTGRES_PASSWORD: 'postgres'
-            POSTGRES_DB: 'test_db'
-        ports:
-            - '15432:5432'
 
