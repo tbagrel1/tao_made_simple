@@ -1,6 +1,6 @@
 <template lang="pug">
   div#app
-    Header
+    Header(:header="header")
     Accounts
 </template>
 

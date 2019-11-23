@@ -2,7 +2,7 @@
   div#generalInformation
       span#moduel {{ moduleName }}
       span#name {{ testName }}
-      span#date {{ currentDate }}
+      span#date {{ date }}
 </template>
 
 <script>
@@ -16,11 +16,19 @@ export default {
     testName: {
       type: String,
       required: true
+    },
+    date: {
+      type: String,
+      required: true
     }
   },
-  data: () => ({
-    currentDate: (new Date()).getDate() // Today's date.
-  })
+  mounted: function () {
+    let currentDate = new Date()
+    let day = currentDate.getDate()
+    let mounth = currentDate.getMonth() + 1
+    let year = currentDate.getFullYear()
+    this.date = day + '/' + mounth + '/' + year
+  }
 }
 </script>
 

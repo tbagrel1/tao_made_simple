@@ -1,9 +1,9 @@
 <template lang="pug">
   div#hours
-    span#start Heure de départ : {{ spanStartTime }}
-    span#datetime Il est : {{ spanCurrentTime }}
-    span#last Heure de fin (au plus tôt) : {{ spanFirstEndTime }}
-    span#closing Heure de clôture : {{ spanClosingTime }}
+    span#start Heure de départ : {{ getTime(startTime) }}
+    span#datetime Il est : {{ getTime(currentTime) }}
+    span#last Heure de fin (au plus tôt) : {{ getTime(endTime) }}
+    span#closing Heure de clôture : {{ getTime(ClosingTime) }}
 </template>
 
 <script>
@@ -15,13 +15,13 @@ export default {
     endTime: Date,
     closingTime: Date
   },
-  mounted () {
-    // Split hours in segment here.
-    // Make it beautiful.
-    this.spanStartTime = this.startTime
-    this.spanCurrentTime = this.currentTime
-    this.spanFirstEndTime = this.endTime
-    this.spanClosingTime = this.ClosingTime
+  methods: {
+    getTime: function (test) { // Time left before the end of the exam.
+      let date = new Date(test)
+      return date.getHours() + ':' +
+      date.getMinutes() + ':' +
+      date.getSeconds() + (date.getSeconds() > 1 ? 's' : '')
+    }
   }
 }
 

@@ -1,7 +1,7 @@
 <template lang="pug">
   div#header
     GeneralInformation
-    Times
+    Times(:endTime ="header.time.end" :closeTime="header.time.close")
     GeneralStatus
 </template>
 
@@ -17,32 +17,9 @@ export default {
     Times
   },
   props: {
-    times: {
+    header: {
       type: Object,
       required: true
-    },
-    generalInformation: {
-      type: Object,
-      required: true
-    },
-    generalStatus: {
-      type: Object,
-      required: true
-    }
-  },
-  data: () => ({
-  }),
-  mounted () {
-  },
-  methods: {
-    getCurrentTime () {
-      this.currentTime = new Date()
-    },
-    remainClose () { // Time left before the close of the exam.
-      this.close = this.currentTime + this.times.close
-    },
-    remainEnd () { // Time left before the end of the exam.
-      this.end = this.currentTime + this.times.end
     }
   }
 }
