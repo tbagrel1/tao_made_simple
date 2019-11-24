@@ -1,6 +1,6 @@
 <template lang="pug">
   div#candidates
-    span#name {{ name }}
+    span#firstname {{ firstname }}
     span#id {{ id }}
     span#status {{ statusMessage }}
     span#progress {{ progress }}
@@ -20,7 +20,7 @@ export default {
       required: true
     },
     type: {
-      type: String,
+      type: Number,
       required: true
     },
     firstname: {
@@ -36,19 +36,19 @@ export default {
       required: true
     },
     questionNo: {
-      type: String,
+      type: Number,
       required: true
     },
     nbQuestions: {
-      type: String,
+      type: Number,
       required: true
     },
     startTime: {
-      type: String,
+      type: Date,
       required: true
     },
     testDuration: {
-      type: String,
+      type: Date,
       required: true
     }
   },

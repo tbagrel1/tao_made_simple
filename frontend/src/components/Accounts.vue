@@ -1,10 +1,10 @@
 <template lang="pug">
   div#accounts
-    Tabs
+    Tabs(:followed="followed", :unfollowed="unfollowed", :nbQuestions="nbQuestions", :testDuration="testDuration")
 </template>
 
 <script>
-import Tabs from './Tabs.vue'
+import Tabs from './Tabs'
 export default {
   name: 'Accounts',
   components: {
@@ -28,13 +28,19 @@ export default {
     followed: [{}],
     unfollowed: [{}]
   }),
-  computed: {
-  },
   mounted () {
     // Divide accounts into candidates and emergency accounts.
     // Then pass them to the Tabs component as an object.
-  },
-  methods: {}
+    /* this.accounts.forEach((el) => {
+      console.log(el)
+      if (el.type === 2) {
+        this.unfollowed.push(el)
+      } else {
+        this.followed.push(el)
+      }
+    }) */
+    this.followed = this.accounts
+  }
 }
 </script>
 

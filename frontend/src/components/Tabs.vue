@@ -1,25 +1,24 @@
 <template lang="pug">
   div#tabs
-    span#candidates(@click="switchTab(1)")
+    button#candidates(@click="switchTab(1)")
       Candidates(v-if="currentTab = 1"
         v-for="el in followed" :key="followed.id"
         type="Participant"
-        :name="el.name"
+        :firstname="el.name"
         :id="el.id"
         :status="el.status"
-        :questionNumber="el.questionNo")
-    span#emergency(@click="switchTab(2)")
+        :questionNo="el.questionNo")
+    button#emergency(@click="switchTab(2)")
       Candidates(v-if="currentTab = 2"
         v-for="el in unfollowed" :key="unfollowed.id"
         type="Autres types de compte"
-        :name="el.name"
+        :firstname="el.name"
         :id="el.id"
-        :status="el.status"
-        :questionNumber="el.questionNo")
+        :status="el.status")
 </template>
 
 <script>
-import Candidates from './Candidates.vue'
+import Candidates from './Candidates'
 export default {
   name: 'Tabs',
   components: {
@@ -46,8 +45,6 @@ export default {
   data: () => ({
     currentTab: 1 // Tab displayed (e.g. 1 : followed accounts tab, 2 : unfollowed accounts tab).
   }),
-  mounted () {
-  },
   methods: {
     switchTab (tabNumber) {
       this.currentTab = tabNumber

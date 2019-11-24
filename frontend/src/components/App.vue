@@ -1,12 +1,11 @@
 <template lang="pug">
   div#app
-    Header
-    Accounts
+    Accounts(:accounts="accounts", :nbQuestions="nbQuestions", :testDuration="testDuration")
 </template>
 
 <script>
-import Header from './Header.vue'
-import Accounts from './Accounts.vue'
+import Header from './Header'
+import Accounts from './Accounts'
 export default {
   name: 'App',
   components: {
@@ -41,8 +40,8 @@ export default {
       questionNo: null,
       startTime: null
     }],
-    nbQuestion: '',
-    testDuration: null
+    nbQuestions: 0,
+    testDuration: new Date()
   }),
   computed: {
     globalProgression: () => {
@@ -63,8 +62,65 @@ export default {
   },
   mounted () {
     // Retrieve all data here.
-  },
-  methods: {}
+    this.accounts = [{
+      id: 'A1',
+      type: 1,
+      firstname: 'Amélie',
+      surname: 'GEORGE',
+      status: '',
+      questionNo: 0,
+      startTime: null
+    }, {
+      id: 'A2',
+      type: 1,
+      firstname: 'Michel',
+      surname: 'POUTOU',
+      status: '',
+      questionNo: 0,
+      startTime: null
+    }, {
+      id: 'A3',
+      type: 1,
+      firstname: 'Dave',
+      surname: 'BRUBECK',
+      status: '',
+      questionNo: 0,
+      startTime: null
+    }, {
+      id: 'A4',
+      type: 1,
+      firstname: 'Johnny',
+      surname: 'OHLESDOY',
+      status: '',
+      questionNo: 0,
+      startTime: null
+    }, {
+      id: 'A5',
+      type: 2,
+      firstname: 'SEC',
+      surname: 'SEC',
+      status: '',
+      questionNo: 0,
+      startTime: null
+    }, {
+      id: 'A6',
+      type: 1,
+      firstname: 'Joan',
+      surname: 'LECHAMO',
+      status: '',
+      questionNo: 0,
+      startTime: null
+    }, {
+      id: 'A7',
+      type: 1,
+      firstname: 'Guy',
+      surname: 'DUPONT',
+      status: '',
+      questionNo: 0,
+      startTime: null
+    }]
+    this.nbQuestions = 15
+  }
 }
 </script>
 
