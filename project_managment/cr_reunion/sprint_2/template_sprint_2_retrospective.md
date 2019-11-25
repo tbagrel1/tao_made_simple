@@ -1,24 +1,27 @@
-# Sprint xx - Sprint planning 
+# Sprint 2 - Sprint retrospective 
 
-+ date : xx/xx/2019 
-+ présents : ADAM Timothée (rôle), BAGREL Thomas (rôle), CESARI Alexandre (rôle), DUMAS Julien (rôle)
++ date : 01/12/2019 
++ présents : ADAM Timothée (Développeur), BAGREL Thomas (Développeur), CESARI Alexandre (Product Owner), DUMAS Julien (Scrum Master)
 
 
 ## Ordre du jour : 
-+ Définir les objectifs pour le sprint à venir
-+ S'accorder sur les moyens à mettre en oeuvre pour parvenir à ses objectifs
++ Retrospective sur le sprint qui vient de finir
++ Définir "comment" aborder le prochain sprint
++ S'assurer que le plan d'action mis en place à la rétrospective précédente a été appliqué
 
-## Objectif du sprint :
+## Points positifs :
 
-## Stories à faire :
+## Points négatifs :
 
-## Prochaine réunion d'équipe :
+## Axes d'amélioration :
+
+## Prochaines réunions d'équipe :
 
 + Daily meeting : tous les lendemains de jours travaillés
-+ Sprint review : 
-+ Sprint retrospective :
++ Sprint planning : 03/12/2019
++ Sprint review : à définir
 
-## Prochaine réunion client : 
+## Prochaines réunions client : 
 
-+ réunion démonstrative client : 
-+ réunion technique ingénieur client :
++ réunion démonstrative client : 19/12/2019
++ réunion technique ingénieur client : 19/12/2019
