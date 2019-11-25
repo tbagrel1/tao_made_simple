@@ -1,7 +1,7 @@
 # Sprint 0 (prélude) - Sprint planning 
 
 + date : 04/09/2019 
-+ présents : ADAM Timothée (rôle), BAGREL Thomas (rôle), CESARI Alexandre (rôle), DUMAS Julien (rôle)
++ présents : ADAM Timothée (Scrum Master), BAGREL Thomas (Product Owner), CESARI Alexandre (Développeur), DUMAS Julien (Développeur)
 
 
 ## Ordre du jour : 
