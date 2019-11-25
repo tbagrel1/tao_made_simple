@@ -12,13 +12,13 @@
 
 ## Stories à faire :
 
-## Prochaine réunion d'équipe :
+## Prochaines réunions d'équipe :
 
 + Daily meeting : tous les lendemains de jours travaillés
 + Sprint review : 20/09/2019
 + Sprint retrospective : 20/09/2019
 
-## Prochaine réunion client : 
+## Prochaines réunions client : 
 
 + réunion démonstrative client : 12/09/2019
 + réunion technique ingénieur client : 12/09/2019
