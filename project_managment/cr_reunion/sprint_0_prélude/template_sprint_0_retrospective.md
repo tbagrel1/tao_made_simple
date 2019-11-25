@@ -15,13 +15,13 @@
 
 ## Axes d'amélioration :
 
-## Prochaine réunion d'équipe :
+## Prochaines réunions d'équipe :
 
 + Daily meeting : tous les lendemains de jours travaillés
 + Sprint planning : 07/10
 + Sprint review : 18/10
 
-## Prochaine réunion client : 
+## Prochaines réunions client : 
 
 + réunion démonstrative client : 14/10
 + réunion technique ingénieur client : 14/10
