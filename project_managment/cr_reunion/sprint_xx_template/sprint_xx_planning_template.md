@@ -12,13 +12,13 @@
 
 ## Stories à faire :
 
-## Prochaine réunion d'équipe :
+## Prochaines réunions d'équipe :
 
 + Daily meeting : tous les lendemains de jours travaillés
 + Sprint review : 
 + Sprint retrospective :
 
-## Prochaine réunion client : 
+## Prochaines réunions client : 
 
 + réunion démonstrative client : 
 + réunion technique ingénieur client :
