@@ -1,7 +1,7 @@
-# Sprint xx - Sprint review 
+# Sprint 2 - Sprint review 
 
-+ date : xx/xx/2019 
-+ présents : ADAM Timothée (rôle), BAGREL Thomas (rôle), CESARI Alexandre (rôle), DUMAS Julien (rôle)
++ date : 01/12/2019 
++ présents : ADAM Timothée (Développeur), BAGREL Thomas (Développeur), CESARI Alexandre (Product Owner), DUMAS Julien (Scrum Master)
 
 
 ## Ordre du jour : 
@@ -14,13 +14,13 @@
 
 ## Echanges Product Owner - équipe :
 
-## Prochaine réunion d'équipe :
+## Prochaines réunions d'équipe :
 
 + Daily meeting : tous les lendemains de jours travaillés
-+ Sprint retrospective : 
-+ Sprint planning :
++ Sprint retrospective : 01/12/2019
++ Sprint planning : 03/12/2019
 
-## Prochaine réunion client : 
+## Prochaines réunions client : 
 
-+ réunion démonstrative client : 
-+ réunion technique ingénieur client :
++ réunion démonstrative client : 02/12/2019
++ réunion technique ingénieur client : 02/12/2019
