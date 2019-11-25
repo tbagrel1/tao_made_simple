@@ -23,5 +23,5 @@
 
 ## Prochaines réunions client : 
 
-+ réunion démonstrative client : 19/12/2019
-+ réunion technique ingénieur client : 19/12/2019
++ réunion démonstrative client : 02/12/2019
++ réunion technique ingénieur client : 02/12/2019
