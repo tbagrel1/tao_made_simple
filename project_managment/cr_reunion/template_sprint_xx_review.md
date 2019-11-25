@@ -14,13 +14,13 @@
 
 ## Echanges Product Owner - équipe :
 
-## Prochaine réunion d'équipe :
+## Prochaines réunions d'équipe :
 
 + Daily meeting : tous les lendemains de jours travaillés
 + Sprint retrospective : 
 + Sprint planning :
 
-## Prochaine réunion client : 
+## Prochaines réunions client : 
 
 + réunion démonstrative client : 
 + réunion technique ingénieur client :
