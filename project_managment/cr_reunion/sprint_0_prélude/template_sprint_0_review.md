@@ -9,10 +9,14 @@
 + Montrer au Product Owner le produit dans son état actuel d'avancement
 
 ## Stories finies :
++ Ecran de l'interface schéma fini
++ infra déployée
 
-## Stories pas finies : 
+## Stories pas finies :
++ Farfouillage des données pas finis
 
 ## Echanges Product Owner - équipe :
++ Faire un point avec le client sur les découvertes (état de connexion non fournis par TAO)
 
 ## Prochaines réunions d'équipe :
 
