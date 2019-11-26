@@ -16,11 +16,11 @@
 + Contrainte de TAO : nous ne connaissons pas TAO, l'architecture de sa/ses base.s de données et peu de documentation fourni avec
 + Nous nottons 2 voix à explorer : la partie TAO / donnée (back) et la partie interface (front)
 + **Les objectifs du sprint sont :**
-+  **chercher des infos sur SCRUM chacun de notre côté pour en parler pendant les daily meeting**
-* **écrire les premières stories**
-* **recréer l'architecture de TAO pour avoir un environnement de developpement**
-* **identifier et récupérer les données d'examen**
-* **réaliser un écran de la page de supervision à proposer au client**
+    + **chercher des infos sur SCRUM chacun de notre côté pour en parler pendant les daily meeting**
+    + **écrire les premières stories**
+    + **recréer l'architecture de TAO pour avoir un environnement de developpement**
+    + **identifier et récupérer les données d'examen**
+    + **réaliser un écran de la page de supervision à proposer au client**
 
 
 ## Stories à faire :
