@@ -10,10 +10,15 @@
 + S'assurer que le plan d'action mis en place à la rétrospective précédente a été appliqué
 
 ## Points positifs :
++ Bonne entente entre les membres de l'équipe 
 
 ## Points négatifs :
++ Mauvaise connaissance de la méthode SCRUM
++ Pas très sur des rôles de chacun
++ Trop d'éléments techniques évoqués en réunion client
 
 ## Axes d'amélioration :
++ Demander RDV informel avec S. Da Silva pour questionner sur SCRUM (TD GRO ?)
 
 ## Prochaines réunions d'équipe :
 
