@@ -1,14 +1,14 @@
 <template lang="pug">
   div#candidates
-    span#firstname {{ firstname }}
-    span#id {{ id }}
-    span#status {{ statusMessage }}
-    span#progress {{ progress }}
-    Details(:disabled=detailsActive @click="toggleDetailsActive")
+    span#firstname Firstname : {{ firstname }}
+    span#id ID : {{ id }}
+    span#status Status : {{ statusMessage }}
+    // span#progress Progress : {{ progress }}
+    // Details(:disabled=detailsActive @click="toggleDetailsActive")
 </template>
 
 <script>
-import Details from './Details.vue'
+import Details from './Details'
 export default {
   name: 'Candidates',
   components: {
@@ -17,39 +17,43 @@ export default {
   props: {
     id: {
       type: String,
-      required: true
+      default: '',
+      required: false
     },
     type: {
-      type: Number,
-      required: true
+      type: [String, Number],
+      default: 3,
+      required: false
     },
     firstname: {
       type: String,
-      required: true
+      default: '',
+      required: false
     },
     surname: {
       type: String,
-      required: true
+      default: '',
+      required: false
     },
     status: {
-      type: String,
-      required: true
+      type: [Number, String],
+      required: false
     },
     questionNo: {
       type: Number,
-      required: true
+      required: false
     },
     nbQuestions: {
       type: Number,
-      required: true
+      required: false
     },
     startTime: {
       type: Date,
-      required: true
+      required: false
     },
     testDuration: {
       type: Date,
-      required: true
+      required: false
     }
   },
   data: () => ({
@@ -57,16 +61,24 @@ export default {
   }),
   computed: {
     progress: () => { // Progress of the candidate
-      return Math.floor(this.questionNo / this.nbQuestion)
+      try {
+        return Math.floor(this.questionNo / this.nbQuestions)
+      } catch (e) {
+        console.log('Error')
+      }
     },
     statusMessage: () => { // Status message displayed
-      switch (this.status) {
-        case 0:
-          return 'disconnected'
-        case 1:
-          return 'connected'
-        default:
-          return 'unknown'
+      if (!isNaN(this.status)) {
+        switch (this.status) {
+          case 0:
+            return 'disconnected'
+          case 1:
+            return 'connected'
+          default:
+            return 'unknown'
+        }
+      } else {
+        return 'unknown'
       }
     }
   },

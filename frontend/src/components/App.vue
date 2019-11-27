@@ -13,6 +13,7 @@ export default {
     Accounts
   },
   data: () => ({
+    dataReady: false,
     header: {
       time: {
         start: null,
@@ -31,15 +32,16 @@ export default {
         nbFinished: null
       }
     },
-    accounts: [{
-      id: null,
-      type: null,
-      firstname: '',
-      surname: '',
-      status: '',
-      questionNo: null,
-      startTime: null
-    }],
+    accounts: [],
+    //   {
+    //   id: null,
+    //   type: null,
+    //   firstname: '',
+    //   surname: '',
+    //   status: null,
+    //   questionNo: null,
+    //   startTime: null
+    // }],
     nbQuestions: 0,
     testDuration: new Date()
   }),
@@ -60,65 +62,78 @@ export default {
       return null
     }
   },
-  mounted () {
+  created () {
     // Retrieve all data here.
-    this.accounts = [{
+    let A1 = {
       id: 'A1',
       type: 1,
       firstname: 'Amélie',
       surname: 'GEORGE',
-      status: '',
+      status: 2,
       questionNo: 0,
-      startTime: null
-    }, {
+      startTime: new Date()
+    }
+    let A2 = {
       id: 'A2',
       type: 1,
       firstname: 'Michel',
       surname: 'POUTOU',
-      status: '',
+      status: 1,
       questionNo: 0,
-      startTime: null
-    }, {
+      startTime: new Date()
+    }
+    let A3 = {
       id: 'A3',
       type: 1,
       firstname: 'Dave',
       surname: 'BRUBECK',
-      status: '',
+      status: 1,
       questionNo: 0,
-      startTime: null
-    }, {
+      startTime: new Date()
+    }
+    let A4 = {
       id: 'A4',
       type: 1,
       firstname: 'Johnny',
       surname: 'OHLESDOY',
-      status: '',
+      status: 1,
       questionNo: 0,
-      startTime: null
-    }, {
+      startTime: new Date()
+    }
+    let A5 = {
       id: 'A5',
       type: 2,
       firstname: 'SEC',
       surname: 'SEC',
-      status: '',
+      status: 0,
       questionNo: 0,
-      startTime: null
-    }, {
+      startTime: new Date()
+    }
+    let A6 = {
       id: 'A6',
       type: 1,
       firstname: 'Joan',
       surname: 'LECHAMO',
-      status: '',
-      questionNo: 0,
-      startTime: null
-    }, {
+      status: 0,
+      questionNo: 7,
+      startTime: new Date()
+    }
+    let A7 = {
       id: 'A7',
       type: 1,
       firstname: 'Guy',
       surname: 'DUPONT',
-      status: '',
+      status: 0,
       questionNo: 0,
-      startTime: null
-    }]
+      startTime: new Date()
+    }
+    this.accounts.push(A1)
+    this.accounts.push(A2)
+    this.accounts.push(A3)
+    this.accounts.push(A4)
+    this.accounts.push(A5)
+    this.accounts.push(A6)
+    this.accounts.push(A7)
     this.nbQuestions = 15
   }
 }

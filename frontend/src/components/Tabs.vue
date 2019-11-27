@@ -1,20 +1,29 @@
 <template lang="pug">
   div#tabs
     button#candidates(@click="switchTab(1)")
-      Candidates(v-if="currentTab = 1"
-        v-for="el in followed" :key="followed.id"
-        type="Participant"
-        :firstname="el.name"
-        :id="el.id"
-        :status="el.status"
-        :questionNo="el.questionNo")
+    Candidates(v-if="currentTab === 1"
+      v-for="el in followed" :key="followed.id"
+      :id="el.id"
+      type="Participant"
+      :firstname="el.firstname"
+      :surname="el.surname"
+      :status="el.status"
+      :questionNo="el.questionNo"
+      :nbQuestions="nbQuestions"
+      :startTime="el.startTime"
+      :testDuration="testDuration")
     button#emergency(@click="switchTab(2)")
-      Candidates(v-if="currentTab = 2"
-        v-for="el in unfollowed" :key="unfollowed.id"
-        type="Autres types de compte"
-        :firstname="el.name"
-        :id="el.id"
-        :status="el.status")
+    Candidates(v-if="currentTab === 2"
+      v-for="el in unfollowed" :key="unfollowed.id"
+      :id="el.id"
+      type="Autres types de compte"
+      :firstname="el.firstname"
+      :surname="el.surname"
+      :status="el.status"
+      :questionNo="el.questionNo"
+      :nbQuestions="el.nbQuestions"
+      :startTime="el.startTime"
+      :testDuration="el.testDuration")
 </template>
 
 <script>
@@ -27,19 +36,19 @@ export default {
   props: {
     followed: {
       type: Array[Object],
-      required: true
+      required: false
     },
     unfollowed: {
       type: Array[Object],
-      required: true
+      required: false
     },
     nbQuestions: {
       type: Number,
-      required: true
+      required: false
     },
     testDuration: {
       type: Date,
-      required: true
+      required: false
     }
   },
   data: () => ({

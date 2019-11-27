@@ -4,6 +4,7 @@
 </template>
 
 <script>
+// Note : use dependency injection instead of props  : https://vuejs.org/v2/guide/components-edge-cases.html
 import Tabs from './Tabs'
 export default {
   name: 'Accounts',
@@ -13,33 +14,44 @@ export default {
   props: {
     accounts: {
       type: Array[Object],
+      default: [{
+        id: null,
+        type: null,
+        firstname: '',
+        surname: '',
+        status: null,
+        questionNo: null,
+        startTime: null
+      }],
       required: true
     },
     nbQuestions: {
       type: Number,
-      required: true
+      required: false
     },
     testDuration: {
       type: Date,
-      required: true
+      required: false
     }
   },
-  data: () => ({
-    followed: [{}],
-    unfollowed: [{}]
-  }),
-  mounted () {
+  computed: {
     // Divide accounts into candidates and emergency accounts.
     // Then pass them to the Tabs component as an object.
-    /* this.accounts.forEach((el) => {
-      console.log(el)
-      if (el.type === 2) {
-        this.unfollowed.push(el)
-      } else {
-        this.followed.push(el)
-      }
-    }) */
-    this.followed = this.accounts
+    followed: () => {
+      return this.accounts.filter(el => el.type === 1)
+    },
+    unfollowed: () => {
+      return this.accounts.filter(el => el.type === 2)
+    }
+    // console.log(this.accounts)
+    // this.accounts.forEach((el) => {
+    //   console.log(el)
+    //   if (el.type === 2) {
+    //     this.unfollowed.push(el)
+    //   } else {
+    //     this.followed.push(el)
+    //   }
+    // })
   }
 }
 </script>
