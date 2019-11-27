@@ -37,10 +37,10 @@ export default {
   computed: {
     // Divide accounts into candidates and emergency accounts.
     // Then pass them to the Tabs component as an object.
-    followed: () => {
+    followed () {
       return this.accounts.filter(el => el.type === 1)
     },
-    unfollowed: () => {
+    unfollowed () {
       return this.accounts.filter(el => el.type === 2)
     }
     // console.log(this.accounts)
