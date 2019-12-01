@@ -1,8 +1,8 @@
 <template lang="pug">
   div#tabs
     div#buttons
-      button#candidates(@click="switchTab(1)") Participants
-      button#emergency(@click="switchTab(2)") Autres types de comptes
+      button#candidates(@click="switchTab(1)").btn.btn-outline-primary.btn-lg Participants
+      button#emergency(@click="switchTab(2)").btn.btn-outline-primary.btn-lg Autres types de comptes
     div#accounts-list
       Candidates(v-if="currentTab === 1"
         v-for="el in followed" :key="followed.id"
