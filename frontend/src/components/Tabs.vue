@@ -1,29 +1,31 @@
 <template lang="pug">
   div#tabs
-    button#candidates(@click="switchTab(1)")
-    Candidates(v-if="currentTab === 1"
-      v-for="el in followed" :key="followed.id"
-      :id="el.id"
-      type="Participant"
-      :firstname="el.firstname"
-      :surname="el.surname"
-      :status="el.status"
-      :questionNo="el.questionNo"
-      :nbQuestions="nbQuestions"
-      :startTime="el.startTime"
-      :testDuration="testDuration")
-    button#emergency(@click="switchTab(2)")
-    Candidates(v-if="currentTab === 2"
-      v-for="el in unfollowed" :key="unfollowed.id"
-      :id="el.id"
-      type="Autres types de compte"
-      :firstname="el.firstname"
-      :surname="el.surname"
-      :status="el.status"
-      :questionNo="el.questionNo"
-      :nbQuestions="el.nbQuestions"
-      :startTime="el.startTime"
-      :testDuration="el.testDuration")
+    div#buttons
+      button#candidates(@click="switchTab(1)") Participants
+      button#emergency(@click="switchTab(2)") Autres types de comptes
+    div#accounts-list
+      Candidates(v-if="currentTab === 1"
+        v-for="el in followed" :key="followed.id"
+        :id="el.id"
+        type="Participant"
+        :firstname="el.firstname"
+        :surname="el.surname"
+        :status="el.status"
+        :questionNo="el.questionNo"
+        :nbQuestions="nbQuestions"
+        :startTime="el.startTime"
+        :testDuration="testDuration")
+      Candidates(v-if="currentTab === 2"
+        v-for="el in unfollowed" :key="unfollowed.id"
+        :id="el.id"
+        type="Autres types de compte"
+        :firstname="el.firstname"
+        :surname="el.surname"
+        :status="el.status"
+        :questionNo="el.questionNo"
+        :nbQuestions="el.nbQuestions"
+        :startTime="el.startTime"
+        :testDuration="el.testDuration")
 </template>
 
 <script>
@@ -66,6 +68,18 @@ export default {
       let el = source[index]
       source.splice(index, 1, source[index])
       destination.push(el)
+    },
+    changeAccountType (id, type) {
+      console.log('TEST')
+      if (type === 'Participant') {
+        console.log('PARTICIPANT')
+        this.arrayToArray(id, this.followed, this.unfollowed)
+      }
+
+      if (type === 'Autres types de compte') {
+        console.log('AUTRE')
+        this.arrayToArray(id, this.unfollowed, this.followed)
+      }
     }
   }
 }

@@ -43,15 +43,6 @@ export default {
     unfollowed () {
       return this.accounts.filter(el => el.type === 2)
     }
-    // console.log(this.accounts)
-    // this.accounts.forEach((el) => {
-    //   console.log(el)
-    //   if (el.type === 2) {
-    //     this.unfollowed.push(el)
-    //   } else {
-    //     this.followed.push(el)
-    //   }
-    // })
   }
 }
 </script>

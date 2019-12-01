@@ -1,10 +1,12 @@
 <template lang="pug">
-  div#candidates
-    span#firstname Firstname : {{ firstname }}
-    span#id ID : {{ id }}
-    span#status Status : {{ statusMessage }}
-    // span#progress Progress : {{ progress }}
-    // Details(:disabled=detailsActive @click="toggleDetailsActive")
+  div#candidate
+    p
+      div#candidate-infos(@click="toggleDetailsActive()")
+        div#firstname Nom : {{ firstname }}
+        div#id ID : {{ id }}
+        div#status Statut : {{ statusMessage }}
+        div#progress Progression : {{ progress }}
+        Details(v-if="detailsActive" :type="type" :questionNo="questionNo" :startTime="startTime")
 </template>
 
 <script>
@@ -60,14 +62,15 @@ export default {
     detailsActive: false
   }),
   computed: {
-    progress: () => { // Progress of the candidate
+    progress () { // Progress of the candidate
       try {
         return Math.floor(this.questionNo / this.nbQuestions)
       } catch (e) {
         console.log('Error')
       }
+      return 0
     },
-    statusMessage: () => { // Status message displayed
+    statusMessage () { // Status message displayed
       if (!isNaN(this.status)) {
         switch (this.status) {
           case 0:
@@ -83,8 +86,8 @@ export default {
     }
   },
   methods: {
-    toggleDetailsActive: () => { // Toggle details of the candidate
-      this.active = !this.active
+    toggleDetailsActive () { // Toggle details of the candidate
+      this.detailsActive = !this.detailsActive
     }
   }
 }
