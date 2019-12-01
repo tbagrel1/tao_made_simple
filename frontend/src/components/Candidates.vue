@@ -1,14 +1,16 @@
 <template lang="pug">
-  div#candidates
-    span#name {{ name }}
-    span#id {{ id }}
-    span#status {{ statusMessage }}
-    span#progress {{ progress }}
-    Details(:disabled=detailsActive @click="toggleDetailsActive")
+  div#candidate
+    p
+      div#candidate-infos(@click="toggleDetailsActive()")
+        div#firstname Nom : {{ firstname }}
+        div#id ID : {{ id }}
+        div#status Statut : {{ statusMessage }}
+        div#progress Progression : {{ progress }}
+        Details(v-if="detailsActive" :type="type" :questionNo="questionNo" :startTime="startTime")
 </template>
 
 <script>
-import Details from './Details.vue'
+import Details from './Details'
 export default {
   name: 'Candidates',
   components: {
@@ -17,62 +19,75 @@ export default {
   props: {
     id: {
       type: String,
-      required: true
+      default: '',
+      required: false
     },
     type: {
-      type: String,
-      required: true
+      type: [String, Number],
+      default: 3,
+      required: false
     },
     firstname: {
       type: String,
-      required: true
+      default: '',
+      required: false
     },
     surname: {
       type: String,
-      required: true
+      default: '',
+      required: false
     },
     status: {
-      type: String,
-      required: true
+      type: [Number, String],
+      required: false
     },
     questionNo: {
-      type: String,
-      required: true
+      type: Number,
+      required: false
     },
     nbQuestions: {
-      type: String,
-      required: true
+      type: Number,
+      required: false
     },
     startTime: {
-      type: String,
-      required: true
+      type: Date,
+      required: false
     },
     testDuration: {
-      type: String,
-      required: true
+      type: Date,
+      required: false
     }
   },
   data: () => ({
     detailsActive: false
   }),
   computed: {
-    progress: () => { // Progress of the candidate
-      return Math.floor(this.questionNo / this.nbQuestion)
+    progress () { // Progress of the candidate
+      try {
+        return Math.floor(this.questionNo / this.nbQuestions)
+      } catch (e) {
+        console.log('Error')
+      }
+      return 0
     },
-    statusMessage: () => { // Status message displayed
-      switch (this.status) {
-        case 0:
-          return 'disconnected'
-        case 1:
-          return 'connected'
-        default:
-          return 'unknown'
+    statusMessage () { // Status message displayed
+      if (!isNaN(this.status)) {
+        switch (this.status) {
+          case 0:
+            return 'disconnected'
+          case 1:
+            return 'connected'
+          default:
+            return 'unknown'
+        }
+      } else {
+        return 'unknown'
       }
     }
   },
   methods: {
-    toggleDetailsActive: () => { // Toggle details of the candidate
-      this.active = !this.active
+    toggleDetailsActive () { // Toggle details of the candidate
+      this.detailsActive = !this.detailsActive
     }
   }
 }
