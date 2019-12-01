@@ -26,29 +26,24 @@ export default {
     closeTime: {
       type: Date,
       required: true
-    },
-    timerEnd: {
-      type: Date,
-      required: true
-    },
-    timerClose: {
-      type: Date,
-      required: true
-    },
-    currentTime: {
-      type: Date,
-      required: true
     }
   },
   beforeMount () {
     this.updateTimer()
   },
+  data () {
+    return {
+      timerEnd: new Date(),
+      timerClose: new Date(),
+      currentTime: new Date()
+    }
+  },
   methods: {
     updateTimer: function () { // Time left before the end of the exam.
       setInterval(() => {
         this.currentTime = new Date()
-        this.timerEnd = this.endTime - this.currentTime
-        this.timerClose = this.closeTime - this.currentTime
+        this.timerEnd = new Date(this.endTime - this.currentTime)
+        this.timerClose = new Date(this.closeTime - this.currentTime)
       }, 500)
     }
   }

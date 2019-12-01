@@ -1,6 +1,6 @@
 <template lang="pug">
   div#app
-    Header(:header="header")
+    Header(:header="header", :accounts="accounts", :testDuration="testDuration")
     Accounts
 </template>
 
@@ -17,8 +17,7 @@ export default {
     header: {
       time: {
         start: null,
-        close: null,
-        end: null
+        close: null
       },
       generalInformation: {
         duration: null,
@@ -32,7 +31,7 @@ export default {
         nbFinished: null
       }
     },
-    accounts: [{
+    accounts: [/* {
       id: null,
       type: null,
       firstname: '',
@@ -40,9 +39,9 @@ export default {
       status: '',
       questionNo: null,
       startTime: null
-    }],
+    } */],
     nbQuestion: '',
-    testDuration: null
+    testDuration: 3000
   }),
   computed: {
     globalProgression: () => {
@@ -64,6 +63,81 @@ export default {
   mounted () {
     // Retrieve all data here.
   },
+  created () {
+    // Retrieve all data here.
+    let A1 = {
+      id: 'A1',
+      type: 1,
+      firstname: 'Amélie',
+      surname: 'GEORGE',
+      status: 2,
+      questionNo: 0,
+      startTime: 157410692
+    }
+    let A2 = {
+      id: 'A2',
+      type: 1,
+      firstname: 'Michel',
+      surname: 'POUTOU',
+      status: 1,
+      questionNo: 0,
+      startTime: 157410692
+    }
+    let A3 = {
+      id: 'A3',
+      type: 1,
+      firstname: 'Dave',
+      surname: 'BRUBECK',
+      status: 1,
+      questionNo: 0,
+      startTime: 157410692
+    }
+    let A4 = {
+      id: 'A4',
+      type: 1,
+      firstname: 'Johnny',
+      surname: 'OHLESDOY',
+      status: 1,
+      questionNo: 0,
+      startTime: 157410692
+    }
+    let A5 = {
+      id: 'A5',
+      type: 2,
+      firstname: 'SEC',
+      surname: 'SEC',
+      status: 0,
+      questionNo: 0,
+      startTime: null
+    }
+    let A6 = {
+      id: 'A6',
+      type: 1,
+      firstname: 'Joan',
+      surname: 'LECHAMO',
+      status: 0,
+      questionNo: 7,
+      startTime: 157410592
+    }
+    let A7 = {
+      id: 'A7',
+      type: 1,
+      firstname: 'Guy',
+      surname: 'DUPONT',
+      status: 0,
+      questionNo: 0,
+      startTime: 157410792
+    }
+    this.accounts.push(A1)
+    this.accounts.push(A2)
+    this.accounts.push(A3)
+    this.accounts.push(A4)
+    this.accounts.push(A5)
+    this.accounts.push(A6)
+    this.accounts.push(A7)
+    this.nbQuestions = 15
+  },
+
   methods: {}
 }
 </script>
