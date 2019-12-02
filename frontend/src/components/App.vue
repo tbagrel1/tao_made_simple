@@ -1,12 +1,12 @@
 <template lang="pug">
   div#app
     Header(:header="header", :accounts="accounts", :testDuration="testDuration")
-    Accounts
+    Accounts(:accounts="accounts", :nbQuestions="nbQuestions", :testDuration="testDuration")
 </template>
 
 <script>
-import Header from './Header.vue'
-import Accounts from './Accounts.vue'
+import Header from './Header'
+import Accounts from './Accounts'
 export default {
   name: 'App',
   components: {
@@ -14,6 +14,7 @@ export default {
     Accounts
   },
   data: () => ({
+    dataReady: false,
     header: {
       time: {
         start: 1575278033,
@@ -40,7 +41,7 @@ export default {
       questionNo: null,
       startTime: null
     } */],
-    nbQuestion: '',
+    nbQuestions: 0,
     testDuration: 3000
   }),
   computed: {
@@ -59,9 +60,6 @@ export default {
     endTime: () => { // Last testaker's ending date
       return null
     }
-  },
-  mounted () {
-    // Retrieve all data here.
   },
   created () {
     // Retrieve all data here.
@@ -137,7 +135,6 @@ export default {
     this.accounts.push(A7)
     this.nbQuestions = 15
   },
-
   methods: {}
 }
 </script>

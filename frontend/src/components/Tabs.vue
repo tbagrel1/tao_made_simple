@@ -1,25 +1,35 @@
 <template lang="pug">
   div#tabs
-    span#candidates(@click="switchTab(1)")
-      Candidates(v-if="currentTab = 1"
+    div#buttons
+      button#candidates(@click="switchTab(1)") Participants
+      button#emergency(@click="switchTab(2)") Autres types de comptes
+    div#accounts-list
+      Candidates(v-if="currentTab === 1"
         v-for="el in followed" :key="followed.id"
+        :id="el.id"
         type="Participant"
-        :name="el.name"
-        :id="el.id"
+        :firstname="el.firstname"
+        :surname="el.surname"
         :status="el.status"
-        :questionNumber="el.questionNo")
-    span#emergency(@click="switchTab(2)")
-      Candidates(v-if="currentTab = 2"
+        :questionNo="el.questionNo"
+        :nbQuestions="nbQuestions"
+        :startTime="el.startTime"
+        :testDuration="testDuration")
+      Candidates(v-if="currentTab === 2"
         v-for="el in unfollowed" :key="unfollowed.id"
-        type="Autres types de compte"
-        :name="el.name"
         :id="el.id"
+        type="Autres types de compte"
+        :firstname="el.firstname"
+        :surname="el.surname"
         :status="el.status"
-        :questionNumber="el.questionNo")
+        :questionNo="el.questionNo"
+        :nbQuestions="el.nbQuestions"
+        :startTime="el.startTime"
+        :testDuration="el.testDuration")
 </template>
 
 <script>
-import Candidates from './Candidates.vue'
+import Candidates from './Candidates'
 export default {
   name: 'Tabs',
   components: {
@@ -28,26 +38,24 @@ export default {
   props: {
     followed: {
       type: Array[Object],
-      required: true
+      required: false
     },
     unfollowed: {
       type: Array[Object],
-      required: true
+      required: false
     },
     nbQuestions: {
       type: Number,
-      required: true
+      required: false
     },
     testDuration: {
       type: Date,
-      required: true
+      required: false
     }
   },
   data: () => ({
     currentTab: 1 // Tab displayed (e.g. 1 : followed accounts tab, 2 : unfollowed accounts tab).
   }),
-  mounted () {
-  },
   methods: {
     switchTab (tabNumber) {
       this.currentTab = tabNumber
@@ -60,6 +68,18 @@ export default {
       let el = source[index]
       source.splice(index, 1, source[index])
       destination.push(el)
+    },
+    changeAccountType (id, type) {
+      console.log('TEST')
+      if (type === 'Participant') {
+        console.log('PARTICIPANT')
+        this.arrayToArray(id, this.followed, this.unfollowed)
+      }
+
+      if (type === 'Autres types de compte') {
+        console.log('AUTRE')
+        this.arrayToArray(id, this.unfollowed, this.followed)
+      }
     }
   }
 }

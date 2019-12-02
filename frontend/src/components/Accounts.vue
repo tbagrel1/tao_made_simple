@@ -1,10 +1,11 @@
 <template lang="pug">
   div#accounts
-    Tabs
+    Tabs(:followed="followed", :unfollowed="unfollowed", :nbQuestions="nbQuestions", :testDuration="testDuration")
 </template>
 
 <script>
-import Tabs from './Tabs.vue'
+// Note : use dependency injection instead of props  : https://vuejs.org/v2/guide/components-edge-cases.html
+import Tabs from './Tabs'
 export default {
   name: 'Accounts',
   components: {
@@ -13,28 +14,36 @@ export default {
   props: {
     accounts: {
       type: Array[Object],
+      default: [{
+        id: null,
+        type: null,
+        firstname: '',
+        surname: '',
+        status: null,
+        questionNo: null,
+        startTime: null
+      }],
       required: true
     },
     nbQuestions: {
       type: Number,
-      required: true
+      required: false
     },
     testDuration: {
       type: Date,
-      required: true
+      required: false
     }
   },
-  data: () => ({
-    followed: [{}],
-    unfollowed: [{}]
-  }),
   computed: {
-  },
-  mounted () {
     // Divide accounts into candidates and emergency accounts.
     // Then pass them to the Tabs component as an object.
-  },
-  methods: {}
+    followed () {
+      return this.accounts.filter(el => el.type === 1)
+    },
+    unfollowed () {
+      return this.accounts.filter(el => el.type === 2)
+    }
+  }
 }
 </script>
 
