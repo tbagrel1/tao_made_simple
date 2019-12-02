@@ -1,5 +1,6 @@
 <template lang="pug">
   div#app
+    Header(:header="header", :accounts="accounts", :testDuration="testDuration")
     Accounts(:accounts="accounts", :nbQuestions="nbQuestions", :testDuration="testDuration")
 </template>
 
@@ -16,9 +17,8 @@ export default {
     dataReady: false,
     header: {
       time: {
-        start: null,
-        close: null,
-        end: null
+        start: 1575278033,
+        close: 1575325033
       },
       generalInformation: {
         duration: null,
@@ -32,18 +32,17 @@ export default {
         nbFinished: null
       }
     },
-    accounts: [],
-    //   {
-    //   id: null,
-    //   type: null,
-    //   firstname: '',
-    //   surname: '',
-    //   status: null,
-    //   questionNo: null,
-    //   startTime: null
-    // }],
+    accounts: [/* {
+      id: null,
+      type: null,
+      firstname: '',
+      surname: '',
+      status: '',
+      questionNo: null,
+      startTime: null
+    } */],
     nbQuestions: 0,
-    testDuration: new Date()
+    testDuration: 3000
   }),
   computed: {
     globalProgression: () => {
@@ -71,7 +70,7 @@ export default {
       surname: 'GEORGE',
       status: 2,
       questionNo: 0,
-      startTime: new Date()
+      startTime: 157410692
     }
     let A2 = {
       id: 'A2',
@@ -80,7 +79,7 @@ export default {
       surname: 'POUTOU',
       status: 1,
       questionNo: 0,
-      startTime: new Date()
+      startTime: 157410692
     }
     let A3 = {
       id: 'A3',
@@ -89,7 +88,7 @@ export default {
       surname: 'BRUBECK',
       status: 1,
       questionNo: 0,
-      startTime: new Date()
+      startTime: 157410692
     }
     let A4 = {
       id: 'A4',
@@ -98,7 +97,7 @@ export default {
       surname: 'OHLESDOY',
       status: 1,
       questionNo: 0,
-      startTime: new Date()
+      startTime: 157410692
     }
     let A5 = {
       id: 'A5',
@@ -107,7 +106,7 @@ export default {
       surname: 'SEC',
       status: 0,
       questionNo: 0,
-      startTime: new Date()
+      startTime: null
     }
     let A6 = {
       id: 'A6',
@@ -116,7 +115,7 @@ export default {
       surname: 'LECHAMO',
       status: 0,
       questionNo: 7,
-      startTime: new Date()
+      startTime: 157410592
     }
     let A7 = {
       id: 'A7',
@@ -125,7 +124,7 @@ export default {
       surname: 'DUPONT',
       status: 0,
       questionNo: 0,
-      startTime: new Date()
+      startTime: 157410792
     }
     this.accounts.push(A1)
     this.accounts.push(A2)
@@ -135,7 +134,8 @@ export default {
     this.accounts.push(A6)
     this.accounts.push(A7)
     this.nbQuestions = 15
-  }
+  },
+  methods: {}
 }
 </script>
 

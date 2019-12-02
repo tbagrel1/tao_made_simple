@@ -1,7 +1,7 @@
 <template lang="pug">
   div#header
     GeneralInformation
-    Times
+    Times(:startTime="header.time.start" :endTime="endTime" :closeTime="header.time.close")
     GeneralStatus
 </template>
 
@@ -17,33 +17,38 @@ export default {
     Times
   },
   props: {
-    times: {
+    header: {
       type: Object,
       required: true
     },
-    generalInformation: {
-      type: Object,
+    accounts: {
+      type: Array(Object),
       required: true
     },
-    generalStatus: {
-      type: Object,
+    endTime: {
+      type: Date,
+      required: true
+    },
+    testDuration: {
+      type: Number,
       required: true
     }
-  },
-  data: () => ({
-  }),
-  mounted () {
   },
   methods: {
-    getCurrentTime () {
-      this.currentTime = new Date()
-    },
-    remainClose () { // Time left before the close of the exam.
-      this.close = this.currentTime + this.times.close
-    },
-    remainEnd () { // Time left before the end of the exam.
-      this.end = this.currentTime + this.times.end
+    updateEndTime: function () {
+      for (let i = 0; i < this.accounts.length; i++) {
+        if ((this.testDuration && this.accounts[i].startTime && this.accounts[i].status === 1) &&
+          (!this.endTime || this.endTime < (this.header.time.close - this.accounts[i].startTime))) {
+          this.endTime = this.accounts[i].startTime + this.testDuration
+        }
+      }
     }
+  },
+  mounted: function () {
+    this.updateEndTime()
+  },
+  beforeUpdate: function () {
+    this.updateEndTime()
   }
 }
 </script>

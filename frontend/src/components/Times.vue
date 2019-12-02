@@ -1,8 +1,8 @@
 <template lang="pug">
   div#times
-    Timers(message="Temps restant avant la clôture" :time="remainingCloseTime")
-    Timers(message="Temps restant avant la fin du dernier candidat" :time="remainingEndTime")
-    Hours(:startTime ="this.startTime" :currentTime ="currentTime" :endTime ="remainingEndTime" :closingTime ="remainingCloseTime")
+    Timers(message="Temps restant avant la clôture" :time="timerClose")
+    Timers(message="Temps restant avant la fin du dernier candidat" :time="timerEnd")
+    Hours(:startTime ="startTime" :currentTime ="currentTime" :endTime ="endTime" :closingTime ="closeTime")
 </template>
 
 <script>
@@ -16,27 +16,35 @@ export default {
   },
   props: {
     startTime: {
-      type: Date,
+      type: Number,
       required: true
     },
     endTime: {
-      type: Date,
+      type: Number,
       required: true
     },
     closeTime: {
-      type: Date,
+      type: Number,
       required: true
     }
   },
-  computed: {
-    remainingCloseTime: () => { // Time left before the end of the exam.
-      return this.closeTime - this.currentTime()
-    },
-    remainingEndTime: () => { // Time left before the end of the exam.
-      return this.endTime - this.currentTime()
-    },
-    currentTime: () => {
-      return (new Date()).getTime()
+  beforeMount () {
+    this.updateTimer()
+  },
+  data () {
+    return {
+      timerEnd: new Date(),
+      timerClose: new Date(),
+      currentTime: new Date()
+    }
+  },
+  methods: {
+    updateTimer: function () { // Time left before the end of the exam.
+      setInterval(() => {
+        this.currentTime = new Date()
+        this.timerEnd = new Date(new Date(this.endTime * 1000) - this.currentTime)
+        this.timerClose = new Date(new Date(this.closeTime * 1000) - this.currentTime)
+      }, 500)
     }
   }
 }
