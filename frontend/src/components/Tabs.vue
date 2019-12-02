@@ -1,9 +1,9 @@
 <template lang="pug">
   div#tabs
-    div#buttons
-      button#candidates(@click="switchTab(1)").btn.btn-outline-primary.btn-lg Participants
-      button#emergency(@click="switchTab(2)").btn.btn-outline-primary.btn-lg Autres types de comptes
-    div#accounts-list
+    b-button-group#buttons
+      button#candidates(@click="switchTab(1)" :class="(currentTab === 1 ? 'btn-primary' : 'btn-outline-primary') + ' btn btn-lg'") Participants
+      button#emergency(@click="switchTab(2)" :class="(currentTab === 2 ? 'btn-primary' : 'btn-outline-primary') + ' btn btn-lg'") Autres types de comptes
+    b-row#accounts-list()
       Candidates(v-if="currentTab === 1"
         v-for="el in followed" :key="followed.id"
         :id="el.id"
@@ -36,14 +36,6 @@ export default {
     Candidates
   },
   props: {
-    followed: {
-      type: Array[Object],
-      required: false
-    },
-    unfollowed: {
-      type: Array[Object],
-      required: false
-    },
     nbQuestions: {
       type: Number,
       required: false
@@ -51,6 +43,10 @@ export default {
     testDuration: {
       type: Date,
       required: false
+    },
+    accounts: {
+      type: Array,
+      required: true
     }
   },
   data: () => ({
@@ -80,6 +76,16 @@ export default {
         console.log('AUTRE')
         this.arrayToArray(id, this.unfollowed, this.followed)
       }
+    }
+  },
+  computed: {
+    // Divide accounts into candidates and emergency accounts.
+    // Then pass them to the Tabs component as an object.
+    followed () {
+      return this.accounts.filter(el => el.type === 1)
+    },
+    unfollowed () {
+      return this.accounts.filter(el => el.type === 2)
     }
   }
 }

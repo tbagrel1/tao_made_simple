@@ -1,8 +1,13 @@
 <template lang="pug">
-  div#times
-    Timers(message="Temps restant avant la clôture" :time="timerClose")
-    Timers(message="Temps restant avant la fin du dernier candidat" :time="timerEnd")
-    Hours(:startTime ="startTime" :currentTime ="currentTime" :endTime ="endTime" :closingTime ="closeTime")
+  b-container(fluid)#times
+    b-row(align-h="between" align-v="center")
+      b-col(cols="5")
+        Timers(message="Temps avant fin du dernier candidat" :time="timerEnd")
+        Timers(message="Temps avant clôture" :time="timerClose")
+      b-col(cols="5")
+        Timers(message="Heure d'ouverture" :time="new Date(startTime * 1000)")
+        Timers(message="Heure actuelle" :time="currentTime")
+        Timers(message="Heure de clôture" :time="new Date(closeTime * 1000)")
 </template>
 
 <script>

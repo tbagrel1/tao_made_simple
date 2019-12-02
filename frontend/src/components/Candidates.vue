@@ -1,12 +1,12 @@
 <template lang="pug">
-  div#candidate.container.card
+  b-col#candidate.container.card(cols="4")
     div#candidate-infos(@click="toggleDetailsActive()").card-body
       div#firstname.h4.card-title {{ firstname }} ({{ id }})
       div#status-connected(v-if="status === 1").alert.alert-success Statut : {{ statusMessage }}
       div#status-disconnected(v-if="status === 0").alert.alert-danger Statut : {{ statusMessage }}
       div#status-unknown(v-if="status >= 2").alert.alert-warning Statut : {{ statusMessage }}
-      span#progress-bar.progress.progress-bar-striped {{ progress }}%
-      Details(v-if="detailsActive" :type="type" :questionNo="questionNo" :startTime="startTime")
+      b-progress(:value="questionNo" :max="nbQuestions")
+      Details(v-if="detailsActive" :type="type" :questionNo="questionNo" :startTime="startTime" :nbQuestions="nbQuestions")
 </template>
 
 <script>

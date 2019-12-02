@@ -1,7 +1,9 @@
 <template lang="pug">
-  div#timers
-    span#message {{ message }}
-    span#time {{ formatTimer(time) }}
+  b-row
+    b-col(cols="6")
+      b-button(variant="secondary" block) {{ message }}
+    b-col(cols="6")
+      b-button(variant="outline-secondary" block) {{ formatTimer(time) }}
 </template>
 
 <script>

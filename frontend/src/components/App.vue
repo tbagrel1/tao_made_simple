@@ -1,17 +1,20 @@
 <template lang="pug">
   div#app
+    b-navbar
+      b-navbar-brand
+        h1 TAO Made Simple
     Header(:header="header", :accounts="accounts", :testDuration="testDuration")
-    Accounts(:accounts="accounts", :nbQuestions="nbQuestions", :testDuration="testDuration")
+    Tabs(:accounts="accounts", :nbQuestions="nbQuestions", :testDuration="testDuration")
 </template>
 
 <script>
 import Header from './Header'
-import Accounts from './Accounts'
+import Tabs from './Tabs'
 export default {
   name: 'App',
   components: {
     Header,
-    Accounts
+    Tabs
   },
   data: () => ({
     dataReady: false,
@@ -78,7 +81,7 @@ export default {
       firstname: 'Michel',
       surname: 'POUTOU',
       status: 1,
-      questionNo: 0,
+      questionNo: 7,
       startTime: 157410692
     }
     let A3 = {
@@ -114,8 +117,8 @@ export default {
       firstname: 'Joan',
       surname: 'LECHAMO',
       status: 0,
-      questionNo: 7,
-      startTime: 157410592
+      questionNo: null,
+      startTime: null
     }
     let A7 = {
       id: 'A7',

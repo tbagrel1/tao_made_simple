@@ -1,5 +1,6 @@
 <template lang="pug">
   div#hours
+
     span#start Heure de départ : {{ getTime(startTime) }}
     span#datetime Il est : {{ getTime(currentTime.getTime() / 1000) }}
     span#last Heure de fin (au plus tôt) : {{ getTime(endTime) }}
