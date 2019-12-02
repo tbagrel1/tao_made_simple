@@ -1,7 +1,7 @@
 <template lang="pug">
   div#hours
     span#start Heure de départ : {{ getTime(startTime) }}
-    span#datetime Il est : {{ getTime(currentTime) }}
+    span#datetime Il est : {{ getTime(currentTime.getTime() / 1000) }}
     span#last Heure de fin (au plus tôt) : {{ getTime(endTime) }}
     span#closing Heure de clôture : {{ getTime(closingTime) }}
 </template>
@@ -17,7 +17,7 @@ export default {
   },
   methods: {
     getTime: function (time) { // Time left before the end of the exam.
-      let date = new Date(time)
+      let date = new Date(time * 1000)
       return date.getHours() + ':' +
       date.getMinutes() + ':' +
       date.getSeconds()

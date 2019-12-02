@@ -16,8 +16,8 @@ export default {
   data: () => ({
     header: {
       time: {
-        start: null,
-        close: null
+        start: 1575278033,
+        close: 1575325033
       },
       generalInformation: {
         duration: null,

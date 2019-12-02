@@ -13,8 +13,7 @@ export default {
   },
   methods: {
     formatTimer: function (time) {
-      let timeDate = new Date(time)
-      return this.getHour(timeDate) + this.getMinute(timeDate) + this.getSecond(timeDate)
+      return this.getHour(time) + this.getMinute(time) + this.getSecond(time)
     },
     getHour: function (time) {
       let hours = time.getHours()

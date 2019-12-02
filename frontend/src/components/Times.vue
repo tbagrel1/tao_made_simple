@@ -16,15 +16,15 @@ export default {
   },
   props: {
     startTime: {
-      type: Date,
+      type: Number,
       required: true
     },
     endTime: {
-      type: Date,
+      type: Number,
       required: true
     },
     closeTime: {
-      type: Date,
+      type: Number,
       required: true
     }
   },
@@ -42,8 +42,8 @@ export default {
     updateTimer: function () { // Time left before the end of the exam.
       setInterval(() => {
         this.currentTime = new Date()
-        this.timerEnd = new Date(this.endTime - this.currentTime)
-        this.timerClose = new Date(this.closeTime - this.currentTime)
+        this.timerEnd = new Date(new Date(this.endTime * 1000) - this.currentTime)
+        this.timerClose = new Date(new Date(this.closeTime * 1000) - this.currentTime)
       }, 500)
     }
   }
