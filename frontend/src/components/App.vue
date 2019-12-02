@@ -45,7 +45,7 @@ export default {
       startTime: null
     } */],
     nbQuestions: 0,
-    testDuration: 3000
+    testDuration: 30000
   }),
   computed: {
     globalProgression: () => {
@@ -73,7 +73,7 @@ export default {
       surname: 'GEORGE',
       status: 2,
       questionNo: 0,
-      startTime: 157410692
+      startTime: 1575288033
     }
     let A2 = {
       id: 'A2',
@@ -82,7 +82,7 @@ export default {
       surname: 'POUTOU',
       status: 1,
       questionNo: 7,
-      startTime: 157410692
+      startTime: 1575289033
     }
     let A3 = {
       id: 'A3',
@@ -91,7 +91,7 @@ export default {
       surname: 'BRUBECK',
       status: 1,
       questionNo: 0,
-      startTime: 157410692
+      startTime: 1575278033
     }
     let A4 = {
       id: 'A4',
@@ -100,7 +100,7 @@ export default {
       surname: 'OHLESDOY',
       status: 1,
       questionNo: 0,
-      startTime: 157410692
+      startTime: 1575298033
     }
     let A5 = {
       id: 'A5',
@@ -127,7 +127,7 @@ export default {
       surname: 'DUPONT',
       status: 0,
       questionNo: 0,
-      startTime: 157410792
+      startTime: 1575285000
     }
     this.accounts.push(A1)
     this.accounts.push(A2)
