@@ -3,29 +3,20 @@
     b-col(cols="6")
       b-button(variant="secondary" block) {{ message }}
     b-col(cols="6")
-      b-button(variant="outline-secondary" block) {{ formatTimer(time) }}
+      b-button(variant="outline-secondary" block) {{ timeString === null ? 'inconnu' : timeString }}
 </template>
 
 <script>
 export default {
   name: 'Timers',
   props: {
-    message: String,
-    time: Date
-  },
-  methods: {
-    formatTimer: function (time) {
-      return this.getHour(time) + this.getMinute(time) + this.getSecond(time)
+    message: {
+      type: String,
+      required: true
     },
-    getHour: function (time) {
-      let hours = time.getHours()
-      return hours ? hours + ' : ' : ''
-    },
-    getMinute: function (time) {
-      return time.getMinutes() + ' : '
-    },
-    getSecond: function (time) {
-      return time.getSeconds()
+    timeString: {
+      type: String,
+      required: true
     }
   }
 }

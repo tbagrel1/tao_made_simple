@@ -104,8 +104,11 @@ const store = new Vuex.Store({
     }
   },
   getters: {
-    currentDateString: (state) => {
+    nowDateString: (state) => {
       return formatAsDateString(new Date())
+    },
+    nowTimeString: (state) => {
+      return formatAsTimeString(new Date())
     },
     currentTimestamp: (state) => {
       return new Date().getTime() / 1000

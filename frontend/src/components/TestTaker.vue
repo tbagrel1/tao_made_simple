@@ -6,15 +6,15 @@
       div#status-disconnected(v-if="status === 0").alert.alert-danger Statut : {{ statusMessage }}
       div#status-unknown(v-if="status >= 2").alert.alert-warning Statut : {{ statusMessage }}
       b-progress(:value="questionNo" :max="nbQuestions")
-      Details(v-if="detailsActive" :type="type" :questionNo="questionNo" :startTime="startTime" :nbQuestions="nbQuestions")
+      TestTakerModal(v-if="detailsActive" :type="type" :questionNo="questionNo" :startTime="startTime" :nbQuestions="nbQuestions")
 </template>
 
 <script>
-import CandidateModal from './CandidateModal'
+import TestTakerModal from './TestTakerModal'
 export default {
-  name: 'Candidates',
+  name: 'TestTaker',
   components: {
-    CandidateModal
+    TestTakerModal
   },
   props: {
     id: {
