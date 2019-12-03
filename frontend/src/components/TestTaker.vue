@@ -5,7 +5,7 @@
       div#status-connected(v-if="testTaker.status === status.CONNECTED || testTaker.status === status.IN_PROGRESS").alert.alert-success Statut : {{ fancyStatus }}
       div#status-disconnected(v-if="testTaker.status === status.DISCONNECTED").alert.alert-danger Statut : {{ fancyStatus }}
       div#status-unknown(v-if="testTaker.status === status.FINISHED").alert.alert-warning Statut : {{ fancyStatus }}
-      b-progress(:value="testTaker.questionNo" :max="delivery.testNbQuestion")
+      b-progress(:value="fancyTestQuestionNo" :max="delivery.testNbQuestion")
       TestTakerModal(v-if="detailsActive" :id="id")
 </template>
 
@@ -37,6 +37,9 @@ export default {
     },
     fancyStatus () {
       return this.$store.getters.fancyStatus(this.id)
+    },
+    fancyTestQuestionNo () {
+      return this.$store.getters.fancyTestQuestionNo(this.id)
     }
   },
   methods: {

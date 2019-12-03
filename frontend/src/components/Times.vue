@@ -18,9 +18,9 @@ export default {
     Timer
   },
   data: () => ({
-    _maxTestTakerRemainingDurationString: 'inconnu',
-    _remainingDurationBeforeClosingString: 'inconnu',
-    _currentTimeString: 'inconnu'
+    maxTestTakerRemainingDurationString: 'inconnu',
+    remainingDurationBeforeClosingString: 'inconnu',
+    currentTimeString: 'inconnu'
   }),
   computed: {
     openingTimeString () {
@@ -28,16 +28,12 @@ export default {
     },
     closingTimeString () {
       return this.$store.getters.closingTimeString
-    },
-    currentTimeString () {
-      return this.$refreshGetterValue(this, 'currentTimeString')
-    },
-    maxTestTakerRemainingDurationString () {
-      return this.$refreshGetterValue(this, 'maxTestTakerRemainingDurationString')
-    },
-    remainingDurationBeforeClosingString () {
-      return this.$refreshGetterValue(this, 'remainingDurationBeforeClosingString')
     }
+  },
+  mounted () {
+    this.$refreshGetterValue(this, 'currentTimeString')
+    this.$refreshGetterValue(this, 'maxTestTakerRemainingDurationString')
+    this.$refreshGetterValue(this, 'remainingDurationBeforeClosingString')
   }
 }
 </script>

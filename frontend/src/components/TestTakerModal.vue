@@ -14,15 +14,15 @@ export default {
     }
   },
   data: () => ({
-    _testTakerRemainingDurationString: 'inconnu'
+    testTakerRemainingDurationString: 'inconnu'
   }),
   computed: {
     progressionString () {
       return this.$store.getters.progressionString(this.id)
-    },
-    testTakerRemainingDurationString () {
-      return this.$refreshGetterValue(this, 'testTakerRemainingDurationString', this.id)
     }
+  },
+  mounted () {
+    this.$refreshGetterValue(this, 'testTakerRemainingDurationString', [this.id])
   }
 }
 </script>

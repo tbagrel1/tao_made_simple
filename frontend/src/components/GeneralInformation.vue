@@ -9,15 +9,15 @@
 export default {
   name: 'GeneralInformation',
   data: () => ({
-    _currentDateString: 'inconnu'
+    currentDateString: 'inconnu'
   }),
   computed: {
     delivery () {
       return this.$store.getters.delivery
-    },
-    currentDateString () {
-      return this.$refreshGetterValue(this, 'currentDateString')
     }
+  },
+  mounted () {
+    this.$refreshGetterValue(this, 'currentDateString')
   }
 }
 </script>

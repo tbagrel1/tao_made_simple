@@ -13,40 +13,34 @@ import './globalStyle.styl'
 
 const REFRESH_DELAY = 500
 
-const TIME_FORMAT_OPTION = {
-  hour: '2-digit',
-  second: '2-digit',
-  minute: '2-digit'
-}
-const DATE_FORMAT_OPTION = {
-  day: '2-digit',
-  month: '2-digit',
-  year: '2-digit'
-}
-
-const formatAsDateString = (timestamp) => {
+const formatAsDurationString = (timestamp) => {
   const date = new Date(timestamp * 1000)
-  return date.toLocaleDateString('fr-FR', DATE_FORMAT_OPTION)
+  return date.toISOString().substr(11, 8)
 }
 const formatAsTimeString = (timestamp) => {
   const date = new Date(timestamp * 1000)
-  return date.toLocaleDateString('fr-FR', TIME_FORMAT_OPTION)
+  return date.toLocaleTimeString()
 }
-const sortedTestTakerIds = (originalTestTakerIds) => {
+const formatAsDateString = (timestamp) => {
+  const date = new Date(timestamp * 1000)
+  return date.toLocaleDateString()
+}
+const sortedTestTakerIds = (originalTestTakerIds, testTakers) => {
   const testTakerIds = [...originalTestTakerIds]
-  testTakerIds.sort((a, b) => a.lastname.localeCompare(b.lastname))
+  testTakerIds.sort((id1, id2) => {
+    const testTaker1 = testTakers.get(id1)
+    const testTaker2 = testTakers.get(id2)
+    return testTaker1.lastname.localeCompare(testTaker2.lastname)
+  })
   return testTakerIds
 }
 
 Vue.prototype.$refreshGetterValue = (self, name, params = []) => {
-  if (self['_' + name] === null) {
-    const update = () => {
-      self['_' + name] = self.$store.getters[name](...params)
-    }
-    update()
-    setInterval(update, REFRESH_DELAY)
+  const update = () => {
+    self[name] = self.$store.getters[name](...params)
   }
-  return self['_' + name]
+  update()
+  setInterval(update, REFRESH_DELAY)
 }
 
 Vue.prototype.$axios = axios
@@ -71,10 +65,10 @@ const store = new Vuex.Store({
       id: 'i1110',
       label: 'Test de mathématiques',
       name: 'Test de mathématiques',
-      openingTime: 1575382612,
-      closingTime: 1575482612,
+      openingTime: 1575391796,
+      closingTime: 1575395796,
       testLabel: 'Test de mathématiques',
-      testDuration: 4000,
+      testDuration: 3000,
       testNbQuestion: 12
     },
     testTakers: new Map([['i4456', {
@@ -83,19 +77,37 @@ const store = new Vuex.Store({
       firstname: 'Thibaut',
       lastname: 'CHARDON',
       status: status.IN_PROGRESS,
-      deliveryStartingTime: 1575382812,
+      deliveryStartingTime: 1575391896,
       testQuestionNo: 4
+    }], ['i4457', {
+      id: 'i4457',
+      login: 'anevers',
+      firstname: 'Alice',
+      lastname: 'Nevers',
+      status: status.CONNECTED,
+      deliveryStartingTime: null,
+      testQuestionNo: null
+    }], ['i4458', {
+      id: 'i4458',
+      login: 'jadam',
+      firstname: 'Jules',
+      lastname: 'ADAM',
+      status: status.FINISHED,
+      deliveryStartingTime: 1575391886,
+      testQuestionNo: null
     }], ['i5654', {
       id: 'i5654',
       login: 'sec118212',
-      firstname: 'Compte',
-      lastname: 'Secours 118212',
+      firstname: 'Compte Secours 111282',
+      lastname: '',
       status: status.DISCONNECTED,
       deliveryStartingTime: null,
       testQuestionNo: null
     }]]),
     testTakerIdToTab: new Map([
       ['i4456', tab.SUPERVISED],
+      ['i4457', tab.SUPERVISED],
+      ['i4458', tab.SUPERVISED],
       ['i5654', tab.UNSUPERVISED]
     ])
   },
@@ -141,11 +153,14 @@ const store = new Vuex.Store({
           return 'terminé'
       }
     },
+    fancyTestQuestionNo: {
+      // TODO implement + modif progressionString pour utiliser celle là
+    }
     currentDateString: (state, getters) => () => {
-      return formatAsDateString(new Date())
+      return formatAsDateString(getters.currentTimestamp())
     },
     currentTimeString: (state, getters) => () => {
-      return formatAsTimeString(new Date())
+      return formatAsTimeString(getters.currentTimestamp())
     },
     currentTimestamp: (state, getters) => () => {
       return new Date().getTime() / 1000
@@ -162,10 +177,10 @@ const store = new Vuex.Store({
       if (remainingDuration === null) {
         return 'inconnu'
       }
-      return formatAsTimeString(remainingDuration)
+      return formatAsDurationString(remainingDuration)
     },
     remainingDurationBeforeClosingString: (state, getters) => () => {
-      return formatAsTimeString(getters.currentTimestamp() - state.delivery.closingTime)
+      return formatAsDurationString(state.delivery.closingTime - getters.currentTimestamp())
     },
     openingTimeString: (state, getters) => {
       return formatAsTimeString(state.delivery.openingTime)
@@ -174,7 +189,7 @@ const store = new Vuex.Store({
       return formatAsTimeString(state.delivery.closingTime)
     },
     testDurationString: (state, getters) => {
-      return formatAsTimeString(state.delivery.testDuration)
+      return formatAsDurationString(state.delivery.testDuration)
     },
     maxTestTakerRemainingDurationString: (state, getters) => () => {
       const remainingDurations = getters.sortedSupervisedTestTakerIds
@@ -183,7 +198,7 @@ const store = new Vuex.Store({
       if (remainingDurations.length === 0) {
         return 'inconnu'
       }
-      return formatAsTimeString(Math.max(...remainingDurations))
+      return formatAsDurationString(Math.max(...remainingDurations))
     },
     nbDisconnected: (state, getters) => {
       return getters.sortedSupervisedTestTakerIds.filter(
@@ -205,37 +220,37 @@ const store = new Vuex.Store({
       const testTaker = state.testTakers.get(testTakerId)
       switch (testTaker.status) {
         case status.DISCONNECTED:
-          return 'inconnue'
+          return 'inconnu'
         case status.CONNECTED:
           return `0 / ${state.delivery.testNbQuestion}`
         case status.IN_PROGRESS:
-          return `${testTaker.questionNo} / ${state.delivery.testNbQuestion}`
+          return `${testTaker.testQuestionNo} / ${state.delivery.testNbQuestion}`
         case status.FINISHED:
           return 'terminé'
       }
     },
     averageProgressionString: (state, getters) => {
-      const progresssions = []
+      const progressions = []
       for (const testTakerId of getters.sortedSupervisedTestTakerIds) {
         const testTaker = state.testTakers.get(testTakerId)
         switch (testTaker.status) {
           case status.DISCONNECTED:
             break
           case status.CONNECTED:
-            progresssions.push(0)
+            progressions.push(0)
             break
           case status.IN_PROGRESS:
-            progresssions.push(testTaker.questionNo)
+            progressions.push(testTaker.testQuestionNo)
             break
           case status.FINISHED:
-            progresssions.push(state.delivery.testNbQuestion)
+            progressions.push(state.delivery.testNbQuestion)
             break
         }
       }
-      if (progresssions.length === 0) {
+      if (progressions.length === 0) {
         return 'inconnue'
       }
-      let averageProgression = Math.floor(progresssions.reduce((a, b) => a + b) / progresssions.length)
+      let averageProgression = Math.floor(progressions.reduce((a, b) => a + b) / progressions.length)
       if (averageProgression === state.delivery.testNbQuestion) {
         return 'terminé'
       }
@@ -246,14 +261,14 @@ const store = new Vuex.Store({
         const value = state.testTakerIdToTab.get(testTakerId)
         return value === tab.SUPERVISED
       })
-      return sortedTestTakerIds(supervisedTestTakerIds)
+      return sortedTestTakerIds(supervisedTestTakerIds, state.testTakers)
     },
     sortedUnsupervisedTestTakerIds: (state, getters) => {
       const unsupervisedTestTakerIds = Array.from(state.testTakers.keys()).filter(testTakerId => {
         const value = state.testTakerIdToTab.get(testTakerId)
         return value === tab.UNSUPERVISED
       })
-      return sortedTestTakerIds(unsupervisedTestTakerIds)
+      return sortedTestTakerIds(unsupervisedTestTakerIds, state.testTakers)
     }
   }
 })

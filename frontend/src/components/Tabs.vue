@@ -8,7 +8,7 @@
         v-for="id in supervisedTestTakerIds" :key="id"
         :id="id"
       )
-      TestTaker(v-if="currentTab === 2"
+      TestTaker(v-if="currentTab === tab.UNSUPERVISED"
         v-for="id in unsupervisedTestTakerIds" :key="id"
         :id="id"
       )
