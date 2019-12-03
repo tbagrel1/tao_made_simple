@@ -2,15 +2,17 @@
   b-col#candidate.container.card(cols="4")
     div#candidate-infos(@click="toggleDetails()").card-body
       div#firstname.h4.card-title {{ testTaker.firstname }} ({{ testTaker.id }})
-      div#status-connected(v-if="testTaker.status === $status.CONNECTED || testTaker.status === $status.IN_PROGRESS").alert.alert-success Statut : {{ fancyStatus }}
-      div#status-disconnected(v-if="testTaker.status === $status.DISCONNECTED").alert.alert-danger Statut : {{ fancyStatus }}
-      div#status-unknown(v-if="testTaker.status === $status.FINISHED").alert.alert-warning Statut : {{ fancyStatus }}
+      div#status-connected(v-if="testTaker.status === status.CONNECTED || testTaker.status === status.IN_PROGRESS").alert.alert-success Statut : {{ fancyStatus }}
+      div#status-disconnected(v-if="testTaker.status === status.DISCONNECTED").alert.alert-danger Statut : {{ fancyStatus }}
+      div#status-unknown(v-if="testTaker.status === status.FINISHED").alert.alert-warning Statut : {{ fancyStatus }}
       b-progress(:value="testTaker.questionNo" :max="delivery.testNbQuestion")
       TestTakerModal(v-if="detailsActive" :id="id")
 </template>
 
 <script>
 import TestTakerModal from './TestTakerModal'
+import { status } from '@/constants'
+
 export default {
   name: 'TestTaker',
   components: {
@@ -23,7 +25,8 @@ export default {
     }
   },
   data: () => ({
-    detailsActive: false
+    detailsActive: false,
+    status: status
   }),
   computed: {
     testTaker () {

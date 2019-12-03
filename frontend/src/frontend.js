@@ -6,6 +6,7 @@ import Vuex from 'vuex'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
+import { tab, status } from '@/constants'
 import App from '@/components/App'
 
 import './globalStyle.styl'
@@ -25,18 +26,19 @@ const DATE_FORMAT_OPTION = {
 
 const formatAsDateString = (timestamp) => {
   const date = new Date(timestamp * 1000)
-  date.toLocaleDateString('fr-FR', DATE_FORMAT_OPTION)
+  return date.toLocaleDateString('fr-FR', DATE_FORMAT_OPTION)
 }
 const formatAsTimeString = (timestamp) => {
   const date = new Date(timestamp * 1000)
-  date.toLocaleDateString('fr-FR', TIME_FORMAT_OPTION)
+  return date.toLocaleDateString('fr-FR', TIME_FORMAT_OPTION)
 }
 const sortedTestTakerIds = (originalTestTakerIds) => {
   const testTakerIds = [...originalTestTakerIds]
   testTakerIds.sort((a, b) => a.lastname.localeCompare(b.lastname))
   return testTakerIds
 }
-const refreshGetterValue = (self, name, params = []) => {
+
+Vue.prototype.$refreshGetterValue = (self, name, params = []) => {
   if (self['_' + name] === null) {
     const update = () => {
       self['_' + name] = self.$store.getters[name](...params)
@@ -48,19 +50,6 @@ const refreshGetterValue = (self, name, params = []) => {
 }
 
 Vue.prototype.$axios = axios
-Vue.prototype.$status = {
-  DISCONNECTED: 'disconnected',
-  CONNECTED: 'connected',
-  IN_PROGRESS: 'inProgress',
-  FINISHED: 'finished'
-}
-Vue.prototype.$tab = {
-  SUPERVISED: 0,
-  UNSUPERVISED: 1
-}
-Vue.prototype.$formatAsTimeString = formatAsTimeString
-Vue.prototype.$formatAsDateString = formatAsDateString
-Vue.prototype.$refreshGetterValue = refreshGetterValue
 
 Vue.use(Vuex)
 Vue.use(BootstrapVue)
@@ -93,7 +82,7 @@ const store = new Vuex.Store({
       login: 'tchardon',
       firstname: 'Thibaut',
       lastname: 'CHARDON',
-      status: Vue.prototype.$status.IN_PROGRESS,
+      status: status.IN_PROGRESS,
       deliveryStartingTime: 1575382812,
       testQuestionNo: 4
     }], ['i5654', {
@@ -101,13 +90,13 @@ const store = new Vuex.Store({
       login: 'sec118212',
       firstname: 'Compte',
       lastname: 'Secours 118212',
-      status: 'disconnected',
+      status: status.DISCONNECTED,
       deliveryStartingTime: null,
       testQuestionNo: null
     }]]),
     testTakerIdToTab: new Map([
-      ['i4456', Vue.prototype.$tab.SUPERVISED],
-      ['i5654', Vue.prototype.$tab.UNSUPERVISED]
+      ['i4456', tab.SUPERVISED],
+      ['i5654', tab.UNSUPERVISED]
     ])
   },
   mutations: {
@@ -118,9 +107,9 @@ const store = new Vuex.Store({
         if (!state.testTakerIdToTab.has(testTakerId)) {
           const testTaker = state.testTakers.get(testTakerId)
           if (testTaker.login.toLowerCase().startsWith('sec')) {
-            state.testTakerIdToTab = newTestTakerIdToTab.set(testTakerId, Vue.prototype.$tab.UNSUPERVISED)
+            state.testTakerIdToTab = newTestTakerIdToTab.set(testTakerId, tab.UNSUPERVISED)
           } else {
-            state.testTakerIdToTab = newTestTakerIdToTab.set(testTakerId, Vue.prototype.$tab.SUPERVISED)
+            state.testTakerIdToTab = newTestTakerIdToTab.set(testTakerId, tab.SUPERVISED)
           }
         }
       }
@@ -140,15 +129,15 @@ const store = new Vuex.Store({
       return state.delivery
     },
     fancyStatus: (state, getters) => (testTakerId) => {
-      const testTaker = state.testTaker(testTakerId)
+      const testTaker = state.testTakers.get(testTakerId)
       switch (testTaker.status) {
-        case Vue.prototype.$status.DISCONNECTED:
+        case status.DISCONNECTED:
           return 'déconnecté'
-        case Vue.prototype.$status.CONNECTED:
+        case status.CONNECTED:
           return 'connecté'
-        case Vue.prototype.$status.IN_PROGRESS:
+        case status.IN_PROGRESS:
           return 'en cours'
-        case Vue.prototype.$status.FINISHED:
+        case status.FINISHED:
           return 'terminé'
       }
     },
@@ -162,7 +151,7 @@ const store = new Vuex.Store({
       return new Date().getTime() / 1000
     },
     testTakerRemainingDuration: (state, getters) => (testTakerId) => {
-      const startingTime = state.testTaker(testTakerId).deliveryStartingTime
+      const startingTime = state.testTakers.get(testTakerId).deliveryStartingTime
       if (startingTime === null) {
         return null
       }
@@ -198,47 +187,47 @@ const store = new Vuex.Store({
     },
     nbDisconnected: (state, getters) => {
       return getters.sortedSupervisedTestTakerIds.filter(
-        testTakerId => state.testTaker(testTakerId).status === Vue.prototype.$status.DISCONNECTED).length
+        testTakerId => state.testTakers.get(testTakerId).status === status.DISCONNECTED).length
     },
     nbConnected: (state, getters) => {
       return getters.sortedSupervisedTestTakerIds.filter(
-        testTakerId => state.testTaker(testTakerId).status === Vue.prototype.$status.CONNECTED).length
+        testTakerId => state.testTakers.get(testTakerId).status === status.CONNECTED).length
     },
     nbInProgress: (state, getters) => {
       return getters.sortedSupervisedTestTakerIds.filter(
-        testTakerId => state.testTaker(testTakerId).status === Vue.prototype.$status.IN_PROGRESS).length
+        testTakerId => state.testTakers.get(testTakerId).status === status.IN_PROGRESS).length
     },
     nbFinished: (state, getters) => {
       return getters.sortedSupervisedTestTakerIds.filter(
-        testTakerId => state.testTaker(testTakerId).status === Vue.prototype.$status.FINISHED).length
+        testTakerId => state.testTakers.get(testTakerId).status === status.FINISHED).length
     },
     progressionString: (state, getters) => (testTakerId) => {
-      const testTaker = state.testTaker(testTakerId)
+      const testTaker = state.testTakers.get(testTakerId)
       switch (testTaker.status) {
-        case Vue.prototype.$status.DISCONNECTED:
+        case status.DISCONNECTED:
           return 'inconnue'
-        case Vue.prototype.$status.CONNECTED:
+        case status.CONNECTED:
           return `0 / ${state.delivery.testNbQuestion}`
-        case Vue.prototype.$status.IN_PROGRESS:
+        case status.IN_PROGRESS:
           return `${testTaker.questionNo} / ${state.delivery.testNbQuestion}`
-        case Vue.prototype.$status.FINISHED:
+        case status.FINISHED:
           return 'terminé'
       }
     },
     averageProgressionString: (state, getters) => {
       const progresssions = []
       for (const testTakerId of getters.sortedSupervisedTestTakerIds) {
-        const testTaker = state.testTaker(testTakerId)
+        const testTaker = state.testTakers.get(testTakerId)
         switch (testTaker.status) {
-          case Vue.prototype.$status.DISCONNECTED:
+          case status.DISCONNECTED:
             break
-          case Vue.prototype.$status.CONNECTED:
+          case status.CONNECTED:
             progresssions.push(0)
             break
-          case Vue.prototype.$status.IN_PROGRESS:
+          case status.IN_PROGRESS:
             progresssions.push(testTaker.questionNo)
             break
-          case Vue.prototype.$status.FINISHED:
+          case status.FINISHED:
             progresssions.push(state.delivery.testNbQuestion)
             break
         }
@@ -253,22 +242,23 @@ const store = new Vuex.Store({
       return `${averageProgression} / ${state.delivery.testNbQuestion}`
     },
     sortedSupervisedTestTakerIds: (state, getters) => {
-      const supervisedTestTakerIds = state.testTakers.keys().filter(testTakerId => {
+      const supervisedTestTakerIds = Array.from(state.testTakers.keys()).filter(testTakerId => {
         const value = state.testTakerIdToTab.get(testTakerId)
-        return value === Vue.prototype.$tab.SUPERVISED
+        return value === tab.SUPERVISED
       })
       return sortedTestTakerIds(supervisedTestTakerIds)
     },
     sortedUnsupervisedTestTakerIds: (state, getters) => {
-      const supervisedTestTakerIds = state.testTakers.keys().filter(testTakerId => {
+      const unsupervisedTestTakerIds = Array.from(state.testTakers.keys()).filter(testTakerId => {
         const value = state.testTakerIdToTab.get(testTakerId)
-        return value === Vue.prototype.$tab.UNSUPERVISED
+        return value === tab.UNSUPERVISED
       })
-      return sortedTestTakerIds(supervisedTestTakerIds)
+      return sortedTestTakerIds(unsupervisedTestTakerIds)
     }
   }
 })
 
 new Vue({
-  render: createElt => createElt(App)
+  render: createElt => createElt(App),
+  store
 }).$mount('#app-container')
