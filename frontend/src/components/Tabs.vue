@@ -1,16 +1,16 @@
 <template lang="pug">
   div#tabs
     b-button-group#buttons
-      button#candidates(@click="switchTab(1)" :class="(currentTab === 1 ? 'btn-primary' : 'btn-outline-primary') + ' btn btn-lg'") Participants
-      button#emergency(@click="switchTab(2)" :class="(currentTab === 2 ? 'btn-primary' : 'btn-outline-primary') + ' btn btn-lg'") Autres types de comptes
+      button#candidates(@click="switchTab($tab.SUPERVISED)" :class="(currentTab === $tab.SUPERVISED ? 'btn-primary' : 'btn-outline-primary') + ' btn btn-lg'") Candidats suivis
+      button#emergency(@click="switchTab($tab.UNSUPERVISED)" :class="(currentTab === $tab.UNSUPERVISED ? 'btn-primary' : 'btn-outline-primary') + ' btn btn-lg'") Candidats non suivis
     b-row#accounts-list()
-      TestTaker(v-if="currentTab === 1"
-        v-for="el in followed" :key="followed.id"
-        :id="el.id"
+      TestTaker(v-if="currentTab === $tab.SUPERVISED"
+        v-for="id in supervisedTestTakerIds" :key="id"
+        :id="id"
       )
       TestTaker(v-if="currentTab === 2"
-        v-for="el in unfollowed" :key="unfollowed.id"
-        :id="el.id"
+        v-for="id in unsupervisedTestTakerIds" :key="id"
+        :id="id"
       )
 </template>
 
@@ -20,6 +20,22 @@ export default {
   name: 'Tabs',
   components: {
     TestTaker
+  },
+  data: () => ({
+    currentTab: this.$tab.SUPERVISED
+  }),
+  computed: {
+    supervisedTestTakerIds () {
+      return this.$store.getters.supervisedTestTakerIds
+    },
+    unsupervisedTestTakerIds () {
+      return this.$store.getters.unsupervisedTestTakerIds
+    }
+  },
+  methods: {
+    switchTab (tab) {
+      this.currentTab = tab
+    }
   }
 }
 </script>

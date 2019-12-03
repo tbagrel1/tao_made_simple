@@ -3,7 +3,7 @@
     b-col(cols="6")
       b-button(variant="secondary" block) {{ message }}
     b-col(cols="6")
-      b-button(variant="outline-secondary" block) {{ timeString === null ? 'inconnu' : timeString }}
+      b-button(variant="outline-secondary" block) {{ timeString }}
 </template>
 
 <script>

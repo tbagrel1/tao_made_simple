@@ -1,14 +1,24 @@
 <template lang="pug">
   div#generalInformation
-      span#moduel {{ moduleName }}
-      span#name {{ testName }}
-      span#date {{ date }}
+      span#module {{ delivery.label }}
+      span#name {{ delivery.testLabel }}
+      span#date {{ currentDateString }}
 </template>
 
 <script>
 export default {
-  name: 'GeneralInformation'
-  // TODO: update date
+  name: 'GeneralInformation',
+  data: () => ({
+    _currentDateString: 'inconnu'
+  }),
+  computed: {
+    delivery () {
+      return this.$store.getters.delivery
+    },
+    currentDateString () {
+      return this.$refreshGetterValue(this, 'currentDateString')
+    }
+  }
 }
 </script>
 

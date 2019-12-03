@@ -10,6 +10,8 @@ import App from '@/components/App'
 
 import './globalStyle.styl'
 
+const REFRESH_DELAY = 500
+
 const TIME_FORMAT_OPTION = {
   hour: '2-digit',
   second: '2-digit',
@@ -34,6 +36,16 @@ const sortedTestTakerIds = (originalTestTakerIds) => {
   testTakerIds.sort((a, b) => a.lastname.localeCompare(b.lastname))
   return testTakerIds
 }
+const refreshGetterValue = (self, name, params = []) => {
+  if (self['_' + name] === null) {
+    const update = () => {
+      self['_' + name] = self.$store.getters[name](...params)
+    }
+    update()
+    setInterval(update, REFRESH_DELAY)
+  }
+  return self['_' + name]
+}
 
 Vue.prototype.$axios = axios
 Vue.prototype.$status = {
@@ -46,6 +58,9 @@ Vue.prototype.$tab = {
   SUPERVISED: 0,
   UNSUPERVISED: 1
 }
+Vue.prototype.$formatAsTimeString = formatAsTimeString
+Vue.prototype.$formatAsDateString = formatAsDateString
+Vue.prototype.$refreshGetterValue = refreshGetterValue
 
 Vue.use(Vuex)
 Vue.use(BootstrapVue)
@@ -53,7 +68,6 @@ Vue.use(BootstrapVue)
 // eslint-disable-next-line no-unused-vars
 const store = new Vuex.Store({
   state: {
-    delivery: null,
     /* {
      id: String,
      label: String,
@@ -64,22 +78,37 @@ const store = new Vuex.Store({
      testDuration: Number,
      testNbQuestion: Number
      } */
-    testTakers: new Map(
-      /* id: String -> {
-       id: String,
-       login: String,
-       firstname: String,
-       lastname: String,
-       status: String in ['disconnected', 'connected', 'inProgress', 'finished'],
-       deliveryStartingTime: Number,
-       testQuestionNo: Number
-       } */
-    ),
-    testTakerIdToTab: new Map(
-      /*
-       id: String -> tabId: Number in [0, 1]
-       */
-    )
+    delivery: {
+      id: 'i1110',
+      label: 'Test de mathématiques',
+      name: 'Test de mathématiques',
+      openingTime: 1575382612,
+      closingTime: 1575482612,
+      testLabel: 'Test de mathématiques',
+      testDuration: 4000,
+      testNbQuestion: 12
+    },
+    testTakers: new Map([['i4456', {
+      id: 'i4456',
+      login: 'tchardon',
+      firstname: 'Thibaut',
+      lastname: 'CHARDON',
+      status: Vue.prototype.$status.IN_PROGRESS,
+      deliveryStartingTime: 1575382812,
+      testQuestionNo: 4
+    }], ['i5654', {
+      id: 'i5654',
+      login: 'sec118212',
+      firstname: 'Compte',
+      lastname: 'Secours 118212',
+      status: 'disconnected',
+      deliveryStartingTime: null,
+      testQuestionNo: null
+    }]]),
+    testTakerIdToTab: new Map([
+      ['i4456', Vue.prototype.$tab.SUPERVISED],
+      ['i5654', Vue.prototype.$tab.UNSUPERVISED]
+    ])
   },
   mutations: {
     addToDefaultTab: (state) => {
@@ -104,65 +133,87 @@ const store = new Vuex.Store({
     }
   },
   getters: {
-    nowDateString: (state) => {
+    testTaker: (state, getters) => (testTakerId) => {
+      return state.testTakers.get(testTakerId)
+    },
+    delivery: (state, getters) => {
+      return state.delivery
+    },
+    fancyStatus: (state, getters) => (testTakerId) => {
+      const testTaker = state.testTaker(testTakerId)
+      switch (testTaker.status) {
+        case Vue.prototype.$status.DISCONNECTED:
+          return 'déconnecté'
+        case Vue.prototype.$status.CONNECTED:
+          return 'connecté'
+        case Vue.prototype.$status.IN_PROGRESS:
+          return 'en cours'
+        case Vue.prototype.$status.FINISHED:
+          return 'terminé'
+      }
+    },
+    currentDateString: (state, getters) => () => {
       return formatAsDateString(new Date())
     },
-    nowTimeString: (state) => {
+    currentTimeString: (state, getters) => () => {
       return formatAsTimeString(new Date())
     },
-    currentTimestamp: (state) => {
+    currentTimestamp: (state, getters) => () => {
       return new Date().getTime() / 1000
     },
-    remainingDurationForTestTaker: (state, getters) => testTakerId => {
-      const startingTime = state.testTakers.get(testTakerId).deliveryStartingTime
+    testTakerRemainingDuration: (state, getters) => (testTakerId) => {
+      const startingTime = state.testTaker(testTakerId).deliveryStartingTime
       if (startingTime === null) {
         return null
       }
       return state.delivery.testDuration - (getters.currentTimestamp() - startingTime)
     },
-    remainingDurationForTestTakerAsTimeString: (state, getters) => testTakerId => {
-      const remainingDuration = getters.remainingDuration(testTakerId)
+    testTakerRemainingDurationString: (state, getters) => (testTakerId) => {
+      const remainingDuration = getters.testTakerRemainingDuration(testTakerId)
       if (remainingDuration === null) {
         return 'inconnu'
       }
       return formatAsTimeString(remainingDuration)
     },
-    remainingDurationBeforeClosingAsTimeString: (state, getters) => {
+    remainingDurationBeforeClosingString: (state, getters) => () => {
       return formatAsTimeString(getters.currentTimestamp() - state.delivery.closingTime)
     },
-    testDurationAsTimeString: (state) => {
+    openingTimeString: (state, getters) => {
+      return formatAsTimeString(state.delivery.openingTime)
+    },
+    closingTimeString: (state, getters) => {
+      return formatAsTimeString(state.delivery.closingTime)
+    },
+    testDurationString: (state, getters) => {
       return formatAsTimeString(state.delivery.testDuration)
     },
-    maxRemainingDurationForTestTakers: (state, getters) => {
-      const remainingDurations = getters.sortedSupervisedTestTakerIds()
-        .map(testTakerId => getters.remainingDurationForTestTaker(testTakerId))
+    maxTestTakerRemainingDurationString: (state, getters) => () => {
+      const remainingDurations = getters.sortedSupervisedTestTakerIds
+        .map(testTakerId => getters.testTakerRemainingDuration(testTakerId))
         .filter(remainingDuration => remainingDuration !== null)
       if (remainingDurations.length === 0) {
         return 'inconnu'
       }
-      return Math.max(...remainingDurations)
-    },
-    maxRemainingDurationForTestTakersAsTimeString: (state, getters) => {
-      return formatAsTimeString(getters.maxRemainingDurationForTestTakers())
+      return formatAsTimeString(Math.max(...remainingDurations))
     },
     nbDisconnected: (state, getters) => {
-      return getters.sortedSupervisedTestTakerIds().filter(
-        testTakerId => state.testTakers.get(testTakerId).status === Vue.prototype.$status.DISCONNECTED).length
+      return getters.sortedSupervisedTestTakerIds.filter(
+        testTakerId => state.testTaker(testTakerId).status === Vue.prototype.$status.DISCONNECTED).length
     },
     nbConnected: (state, getters) => {
-      return getters.sortedSupervisedTestTakerIds().filter(
-        testTakerId => state.testTakers.get(testTakerId).status === Vue.prototype.$status.CONNECTED).length
+      return getters.sortedSupervisedTestTakerIds.filter(
+        testTakerId => state.testTaker(testTakerId).status === Vue.prototype.$status.CONNECTED).length
     },
     nbInProgress: (state, getters) => {
-      return getters.sortedSupervisedTestTakerIds().filter(
-        testTakerId => state.testTakers.get(testTakerId).status === Vue.prototype.$status.IN_PROGRESS).length
+      return getters.sortedSupervisedTestTakerIds.filter(
+        testTakerId => state.testTaker(testTakerId).status === Vue.prototype.$status.IN_PROGRESS).length
     },
     nbFinished: (state, getters) => {
-      return getters.sortedSupervisedTestTakerIds().filter(
-        testTakerId => state.testTakers.get(testTakerId).status === Vue.prototype.$status.FINISHED).length
+      return getters.sortedSupervisedTestTakerIds.filter(
+        testTakerId => state.testTaker(testTakerId).status === Vue.prototype.$status.FINISHED).length
     },
-    progressionString: (state) => (testTakerId) => {
-      const testTaker = state.testTakers.get(testTakerId)
+    progressionString: (state, getters) => (testTakerId) => {
+      const testTaker = state.testTaker(testTakerId)
       switch (testTaker.status) {
         case Vue.prototype.$status.DISCONNECTED:
           return 'inconnue'
@@ -176,8 +227,8 @@ const store = new Vuex.Store({
     },
     averageProgressionString: (state, getters) => {
       const progresssions = []
-      for (const testTakerId of getters.sortedSupervisedTestTakerIds()) {
-        const testTaker = state.testTakers.get(testTakerId)
+      for (const testTakerId of getters.sortedSupervisedTestTakerIds) {
+        const testTaker = state.testTaker(testTakerId)
         switch (testTaker.status) {
           case Vue.prototype.$status.DISCONNECTED:
             break
@@ -201,14 +252,14 @@ const store = new Vuex.Store({
       }
       return `${averageProgression} / ${state.delivery.testNbQuestion}`
     },
-    sortedSupervisedTestTakerIds: (state) => {
+    sortedSupervisedTestTakerIds: (state, getters) => {
       const supervisedTestTakerIds = state.testTakers.keys().filter(testTakerId => {
         const value = state.testTakerIdToTab.get(testTakerId)
         return value === Vue.prototype.$tab.SUPERVISED
       })
       return sortedTestTakerIds(supervisedTestTakerIds)
     },
-    sortedUnsupervisedTestTakerIds: (state) => {
+    sortedUnsupervisedTestTakerIds: (state, getters) => {
       const supervisedTestTakerIds = state.testTakers.keys().filter(testTakerId => {
         const value = state.testTakerIdToTab.get(testTakerId)
         return value === Vue.prototype.$tab.UNSUPERVISED
