@@ -1,9 +1,9 @@
 <template lang="pug">
-  b-row
-    b-col(cols="6")
-      b-button(variant="secondary" block) {{ message }}
-    b-col(cols="6")
-      b-button(variant="outline-secondary" block) {{ timeString }}
+  b-row(align-v="center")
+    b-col(cols="8")
+      b-alert.message(variant="light" show) {{ message }}
+    b-col(cols="4")
+      b-alert.time(variant="dark" show) {{ timeString }}
 </template>
 
 <script>
@@ -23,4 +23,8 @@ export default {
 </script>
 
 <style scoped lang="stylus">
+  .time
+    text-align center
+  .message
+    font-size large
 </style>

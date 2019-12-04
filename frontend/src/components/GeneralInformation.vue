@@ -1,8 +1,14 @@
 <template lang="pug">
-  div#generalInformation
-      span#module {{ delivery.label }}
-      span#name {{ delivery.testLabel }}
-      span#date {{ currentDateString }}
+  b-container(fluid)#general-information
+    b-row
+      b-col(cols="12")
+        span#delivery-label {{ delivery.label }}
+    b-row
+      b-col(cols="12")
+        span#test-label {{ delivery.testLabel }}
+    b-row
+      b-col(cols="12")
+        span#current-date {{ currentDateString }}
 </template>
 
 <script>

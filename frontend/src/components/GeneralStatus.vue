@@ -1,10 +1,16 @@
 <template lang="pug">
-  div#generalStatus
-    span#disconnected {{ nbDisconnected }}
-    span#connected {{ nbConnected }}
-    span#inTest {{ nbInProgress }}
-    span#finished {{ nbFinished }}
-    span#progress {{ averageProgressionString }}
+  b-container(fluid)#general-status
+    b-row(align-h="around")
+      b-col(cols="2")
+        span#disconnected {{ nbDisconnected }}
+      b-col(cols="2")
+        span#connected {{ nbConnected }}
+      b-col(cols="2")
+        span#inTest {{ nbInProgress }}
+      b-col(cols="2")
+        span#finished {{ nbFinished }}
+      b-col(cols="2")
+        span#progress {{ averageProgressionString }}
 </template>
 
 <script>

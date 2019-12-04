@@ -1,8 +1,14 @@
 <template lang="pug">
-  div#header
-    GeneralInformation
-    Times
-    GeneralStatus
+  b-container(fluid)#header
+    b-row
+      b-col(cols="12")
+      GeneralInformation
+    b-row
+      b-col(cols="12")
+        Times
+    b-row
+      b-col(cols="12")
+        GeneralStatus
 </template>
 
 <script>

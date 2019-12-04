@@ -153,9 +153,19 @@ const store = new Vuex.Store({
           return 'terminé'
       }
     },
-    fancyTestQuestionNo: {
-      // TODO implement + modif progressionString pour utiliser celle là
-    }
+    fancyTestQuestionNo: (state, getters) => (testTakerId) => {
+      const testTaker = state.testTakers.get(testTakerId)
+      switch (testTaker.status) {
+        case status.DISCONNECTED:
+          return 0
+        case status.CONNECTED:
+          return 0
+        case status.IN_PROGRESS:
+          return testTaker.testQuestionNo
+        case status.FINISHED:
+          return state.delivery.testNbQuestion
+      }
+    },
     currentDateString: (state, getters) => () => {
       return formatAsDateString(getters.currentTimestamp())
     },

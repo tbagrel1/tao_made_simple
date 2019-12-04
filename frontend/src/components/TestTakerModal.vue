@@ -1,14 +1,19 @@
 <template lang="pug">
-  div#details
-    div#question-no Avancement : {{ progressionString }}
-    div#start-time Temps restant : {{ testTakerRemainingDurationString }}
+  b-modal(:id="`test-taker-details-${testTakerId}`" hide-footer :title="`${testTaker.firstname} ${testTaker.lastname}`")
+    b-container(fluid)
+      b-row
+        b-col(cols="12")
+          span Avancement : {{ progressionString }}
+      b-row
+        b-col(cols="12")
+          span Temps restant : {{ testTakerRemainingDurationString }}
 </template>
 
 <script>
 export default {
   name: 'Details',
   props: {
-    id: {
+    testTakerId: {
       type: String,
       required: true
     }
@@ -17,12 +22,15 @@ export default {
     testTakerRemainingDurationString: 'inconnu'
   }),
   computed: {
+    testTaker () {
+      return this.$store.getters.testTaker(this.testTakerId)
+    },
     progressionString () {
-      return this.$store.getters.progressionString(this.id)
+      return this.$store.getters.progressionString(this.testTakerId)
     }
   },
   mounted () {
-    this.$refreshGetterValue(this, 'testTakerRemainingDurationString', [this.id])
+    this.$refreshGetterValue(this, 'testTakerRemainingDurationString', [this.testTakerId])
   }
 }
 </script>

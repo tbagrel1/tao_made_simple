@@ -1,12 +1,17 @@
 <template lang="pug">
-  b-col#candidate.container.card(cols="4")
-    div#candidate-infos(@click="toggleDetails()").card-body
-      div#firstname.h4.card-title {{ testTaker.firstname }} ({{ testTaker.id }})
-      div#status-connected(v-if="testTaker.status === status.CONNECTED || testTaker.status === status.IN_PROGRESS").alert.alert-success Statut : {{ fancyStatus }}
-      div#status-disconnected(v-if="testTaker.status === status.DISCONNECTED").alert.alert-danger Statut : {{ fancyStatus }}
-      div#status-unknown(v-if="testTaker.status === status.FINISHED").alert.alert-warning Statut : {{ fancyStatus }}
-      b-progress(:value="fancyTestQuestionNo" :max="delivery.testNbQuestion")
-      TestTakerModal(v-if="detailsActive" :id="id")
+  b-col(cols="3")
+    b-card.test-taker(@click="$bvModal.show(`test-taker-details-${testTakerId}`)")
+      b-card-title.test-taker-name
+        h3 {{ testTaker.firstname }} {{ testTaker.lastname }}
+      b-card-body
+        b-container(fluid)
+          b-row
+            b-col(cols="12")
+              b-alert(:variant="statusColor" show) Statut : {{ fancyStatus }}
+          b-row
+            b-col(cols="12")
+              b-progress(:value="fancyTestQuestionNo" :max="delivery.testNbQuestion")
+        TestTakerModal(:testTakerId="testTakerId")
 </template>
 
 <script>
@@ -19,33 +24,42 @@ export default {
     TestTakerModal
   },
   props: {
-    id: {
+    testTakerId: {
       type: String,
       required: true
     }
   },
   data: () => ({
-    detailsActive: false,
     status: status
   }),
   computed: {
     testTaker () {
-      return this.$store.getters.testTaker(this.id)
+      return this.$store.getters.testTaker(this.testTakerId)
     },
     delivery () {
       return this.$store.getters.delivery
     },
     fancyStatus () {
-      return this.$store.getters.fancyStatus(this.id)
+      return this.$store.getters.fancyStatus(this.testTakerId)
     },
     fancyTestQuestionNo () {
-      return this.$store.getters.fancyTestQuestionNo(this.id)
+      return this.$store.getters.fancyTestQuestionNo(this.testTakerId)
+    },
+    statusColor () {
+      switch (this.testTaker.status) {
+        case status.DISCONNECTED:
+          return 'danger'
+        case status.CONNECTED:
+          return 'warning'
+        case status.IN_PROGRESS:
+          return 'success'
+        case status.FINISHED:
+          return 'success'
+      }
+      return null
     }
   },
   methods: {
-    toggleDetails () {
-      this.detailsActive = !this.detailsActive
-    }
   }
 }
 </script>
