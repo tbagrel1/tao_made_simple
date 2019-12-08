@@ -6,8 +6,9 @@ import Vuex from 'vuex'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
-import { tab, status } from '@/constants'
+import { tab, status, refreshStatus } from '@/constants'
 import App from '@/components/App'
+import config from './config'
 
 import './globalStyle.styl'
 
@@ -34,13 +35,24 @@ const sortedTestTakerIds = (originalTestTakerIds, testTakers) => {
   })
   return testTakerIds
 }
+const makeApiUrl = (target) => {
+  return `${config.API_ROOT_URL}/${target}`
+}
 
 Vue.prototype.$refreshGetterValue = (self, name, params = []) => {
-  const update = () => {
+  const refresh = () => {
     self[name] = self.$store.getters[name](...params)
   }
-  update()
-  setInterval(update, REFRESH_DELAY)
+  refresh()
+  setInterval(refresh, REFRESH_DELAY)
+}
+
+const repeatAction = async (dispatch, name) => {
+  const refresh = async () => {
+    await dispatch(name)
+  }
+  await refresh()
+  setInterval(refresh, REFRESH_DELAY)
 }
 
 Vue.prototype.$axios = axios
@@ -51,92 +63,52 @@ Vue.use(BootstrapVue)
 // eslint-disable-next-line no-unused-vars
 const store = new Vuex.Store({
   state: {
-    /* {
-     id: String,
-     label: String,
-     name: String,
-     openingTime: Number,
-     closingTime: Number,
-     testLabel: String,
-     testDuration: Number,
-     testNbQuestion: Number
-     } */
-    delivery: {
-      id: 'i1110',
-      label: 'Test de mathématiques',
-      name: 'Test de mathématiques',
-      openingTime: 1575391796,
-      closingTime: 1575395796,
-      testLabel: 'Test de mathématiques',
-      testDuration: 3000,
-      testNbQuestion: 12
+    deliveryId: null,
+    refreshDeliveriesStatus: refreshStatus.NEVER_DONE,
+    refreshTestTakersStatus: refreshStatus.NEVER_DONE,
+    deliveries: new Map(),
+    testTakers: new Map(),
+    testTakerIdToTab: new Map()
+  },
+  actions: {
+    refreshDeliveries: async ({ commit, state }) => {
+      if (state.refreshDeliveriesStatus !== refreshStatus.SUCCESS) {
+        commit('setRefreshDeliveriesStatus', refreshStatus.IN_PROGRESS)
+      }
+      await axios.get(makeApiUrl('delivery'))
+        .then((response) => {
+          const deliveries = response.data.deliveries
+          commit('setDeliveries', deliveries)
+          commit('setRefreshDeliveriesStatus', refreshStatus.SUCCESS)
+        })
+        .catch(() => {
+          commit('setDeliveries', new Map())
+          commit('setRefreshDeliveriesStatus', refreshStatus.ERROR)
+        })
     },
-    testTakers: new Map([['i4456', {
-      id: 'i4456',
-      login: 'tchardon',
-      firstname: 'Thibaut',
-      lastname: 'CHARDON',
-      status: status.IN_PROGRESS,
-      deliveryStartingTime: 1575391896,
-      testQuestionNo: 4
-    }], ['i4457', {
-      id: 'i4457',
-      login: 'anevers',
-      firstname: 'Alice',
-      lastname: 'Nevers',
-      status: status.CONNECTED,
-      deliveryStartingTime: null,
-      testQuestionNo: null
-    }], ['i4458', {
-      id: 'i4458',
-      login: 'jadam',
-      firstname: 'Jules',
-      lastname: 'ADAM',
-      status: status.FINISHED,
-      deliveryStartingTime: 1575391886,
-      testQuestionNo: null
-    }], ['i5654', {
-      id: 'i5654',
-      login: 'sec118212',
-      firstname: 'Compte Secours 111282',
-      lastname: '',
-      status: status.DISCONNECTED,
-      deliveryStartingTime: null,
-      testQuestionNo: null
-    }], ['i4459', {
-      id: 'i4459',
-      login: 'jadam',
-      firstname: 'Jules',
-      lastname: 'ADAM',
-      status: status.FINISHED,
-      deliveryStartingTime: 1575391886,
-      testQuestionNo: null
-    }], ['i4460', {
-      id: 'i4460',
-      login: 'jadam',
-      firstname: 'Jules',
-      lastname: 'ADAM',
-      status: status.FINISHED,
-      deliveryStartingTime: 1575391886,
-      testQuestionNo: null
-    }], ['i4461', {
-      id: 'i4461',
-      login: 'jadam',
-      firstname: 'Jules',
-      lastname: 'ADAM',
-      status: status.FINISHED,
-      deliveryStartingTime: 1575391886,
-      testQuestionNo: null
-    }]]),
-    testTakerIdToTab: new Map([
-      ['i4456', tab.SUPERVISED],
-      ['i4457', tab.SUPERVISED],
-      ['i4458', tab.SUPERVISED],
-      ['i4459', tab.SUPERVISED],
-      ['i4460', tab.SUPERVISED],
-      ['i4461', tab.SUPERVISED],
-      ['i5654', tab.UNSUPERVISED]
-    ])
+    refreshTestTakers: async ({ commit, state }) => {
+      if (state.deliveryId === null) {
+        return
+      }
+      if (state.refreshTestTakersStatus !== refreshStatus.SUCCESS) {
+        commit('setRefreshTestTakersStatus', refreshStatus.IN_PROGRESS)
+      }
+      axios.get(makeApiUrl(`delivery/${state.deliveryId}/testTaker`))
+        .then((response) => {
+          const testTakers = response.data.testTakers
+          commit('setTestTakers', testTakers)
+          commit('addToDefaultTab')
+          commit('setRefreshTestTakersStatus', refreshStatus.SUCCESS)
+        })
+        .catch(() => {
+          commit('setTestTakers', new Map())
+          commit('setRefreshTestTakersStatus', refreshStatus.ERROR)
+        })
+    },
+    chooseDelivery: async ({ commit, dispatch }, deliveryId) => {
+      commit('setDeliveryId', deliveryId)
+      await repeatAction(dispatch, 'refreshTestTakers')
+    }
   },
   mutations: {
     addToDefaultTab: (state) => {
@@ -158,14 +130,41 @@ const store = new Vuex.Store({
       const newTestTakerIdToTab = new Map(state.testTakerIdToTab)
       newTestTakerIdToTab.set(testTakerId, tab)
       state.testTakerIdToTab = newTestTakerIdToTab
+    },
+    setDeliveryId: (state, deliveryId) => {
+      state.deliveryId = deliveryId
+    },
+    setDeliveries: (state, deliveries) => {
+      state.deliveries = new Map(deliveries.map(delivery => [delivery.id, delivery]))
+    },
+    setTestTakers: (state, testTakers) => {
+      state.testTakers = new Map(testTakers.map(testTaker => [testTaker.id, testTaker]))
+    },
+    setRefreshTestTakersStatus: (state, newRefreshStatus) => {
+      state.refreshTestTakersStatus = newRefreshStatus
+    },
+    setRefreshDeliveriesStatus: (state, newRefreshStatus) => {
+      state.refreshDeliveriesStatus = newRefreshStatus
     }
   },
   getters: {
+    isRefreshError: (state, getters) => {
+      return state.refreshTestTakersStatus === refreshStatus.ERROR || state.refreshDeliveriesStatus === refreshStatus.ERROR
+    },
+    isRefreshInProgress: (state, getters) => {
+      return !getters.isRefreshError && (state.refreshTestTakersStatus === refreshStatus.IN_PROGRESS || state.refreshDeliveriesStatus === refreshStatus.IN_PROGRESS || state.refreshDeliveriesStatus === refreshStatus.NEVER_DONE)
+    },
+    isDeliverySelected: (state, getters) => {
+      return state.deliveryId !== null
+    },
     testTaker: (state, getters) => (testTakerId) => {
       return state.testTakers.get(testTakerId)
     },
     delivery: (state, getters) => {
-      return state.delivery
+      return state.deliveries.get(state.deliveryId)
+    },
+    deliveries: (state, getters) => {
+      return Array.from(state.deliveries.values())
     },
     fancyStatus: (state, getters) => (testTakerId) => {
       const testTaker = state.testTakers.get(testTakerId)
@@ -190,7 +189,7 @@ const store = new Vuex.Store({
         case status.IN_PROGRESS:
           return testTaker.testQuestionNo
         case status.FINISHED:
-          return state.delivery.testNbQuestion
+          return getters.delivery.testNbQuestion
       }
     },
     currentDateString: (state, getters) => () => {
@@ -207,7 +206,7 @@ const store = new Vuex.Store({
       if (startingTime === null) {
         return null
       }
-      return state.delivery.testDuration - (getters.currentTimestamp() - startingTime)
+      return getters.delivery.testDuration - (getters.currentTimestamp() - startingTime)
     },
     testTakerRemainingDurationString: (state, getters) => (testTakerId) => {
       const remainingDuration = getters.testTakerRemainingDuration(testTakerId)
@@ -217,16 +216,16 @@ const store = new Vuex.Store({
       return formatAsDurationString(remainingDuration)
     },
     remainingDurationBeforeClosingString: (state, getters) => () => {
-      return formatAsDurationString(state.delivery.closingTime - getters.currentTimestamp())
+      return formatAsDurationString(getters.delivery.closingTime - getters.currentTimestamp())
     },
     openingTimeString: (state, getters) => {
-      return formatAsTimeString(state.delivery.openingTime)
+      return formatAsTimeString(getters.delivery.openingTime)
     },
     closingTimeString: (state, getters) => {
-      return formatAsTimeString(state.delivery.closingTime)
+      return formatAsTimeString(getters.delivery.closingTime)
     },
     testDurationString: (state, getters) => {
-      return formatAsDurationString(state.delivery.testDuration)
+      return formatAsDurationString(getters.delivery.testDuration)
     },
     maxTestTakerRemainingDurationString: (state, getters) => () => {
       const remainingDurations = getters.sortedSupervisedTestTakerIds
@@ -259,9 +258,9 @@ const store = new Vuex.Store({
         case status.DISCONNECTED:
           return 'inconnu'
         case status.CONNECTED:
-          return `0 / ${state.delivery.testNbQuestion}`
+          return `0 / ${getters.delivery.testNbQuestion}`
         case status.IN_PROGRESS:
-          return `${testTaker.testQuestionNo} / ${state.delivery.testNbQuestion}`
+          return `${testTaker.testQuestionNo} / ${getters.delivery.testNbQuestion}`
         case status.FINISHED:
           return 'terminé'
       }
@@ -280,7 +279,7 @@ const store = new Vuex.Store({
             progressions.push(testTaker.testQuestionNo)
             break
           case status.FINISHED:
-            progressions.push(state.delivery.testNbQuestion)
+            progressions.push(getters.delivery.testNbQuestion)
             break
         }
       }
@@ -288,10 +287,10 @@ const store = new Vuex.Store({
         return 'inconnue'
       }
       let averageProgression = Math.floor(progressions.reduce((a, b) => a + b) / progressions.length)
-      if (averageProgression === state.delivery.testNbQuestion) {
+      if (averageProgression === getters.delivery.testNbQuestion) {
         return 'terminé'
       }
-      return `${averageProgression} / ${state.delivery.testNbQuestion}`
+      return `${averageProgression} / ${getters.delivery.testNbQuestion}`
     },
     sortedSupervisedTestTakerIds: (state, getters) => {
       const supervisedTestTakerIds = Array.from(state.testTakers.keys()).filter(testTakerId => {
