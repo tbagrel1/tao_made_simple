@@ -2,7 +2,7 @@ from flask import Blueprint
 import requests
 import os
 
-TAO_SUPERVISION_ROOT = "http://tao.tbagrel1.com/taoDeliveryRdf/RestSupervision"
+TAO_SUPERVISION_ROOT_URL = os.environ["TAO_SUPERVISION_ROOT_URL"]
 
 api = Blueprint("api", __name__, url_prefix="/api/")
 
@@ -12,7 +12,7 @@ def get_auth():
 
 
 def make_supervision_url(target):
-    return TAO_SUPERVISION_ROOT + "/" + target
+    return TAO_SUPERVISION_ROOT_URL + "/" + target
 
 
 def get_data(*args, **kwargs):
@@ -25,6 +25,8 @@ def get_data(*args, **kwargs):
             return "TAO returned an error: {}".format(json_content["errorMsg"]), 500
         return json_content["data"], 200
     except Exception as e:
+        if isinstance(e, requests.exceptions.HTTPError) and e.response.status_code == 403:
+            return "Wrong credentials", 403
         return "Unable to authenticate or make contact with TAO: {}".format(repr(e)), 500
 
 
