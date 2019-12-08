@@ -1,11 +1,11 @@
 <template lang="pug">
   b-container(fluid)#times
-    b-row.times-row(align-h="around")
-      b-col.times-col
+    b-row
+      b-col
         b-card
           Timer(message="Temps avant fin du dernier candidat" :timeString="maxTestTakerRemainingDurationString")
           Timer(message="Temps avant clôture" :timeString="remainingDurationBeforeClosingString")
-      b-col.times-col
+      b-col
         b-card
           Timer(message="Heure d'ouverture" :timeString="openingTimeString")
           Timer(message="Heure actuelle" :timeString="currentTimeString")
@@ -41,6 +41,4 @@ export default {
 </script>
 
 <style scoped lang="stylus">
-  // .times-row
-  // .times-col
 </style>

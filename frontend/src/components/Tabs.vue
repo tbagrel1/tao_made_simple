@@ -4,19 +4,17 @@
       b-col(cols="12")
         b-tabs#test-takers
           b-tab(title="Candidats suivis" active)
-            b-container#supervised-test-takers
-              b-row
-                TestTaker(
-                  v-for="id in supervisedTestTakerIds" :key="id"
-                  :testTakerId="id"
-                )
+            div#supervised-test-takers.test-takers-tab
+              TestTaker(
+                v-for="id in supervisedTestTakerIds" :key="id"
+                :testTakerId="id"
+              )
           b-tab(title="Candidats non suivis")
-            b-container#unsupervised-test-takers
-              b-row
-                TestTaker(
-                  v-for="id in unsupervisedTestTakerIds" :key="id"
-                  :testTakerId="id"
-                )
+            div#unsupervised-test-takers.test-takers-tab
+              TestTaker(
+                v-for="id in unsupervisedTestTakerIds" :key="id"
+                :testTakerId="id"
+              )
 </template>
 
 <script>
@@ -39,4 +37,8 @@ export default {
 </script>
 
 <style scoped lang="stylus">
+  .test-takers-tab
+    display grid
+    grid-template-columns 25% 25% 25% 25%
+    grid-auto-rows 1fr
 </style>

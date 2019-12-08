@@ -103,11 +103,38 @@ const store = new Vuex.Store({
       status: status.DISCONNECTED,
       deliveryStartingTime: null,
       testQuestionNo: null
+    }], ['i4459', {
+      id: 'i4459',
+      login: 'jadam',
+      firstname: 'Jules',
+      lastname: 'ADAM',
+      status: status.FINISHED,
+      deliveryStartingTime: 1575391886,
+      testQuestionNo: null
+    }], ['i4460', {
+      id: 'i4460',
+      login: 'jadam',
+      firstname: 'Jules',
+      lastname: 'ADAM',
+      status: status.FINISHED,
+      deliveryStartingTime: 1575391886,
+      testQuestionNo: null
+    }], ['i4461', {
+      id: 'i4461',
+      login: 'jadam',
+      firstname: 'Jules',
+      lastname: 'ADAM',
+      status: status.FINISHED,
+      deliveryStartingTime: 1575391886,
+      testQuestionNo: null
     }]]),
     testTakerIdToTab: new Map([
       ['i4456', tab.SUPERVISED],
       ['i4457', tab.SUPERVISED],
       ['i4458', tab.SUPERVISED],
+      ['i4459', tab.SUPERVISED],
+      ['i4460', tab.SUPERVISED],
+      ['i4461', tab.SUPERVISED],
       ['i5654', tab.UNSUPERVISED]
     ])
   },
