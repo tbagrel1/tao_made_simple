@@ -1,33 +1,29 @@
 <template lang="pug">
-  div#generalInformation
-      span#moduel {{ moduleName }}
-      span#name {{ testName }}
-      span#date {{ date }}
+  b-container(fluid)#general-information
+    b-row
+      b-col(cols="12")
+        span#delivery-label {{ delivery.label }}
+    b-row
+      b-col(cols="12")
+        span#test-label {{ delivery.testLabel }}
+    b-row
+      b-col(cols="12")
+        span#current-date {{ currentDateString }}
 </template>
 
 <script>
 export default {
   name: 'GeneralInformation',
-  props: {
-    moduleName: {
-      type: String,
-      required: true
-    },
-    testName: {
-      type: String,
-      required: true
-    },
-    date: {
-      type: String,
-      required: true
+  data: () => ({
+    currentDateString: 'inconnu'
+  }),
+  computed: {
+    delivery () {
+      return this.$store.getters.delivery
     }
   },
-  mounted: function () {
-    let currentDate = new Date()
-    let day = currentDate.getDate()
-    let mounth = currentDate.getMonth() + 1
-    let year = currentDate.getFullYear()
-    this.date = day + '/' + mounth + '/' + year
+  mounted () {
+    this.$refreshGetterValue(this, 'currentDateString')
   }
 }
 </script>

@@ -1,89 +1,44 @@
 <template lang="pug">
-  div#tabs
-    div#buttons
-      button#candidates(@click="switchTab(1)") Participants
-      button#emergency(@click="switchTab(2)") Autres types de comptes
-    div#accounts-list
-      Candidates(v-if="currentTab === 1"
-        v-for="el in followed" :key="followed.id"
-        :id="el.id"
-        type="Participant"
-        :firstname="el.firstname"
-        :surname="el.surname"
-        :status="el.status"
-        :questionNo="el.questionNo"
-        :nbQuestions="nbQuestions"
-        :startTime="el.startTime"
-        :testDuration="testDuration")
-      Candidates(v-if="currentTab === 2"
-        v-for="el in unfollowed" :key="unfollowed.id"
-        :id="el.id"
-        type="Autres types de compte"
-        :firstname="el.firstname"
-        :surname="el.surname"
-        :status="el.status"
-        :questionNo="el.questionNo"
-        :nbQuestions="el.nbQuestions"
-        :startTime="el.startTime"
-        :testDuration="el.testDuration")
+  b-container(fluid)#tabs
+    b-row
+      b-col(cols="12")
+        b-tabs#test-takers
+          b-tab(title="Candidats suivis" active)
+            div#supervised-test-takers.test-takers-tab
+              TestTaker(
+                v-for="id in supervisedTestTakerIds" :key="id"
+                :testTakerId="id"
+              )
+          b-tab(title="Candidats non suivis")
+            div#unsupervised-test-takers.test-takers-tab
+              TestTaker(
+                v-for="id in unsupervisedTestTakerIds" :key="id"
+                :testTakerId="id"
+              )
 </template>
 
 <script>
-import Candidates from './Candidates'
+import TestTaker from './TestTaker'
+
 export default {
   name: 'Tabs',
   components: {
-    Candidates
+    TestTaker
   },
-  props: {
-    followed: {
-      type: Array[Object],
-      required: false
+  computed: {
+    supervisedTestTakerIds () {
+      return this.$store.getters.sortedSupervisedTestTakerIds
     },
-    unfollowed: {
-      type: Array[Object],
-      required: false
-    },
-    nbQuestions: {
-      type: Number,
-      required: false
-    },
-    testDuration: {
-      type: Date,
-      required: false
-    }
-  },
-  data: () => ({
-    currentTab: 1 // Tab displayed (e.g. 1 : followed accounts tab, 2 : unfollowed accounts tab).
-  }),
-  methods: {
-    switchTab (tabNumber) {
-      this.currentTab = tabNumber
-    },
-    arrayToArray (id, source, destination) {
-      // Important : don't use 'array[i] = a' because Vue JS don't update with that kind of assignation.
-      // Prefer things like 'array.push', 'array.split' or 'Vue.set(object)' instead.
-      // See https://vuejs.org/v2/guide/reactivity.html for more details.
-      let index = source.findIndex(x => x.id === id)
-      let el = source[index]
-      source.splice(index, 1, source[index])
-      destination.push(el)
-    },
-    changeAccountType (id, type) {
-      console.log('TEST')
-      if (type === 'Participant') {
-        console.log('PARTICIPANT')
-        this.arrayToArray(id, this.followed, this.unfollowed)
-      }
-
-      if (type === 'Autres types de compte') {
-        console.log('AUTRE')
-        this.arrayToArray(id, this.unfollowed, this.followed)
-      }
+    unsupervisedTestTakerIds () {
+      return this.$store.getters.sortedUnsupervisedTestTakerIds
     }
   }
 }
 </script>
 
 <style scoped lang="stylus">
+  .test-takers-tab
+    display grid
+    grid-template-columns 25% 25% 25% 25%
+    grid-auto-rows 1fr
 </style>

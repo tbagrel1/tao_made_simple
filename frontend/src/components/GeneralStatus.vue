@@ -1,36 +1,38 @@
 <template lang="pug">
-  div#generalStatus
-    span#connected {{ numberConnected }}
-    span#inTest {{ numberInTest }}
-    span#finished {{ numberFinished }}
-    span#progress {{ globalProgress }}
+  b-container(fluid)#general-status
+    b-row(align-h="around")
+      b-col(cols="2")
+        span#disconnected {{ nbDisconnected }}
+      b-col(cols="2")
+        span#connected {{ nbConnected }}
+      b-col(cols="2")
+        span#inTest {{ nbInProgress }}
+      b-col(cols="2")
+        span#finished {{ nbFinished }}
+      b-col(cols="2")
+        span#progress {{ averageProgressionString }}
 </template>
 
 <script>
 export default {
   name: 'GeneralStatus',
-  props: {
-    numberConnected: {
-      type: Number,
-      required: true
+  computed: {
+    nbDisconnected () {
+      return this.$store.getters.nbDisconnected
     },
-    numberInTest: {
-      type: Number,
-      required: true
+    nbConnected () {
+      return this.$store.getters.nbConnected
     },
-    numberFinished: {
-      type: Number,
-      required: true
+    nbInProgress () {
+      return this.$store.getters.nbInProgress
     },
-    globalProgress: {
-      type: Number,
-      required: true
+    nbFinished () {
+      return this.$store.getters.nbFinished
+    },
+    averageProgressionString () {
+      return this.$store.getters.averageProgressionString
     }
-  },
-  data: () => ({
-  }),
-  mounted () {},
-  methods: {}
+  }
 }
 </script>
 
