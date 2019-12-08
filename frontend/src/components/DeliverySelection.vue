@@ -1,7 +1,13 @@
-<template lang="pug">
-  b-row
-    b-col(cols="12")
-      b-button(@click="chooseDelivery") Clique sur moi !
+<template>
+  <div>
+  <select v-model="selectedDelivery">
+    <option v-for="delivery in deliveries" :key="delivery.name" :value="delivery.id">
+      {{ delivery.id }}, {{ delivery.name }}
+    </option>
+  </select>
+  <button v-on:click="chooseDelivery">Cliquez sur moi !</button>
+
+  </div>
 </template>
 
 <script>
