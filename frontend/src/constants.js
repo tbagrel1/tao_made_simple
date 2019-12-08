@@ -10,7 +10,15 @@ const status = {
   FINISHED: 'finished'
 }
 
+const refreshStatus = {
+  NEVER_DONE: 'neverDone',
+  IN_PROGRESS: 'inProgress',
+  ERROR: 'error',
+  SUCCESS: 'success'
+}
+
 export {
   tab,
-  status
+  status,
+  refreshStatus
 }
