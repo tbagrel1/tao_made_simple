@@ -1,13 +1,13 @@
-<template>
-  <div>
-  <select v-model="selectedDelivery">
-    <option v-for="delivery in deliveries" :key="delivery.name" :value="delivery.id">
-      {{ delivery.id }}, {{ delivery.name }}
-    </option>
-  </select>
-  <button v-on:click="chooseDelivery">Cliquez sur moi !</button>
+<template lang="pug" >
+  b-row
+    b-col(cols="12")
+      b-form-select(
+        v-model="selectedDelivery"
+        :options="deliveries"
+        value-field="id"
+        text-field="name").mb-5
+      b-button(@click="chooseDelivery" :disabled="selectedDelivery === null" size="lg" variant="primary") Superviser cet examen
 
-  </div>
 </template>
 
 <script>
@@ -16,11 +16,11 @@ export default {
    * Quand ce composant est appelé, il peut accéder à la liste des deliveries
    * disponibles avec this.deliveries (computed)
    */
+  components: {
+  },
   data: () => ({
     selectedDelivery: null
   }),
-  components: {
-  },
   computed: {
     deliveries () {
       return this.$store.getters.deliveries
