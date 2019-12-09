@@ -20,7 +20,7 @@ export default {
   },
   methods: {
     async chooseDelivery () {
-      await this.$store.dispatch('chooseDelivery', 'i15697694169972137') // while delivery selection is not implemented
+      await this.$store.dispatch('chooseDelivery', 'i15758961531802215') // while delivery selection is not implemented
     }
   }
 }
