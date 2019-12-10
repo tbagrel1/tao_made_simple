@@ -1,7 +1,13 @@
-<template lang="pug">
+<template lang="pug" >
   b-row
     b-col(cols="12")
-      b-button(@click="chooseDelivery") Clique sur moi !
+      b-form-select(
+        v-model="selectedDelivery"
+        :options="deliveries"
+        value-field="id"
+        text-field="name").mb-5
+      b-button(@click="chooseDelivery" :disabled="selectedDelivery === null" size="lg" variant="primary") Superviser cet examen
+
 </template>
 
 <script>
@@ -10,9 +16,11 @@ export default {
    * Quand ce composant est appelé, il peut accéder à la liste des deliveries
    * disponibles avec this.deliveries (computed)
    */
-  name: 'DeliverySelection',
   components: {
   },
+  data: () => ({
+    selectedDelivery: null
+  }),
   computed: {
     deliveries () {
       return this.$store.getters.deliveries
@@ -20,7 +28,7 @@ export default {
   },
   methods: {
     async chooseDelivery () {
-      await this.$store.dispatch('chooseDelivery', 'i15758961531802215') // while delivery selection is not implemented
+      await this.$store.dispatch('chooseDelivery', this.selectedDelivery) // while delivery selection is not implemented
     }
   }
 }
