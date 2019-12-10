@@ -63,14 +63,32 @@ Vue.use(BootstrapVue)
 // eslint-disable-next-line no-unused-vars
 const store = new Vuex.Store({
   state: {
+    username: null,
+    password: null,
+    isAuthenticated: false,
     deliveryId: null,
     refreshDeliveriesStatus: refreshStatus.NEVER_DONE,
     refreshTestTakersStatus: refreshStatus.NEVER_DONE,
+    refreshAuthenticationStatus: refreshStatus.NEVER_DONE,
     deliveries: new Map(),
     testTakers: new Map(),
     testTakerIdToTab: new Map()
   },
   actions: {
+    refreshAuthentication: async ({ commit, state }, { username, password }) => {
+      if (state.refreshAuthenticationStatus !== refreshStatus.SUCCESS) {
+        commit('setRefreshAuthenticationStatus', refreshStatus.IN_PROGRESS)
+      }
+      await axios.get(makeApiUrl('delivery'))
+        .then((response) => {
+          commit('setAuthenticated')
+          commit('setRefreshAuthenticationStatus', refreshStatus.SUCCESS)
+        })
+        .catch(() => {
+          commit('setNotAuthenticated')
+          commit('setRefreshAuthenticationStatus', refreshStatus.ERROR)
+        })
+    },
     refreshDeliveries: async ({ commit, state }) => {
       if (state.refreshDeliveriesStatus !== refreshStatus.SUCCESS) {
         commit('setRefreshDeliveriesStatus', refreshStatus.IN_PROGRESS)
@@ -111,6 +129,18 @@ const store = new Vuex.Store({
     }
   },
   mutations: {
+    setAuthenticated: (state) => {
+      state.isAuthenticated = true
+    },
+    setNotAuthenticated: (state) => {
+      state.isAuthenticated = false
+    },
+    setUsername: (state, username) => {
+      state.username = username
+    },
+    setPassword: (state, password) => {
+      state.password = password
+    },
     addToDefaultTab: (state) => {
       const testTakerIds = Array.from(state.testTakers.keys())
       const newTestTakerIdToTab = new Map(state.testTakerIdToTab)
@@ -145,14 +175,26 @@ const store = new Vuex.Store({
     },
     setRefreshDeliveriesStatus: (state, newRefreshStatus) => {
       state.refreshDeliveriesStatus = newRefreshStatus
+    },
+    setRefreshAuthenticationStatus: (state, newRefreshStatus) => {
+      state.refreshAuthenticationStatus = newRefreshStatus
     }
   },
   getters: {
+    isAuthenticated: (state, getters) => {
+      return state.isAuthenticated
+    },
+    username: (state, getters) => {
+      return state.username
+    },
+    password: (state, getters) => {
+      return state.password
+    },
     isRefreshError: (state, getters) => {
       return state.refreshTestTakersStatus === refreshStatus.ERROR || state.refreshDeliveriesStatus === refreshStatus.ERROR
     },
     isRefreshInProgress: (state, getters) => {
-      return !getters.isRefreshError && (state.refreshTestTakersStatus === refreshStatus.IN_PROGRESS || state.refreshDeliveriesStatus === refreshStatus.IN_PROGRESS || state.refreshDeliveriesStatus === refreshStatus.NEVER_DONE)
+      return !getters.isRefreshError && (state.refreshTestTakersStatus === refreshStatus.IN_PROGRESS || state.refreshDeliveriesStatus === refreshStatus.IN_PROGRESS || state.refreshDeliveriesStatus === refreshStatus.NEVER_DONE || state.refreshAuthenticationStatus === refreshStatus.IN_PROGRESS)
     },
     isDeliverySelected: (state, getters) => {
       return state.deliveryId !== null
