@@ -3,6 +3,7 @@
     b-row
       b-col
         b-card
+          Timer(message="Durée de l'examen" :timeString="testDurationString")
           Timer(message="Temps avant fin du dernier candidat" :timeString="maxTestTakerRemainingDurationString")
           Timer(message="Temps avant clôture" :timeString="remainingDurationBeforeClosingString")
       b-col
@@ -30,6 +31,9 @@ export default {
     },
     closingTimeString () {
       return this.$store.getters.closingTimeString
+    },
+    testDurationString () {
+      return this.$store.getters.testDurationString
     }
   },
   mounted () {
