@@ -1,16 +1,16 @@
 <template lang="pug">
-    b-container(fluid)#general-status
-        b-row(:style="{ 'background-color': statusColor }" align-h="around")
-            b-col(cols="2")
-                b-alert.generalStatus(variant="danger" show) {{"Deconnecté : " + nbDisconnected }}
-            b-col(cols="2")
-                b-alert.generalStatus(variant="warning" show) {{"Connecté : " + nbConnected }}
-            b-col(cols="2")
-                b-alert.generalStatus(variant="success" show) {{"En test : " + nbInProgress }}
-            b-col(cols="2")
-                b-alert.generalStatus(variant="success" show) {{"Terminé : " + nbFinished }}
-            b-col(cols="2")
-                b-alert.generalStatus(variant="light" show) {{"Moyenne de progression : " + averageProgressionString }}
+  b-container(fluid)#general-status
+    b-row(:style="{ 'background-color': statusColor }" align-h="around")
+      b-col(cols="2")
+        b-alert.generalStatus(variant="danger" show) {{"Déconnecté : " + nbDisconnected }}
+      b-col(cols="2")
+        b-alert.generalStatus(variant="warning" show) {{"Connecté, mais pas en test  : " + nbConnected }}
+      b-col(cols="2")
+        b-alert.generalStatus(variant="success" show) {{"En test : " + nbInProgress }}
+      b-col(cols="2")
+        b-alert.generalStatus(variant="success" show) {{"Terminé : " + nbFinished }}
+      b-col(cols="2")
+        b-alert.generalStatus(variant="light" show) {{"Progression moyenne : " + averageProgressionString }}
 </template>
 
 <script>
@@ -46,10 +46,4 @@ export default {
 </script>
 
 <style scoped lang="stylus">
-    .generalStatus {
-        width 120%
-        margin-top  5px
-        margin-bottom  5px
-        margin-left -30px
-    }
 </style>

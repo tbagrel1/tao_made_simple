@@ -1,7 +1,10 @@
 <template lang="pug">
+  b-container(fluid)
     b-row
       b-col(cols="12")
         Header
+    b-row
+      b-col(cols="12")
         Tabs
 </template>
 

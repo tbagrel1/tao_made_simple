@@ -1,28 +1,35 @@
 <template lang="pug">
   b-container(fluid)#authentication
-    b-form-group(label-for="username")
-      b-form-input(placeholder="Utilisateur" type="text" v-model="username" @keyup.enter="submit" trim)#username
-    b-form-group(label-for="password")
-      b-form-input(placeholder="Mot de passe" type="password" v-model="password" @keyup.enter="submit" trim)#password
-    b-btn(variant="primary" @click="submit" v-if="username.length !== 0 && password.length !== 0")#connexion Se connecter
-    b-alert(variant="danger" :show="$store.state.refreshAuthenticationStatus === refreshStatus.ERROR") Incorrect credentials
+    b-form-group
+      b-form-input#username(placeholder="Utilisateur" type="text" v-model="username" @keyup.enter="tryAuthentication" trim)
+      b-form-input#password(placeholder="Mot de passe" type="password" v-model="password" @keyup.enter="tryAuthentication" trim)
+    b-btn#log-in(variant="primary" @click="tryAuthentication" v-if="isFormFilled") Se connecter
+    b-alert(:variant="authenticationAlert.variant" :show="authenticationAlert !== alerts.NOTHING") {{ authenticationAlert.message }}
 </template>
 
 <script>
-import { refreshStatus } from '../constants'
+import { alerts } from '../constants'
 
 export default {
   name: 'Authentication',
   data: () => ({
+    alerts,
     username: '',
-    password: '',
-    refreshStatus
+    password: ''
   }),
+  computed: {
+    authenticationAlert () {
+      return this.$store.getters.authenticationAlert
+    }
+  },
   methods: {
-    async submit () {
+    isFormFilled () {
+      return this.username.length !== 0 && this.password.length !== 0
+    },
+    tryAuthentication () {
       this.$store.commit('setUsername', this.username)
       this.$store.commit('setPassword', this.password)
-      await this.$store.dispatch('refreshAuthentication', { username: this.username, password: this.password })
+      this.$store.dispatch('tryAuthentication')
     }
   }
 }

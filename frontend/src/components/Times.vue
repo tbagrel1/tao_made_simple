@@ -1,16 +1,30 @@
 <template lang="pug">
   b-container(fluid)#times
     b-row
-      b-col
+      b-col(cols="6")
         b-card
-          Timer(message="Durée de l'examen" :timeString="testDurationString")
-          Timer(message="Temps avant fin du dernier candidat" :timeString="maxTestTakerRemainingDurationString")
-          Timer(message="Temps avant clôture" :timeString="remainingDurationBeforeClosingString")
-      b-col
+          b-container(fluid)
+            b-row
+              b-col(cols="12")
+                Timer(message="Durée de l'examen" :timeString="testDurationString")
+            b-row
+              b-col(cols="12")
+                Timer(message="Temps avant fin du dernier candidat" :timeString="maxTestTakerRemainingDurationString")
+            b-row
+              b-col(cols="12")
+                Timer(message="Temps avant clôture" :timeString="remainingDurationBeforeClosingString")
+      b-col(cols="6")
         b-card
-          Timer(message="Heure d'ouverture" :timeString="openingTimeString")
-          Timer(message="Heure actuelle" :timeString="currentTimeString")
-          Timer(message="Heure de clôture" :timeString="closingTimeString")
+          b-container(fluid)
+            b-row
+              b-col(cols="12")
+                Timer(message="Heure d'ouverture" :timeString="openingTimeString")
+            b-row
+              b-col(cols="12")
+                Timer(message="Heure actuelle" :timeString="currentTimeString")
+            b-row
+              b-col(cols="12")
+                Timer(message="Heure de clôture" :timeString="closingTimeString")
 </template>
 
 <script>

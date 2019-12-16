@@ -9,7 +9,7 @@
           span Temps restant : {{ testTakerRemainingDurationString }}
       b-row
         b-col(cols="12")
-          b-btn(@click="$store.commit('changeTab', { testTakerId, tab: newTestTakerTab })")#primary {{ newTestTakerTab === tab.UNSUPERVISED ? 'Ne plus suivre' : 'Suivre' }}
+          b-btn(@click="changeTab(testTakerId)")#primary {{ newTestTakerTab === tab.UNSUPERVISED ? 'Ne plus suivre' : 'Suivre' }}
 </template>
 
 <script>
@@ -36,16 +36,18 @@ export default {
     newTestTakerTab () {
       if (this.$store.getters.sortedSupervisedTestTakerIds.includes(this.testTakerId)) {
         return tab.UNSUPERVISED
-      } else if (this.$store.getters.sortedUnsupervisedTestTakerIds.includes(this.testTakerId)) {
-        return tab.SUPERVISED
       } else {
-        console.error('NOT IN THIS TAB')
-        return ''
+        return tab.SUPERVISED
       }
     }
   },
   mounted () {
     this.$refreshGetterValue(this, 'testTakerRemainingDurationString', [this.testTakerId])
+  },
+  methods: {
+    changeTab (testTakerId) {
+      this.$store.commit('changeTab', { testTakerId, tab: this.newTestTakerTab })
+    }
   }
 }
 </script>

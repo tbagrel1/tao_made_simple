@@ -3,15 +3,12 @@
     b-row
       b-col(cols="12")
         GeneralInformation
-        br
     b-row
       b-col(cols="12")
         Times
-        br
     b-row
       b-col(cols="12")
         GeneralStatus
-        br
 </template>
 
 <script>
