@@ -79,7 +79,10 @@ const store = new Vuex.Store({
       if (state.refreshAuthenticationStatus !== refreshStatus.SUCCESS) {
         commit('setRefreshAuthenticationStatus', refreshStatus.IN_PROGRESS)
       }
-      await axios.get(makeApiUrl('delivery'))
+      await axios.post(makeApiUrl('delivery'), {
+        username: state.username,
+        password: state.password
+      })
         .then((response) => {
           commit('setAuthenticated')
           commit('setRefreshAuthenticationStatus', refreshStatus.SUCCESS)
@@ -93,7 +96,10 @@ const store = new Vuex.Store({
       if (state.refreshDeliveriesStatus !== refreshStatus.SUCCESS) {
         commit('setRefreshDeliveriesStatus', refreshStatus.IN_PROGRESS)
       }
-      await axios.get(makeApiUrl('delivery'))
+      await axios.post(makeApiUrl('delivery'), {
+        username: state.username,
+        password: state.password
+      })
         .then((response) => {
           const deliveries = response.data.deliveries
           commit('setDeliveries', deliveries)
@@ -111,7 +117,10 @@ const store = new Vuex.Store({
       if (state.refreshTestTakersStatus !== refreshStatus.SUCCESS) {
         commit('setRefreshTestTakersStatus', refreshStatus.IN_PROGRESS)
       }
-      axios.get(makeApiUrl(`delivery/${state.deliveryId}/testTaker`))
+      axios.post(makeApiUrl(`delivery/${state.deliveryId}/testTaker`), {
+        username: state.username,
+        password: state.password
+      })
         .then((response) => {
           const testTakers = response.data.testTakers
           commit('setTestTakers', testTakers)
@@ -181,6 +190,12 @@ const store = new Vuex.Store({
     }
   },
   getters: {
+    credentials: (state, getters) => {
+      return {
+        username: state.username,
+        password: state.password
+      }
+    },
     isAuthenticated: (state, getters) => {
       return state.isAuthenticated
     },

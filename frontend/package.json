@@ -35,10 +35,10 @@
     "style-loader": "^0.23.1",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.2",
-    "vue-loader": "^15.7.2",
+    "vue-loader": "^15.8.3",
     "vue-style-loader": "^4.1.2",
-    "vue-template-compiler": "^2.6.8",
-    "webpack": "^4.41.2",
+    "vue-template-compiler": "^2.6.11",
+    "webpack": "^4.41.3",
     "webpack-cli": "^3.3.10",
     "webpack-dev-server": "^3.9.0"
   },
@@ -48,7 +48,7 @@
     "bootstrap-vue": "^2.1.0",
     "html-loader": "^0.5.5",
     "html-webpack-plugin": "^3.2.0",
-    "vue": "^2.6.8",
+    "vue": "^2.6.11",
     "vuex": "^3.1.2"
   }
 }
