@@ -121,7 +121,7 @@ const store = new Vuex.Store({
     },
     startRefreshingTestTakers: ({ commit, state }) => {
       const refreshTestTakers = () => {
-        if (state.testTakers !== null && state.supervisionAlert === null) {
+        if (state.testTakers === null && state.supervisionAlert === null) {
           commit('setSupervisionAlert', alerts.TEST_TAKERS_LOADING)
         }
         return axios.post(makeApiUrl(`delivery/${state.deliveryId}/testTaker`), {
@@ -148,7 +148,7 @@ const store = new Vuex.Store({
     },
     chooseDelivery: ({ commit, dispatch }, deliveryId) => {
       commit('setDeliveryId', deliveryId)
-      commit('startRefreshingTestTakers')
+      dispatch('startRefreshingTestTakers')
     }
   },
   mutations: {
@@ -223,6 +223,9 @@ const store = new Vuex.Store({
       return state.deliveries.get(state.deliveryId)
     },
     deliveries: (state, getters) => {
+      if (state.deliveries === null) {
+        return []
+      }
       return Array.from(state.deliveries.values())
     },
     fancyStatus: (state, getters) => (testTakerId) => {
@@ -352,6 +355,9 @@ const store = new Vuex.Store({
       return `${averageProgression} / ${getters.delivery.testNbQuestion}`
     },
     sortedSupervisedTestTakerIds: (state, getters) => {
+      if (state.testTakers === null) {
+        return []
+      }
       const supervisedTestTakerIds = Array.from(state.testTakers.keys()).filter(testTakerId => {
         const value = state.testTakerIdToTab.get(testTakerId)
         return value === tab.SUPERVISED
@@ -359,6 +365,9 @@ const store = new Vuex.Store({
       return sortedTestTakerIds(supervisedTestTakerIds, state.testTakers)
     },
     sortedUnsupervisedTestTakerIds: (state, getters) => {
+      if (state.testTakers === null) {
+        return []
+      }
       const unsupervisedTestTakerIds = Array.from(state.testTakers.keys()).filter(testTakerId => {
         const value = state.testTakerIdToTab.get(testTakerId)
         return value === tab.UNSUPERVISED
