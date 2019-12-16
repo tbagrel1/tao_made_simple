@@ -15,6 +15,9 @@ import './globalStyle.styl'
 const REFRESH_DELAY = 500
 
 const formatAsDurationString = (timestamp) => {
+  if (timestamp <= 0) {
+    return 'terminé'
+  }
   const date = new Date(timestamp * 1000)
   return date.toISOString().substr(11, 8)
 }
