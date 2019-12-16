@@ -12,10 +12,6 @@
 
 <script>
 export default {
-  /*
-   * Quand ce composant est appelé, il peut accéder à la liste des deliveries
-   * disponibles avec this.deliveries (computed)
-   */
   components: {
   },
   data: () => ({
@@ -25,6 +21,9 @@ export default {
     deliveries () {
       return this.$store.getters.deliveries
     }
+  },
+  async mounted () {
+    await this.$store.dispatch('refreshDeliveries')
   },
   methods: {
     async chooseDelivery () {

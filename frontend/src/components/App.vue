@@ -3,13 +3,14 @@
     b-navbar
       b-navbar-brand
         h1 TAO Made Simple
-    b-container( fluid)
-      Loading(v-if="isRefreshInProgress")
-      Error(v-else-if="isRefreshError")
+    b-container(fluid)
+      Authentication(v-if="!isAuthenticated")
       b-container(v-else fluid)
-        Authentication(v-if="!isAuthenticated")
-        DeliverySupervision(v-else-if="isAuthenticated && isDeliverySelected")
-        DeliverySelection(v-else)
+        Loading(v-if="isRefreshInProgress")
+        Error(v-else-if="isRefreshError")
+        b-container(fluid)
+          DeliverySupervision(v-if="isDeliverySelected")
+          DeliverySelection(v-else)
 </template>
 
 <script>
@@ -40,9 +41,6 @@ export default {
     isRefreshError () {
       return this.$store.getters.isRefreshError
     }
-  },
-  async mounted () {
-    await this.$store.dispatch('refreshDeliveries')
   }
 }
 </script>
