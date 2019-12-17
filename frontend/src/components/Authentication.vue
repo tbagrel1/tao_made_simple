@@ -1,10 +1,23 @@
 <template lang="pug">
-  b-container(fluid)#authentication
-    b-form-group
-      b-form-input#username(placeholder="Utilisateur" type="text" v-model="username" @keyup.enter="tryAuthentication" trim)
-      b-form-input#password(placeholder="Mot de passe" type="password" v-model="password" @keyup.enter="tryAuthentication" trim)
-    b-btn#log-in(variant="primary" @click="tryAuthentication" v-if="isFormFilled") Se connecter
-    b-alert(:variant="authenticationAlert.variant" v-if="authenticationAlert !== alerts.NOTHING" show) {{ authenticationAlert.message }}
+  b-container#authentication.h-100(fluid)
+    b-row.my-auto.mx-4.w-100(align-h="center")
+      b-col(sm="12" md="10" lg="6" xl="4")
+        b-card
+          b-card-title
+            h2 Connexion
+          b-card-body
+            b-container(fluid)
+              b-row
+                b-col(cols="12")
+                  b-form-input#username(placeholder="Utilisateur" type="text" v-model="username" @keyup.enter="tryAuthentication" trim)
+              b-row.mb-2
+                b-col(cols="12")
+                  b-form-input#password(placeholder="Mot de passe" type="password" v-model="password" @keyup.enter="tryAuthentication" trim)
+              b-row
+                b-col.pr-0(cols="8")
+                  b-alert#authentication-alert(:variant="authenticationAlert.variant" v-if="authenticationAlert !== alerts.NOTHING" show) {{ authenticationAlert.message }}
+                b-col(cols="4")
+                  b-btn#log-in(block variant="primary" @click="tryAuthentication" v-if="isFormFilled") Se connecter
 </template>
 
 <script>
@@ -37,4 +50,8 @@ export default {
 </script>
 
 <style scoped lang="stylus">
+  #authentication
+    display flex
+  #authentication-alert
+    padding 0.375rem 0.75rem
 </style>

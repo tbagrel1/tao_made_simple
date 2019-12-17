@@ -1,14 +1,24 @@
 <template lang="pug" >
-  b-container(fluid)
-    b-row
-      b-col(cols="12")
-        b-form-select.mb-5(
-          v-model="selectedDeliveryId"
-          :options="deliveries"
-          value-field="id"
-          text-field="name"
-        )
-        b-button(@click="chooseDelivery" v-if="selectedDeliveryId !== null" size="lg" variant="primary") Superviser cet examen
+  b-container#delivery-selection.h-100(fluid)
+    b-row.my-auto.mx-4.w-100(align-h="center")
+      b-col(sm="12" md="10" lg="6" xl="4")
+        b-card
+          b-card-title
+            h2 Sélection de l'examen
+          b-card-body
+            b-container(fluid)
+              b-row.mb-2
+                b-col(cols="12")
+                  b-form-select(
+                    v-model="selectedDeliveryId"
+                    :options="deliveries"
+                    value-field="id"
+                    text-field="name"
+                  )
+              b-row
+                b-col.pr-0(cols="8")
+                b-col(cols="4")
+                  b-btn(block @click="chooseDelivery" v-if="selectedDeliveryId !== null" variant="primary") Superviser
 
 </template>
 
@@ -21,7 +31,7 @@ export default {
   }),
   computed: {
     deliveries () {
-      return this.$store.getters.deliveries
+      return [...this.$store.getters.deliveries, { id: null, name: `Veuillez choisir l'examen à superviser dans la liste` }]
     }
   },
   methods: {
@@ -33,4 +43,6 @@ export default {
 </script>
 
 <style scoped lang="stylus">
+  #delivery-selection
+    display flex
 </style>

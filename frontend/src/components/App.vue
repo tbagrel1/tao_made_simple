@@ -1,6 +1,6 @@
 <template lang="pug">
-  div#app
-    b-navbar
+  div#app.h-100
+    b-navbar(type="dark" variant="primary")
       b-navbar-brand
         h1 TAO Made Simple
     Authentication(v-if="!isAuthenticated")
@@ -41,4 +41,7 @@ export default {
 </script>
 
 <style scoped lang="stylus">
+  #app
+    display flex
+    flex-direction column
 </style>

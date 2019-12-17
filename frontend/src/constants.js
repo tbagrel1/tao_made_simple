@@ -13,7 +13,7 @@ const status = {
 const alerts = {
   NETWORK_ERROR: {
     variant: 'danger',
-    message: `Impossible de joindre le serveur. Vérifiez si vous êtes bien connecté au réseau, et si l'erreur persiste, contactez votre administrateur.`
+    message: `Impossible de joindre le serveur pour le moment. Dès que la connexion sera rétablie, cette page s'actualisera automatiquement. Vérifiez si vous êtes bien connecté au réseau, et si l'erreur persiste, contactez votre administrateur.`
   },
   INTERNAL_ERROR: {
     variant: 'danger',
@@ -25,15 +25,15 @@ const alerts = {
   },
   AUTHENTICATION_LOADING: {
     variant: 'warning',
-    message: '... Authentification en cours ...'
+    message: 'Authentification en cours ...'
   },
   DELIVERIES_LOADING: {
     variant: 'warning',
-    message: '... Chargement en cours de la liste des examens ...'
+    message: 'Chargement en cours de la liste des examens ...'
   },
   TEST_TAKERS_LOADING: {
     variant: 'warning',
-    message: '... Chargement en cours de la liste des étudiants ...'
+    message: 'Chargement en cours de la liste des étudiants ...'
   },
   NOTHING: null
 }
