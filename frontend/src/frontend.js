@@ -193,6 +193,10 @@ const store = new Vuex.Store({
       state.deliveries = new Map(deliveries.map(delivery => [delivery.id, delivery]))
     },
     setTestTakers: (state, testTakers) => {
+      if (testTakers === null) {
+        state.testTakers = new Map()
+        return
+      }
       state.testTakers = new Map(testTakers.map(testTaker => [testTaker.id, testTaker]))
     },
     setAuthenticationAlert: (state, newAlert) => {
