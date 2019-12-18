@@ -7,7 +7,7 @@ drmi:
 	docker rmi -f $$(docker images -aq)
 
 setup_frontend:
-	cd ./frontend; npm i && npm update; cd ..
+	cd ./frontend; grep -v 'url_for' ../backend/src/templates/index.html > src/index.html; npm i && npm update; cd ..
 
 hot_frontend:
 	cd ./frontend; grep -v 'url_for' ../backend/src/templates/index.html > src/index.html; npm run hot; cd ..
