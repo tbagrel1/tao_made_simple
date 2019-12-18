@@ -1,10 +1,10 @@
 <template lang="pug">
   div.p-2(@click="$bvModal.show(`test-taker-details-${testTakerId}`)").test-taker
     div.test-taker-header.pl-2.pr-2.pt-2
-      h3 {{ testTaker.firstname }}
-      h3 {{ testTaker.lastname }}
+      h3.test-taker-name {{ testTaker.firstname }}
+      h3.test-taker-name {{ testTaker.lastname }}
     div.test-taker-status
-      b-alert.m-0(:variant="statusColor" show) {{ fancyStatus }}
+      b-alert.m-0.py-1.px-2(:variant="statusColor" show) {{ fancyStatus }}
     div.test-taker-progress
       b-progress(:value="fancyTestQuestionNo" :max="delivery.testNbQuestion")
     TestTakerModal(:testTakerId="testTakerId")
@@ -75,4 +75,6 @@ export default {
     flex-direction column
     justify-content space-around
     align-content start
+  .test-taker-name
+    font-size large
 </style>

@@ -327,7 +327,7 @@ const store = new Vuex.Store({
           return 'terminé'
       }
     },
-    averageProgressionString: (state, getters) => {
+    fancyAverageTestQuestionNo: (state, getters) => {
       const progressions = []
       for (const testTakerId of getters.sortedSupervisedTestTakerIds) {
         const testTaker = state.testTakers.get(testTakerId)
@@ -346,13 +346,9 @@ const store = new Vuex.Store({
         }
       }
       if (progressions.length === 0) {
-        return 'inconnue'
+        return 0
       }
-      let averageProgression = Math.floor(progressions.reduce((a, b) => a + b) / progressions.length)
-      if (averageProgression === getters.delivery.testNbQuestion) {
-        return 'terminé'
-      }
-      return `${averageProgression} / ${getters.delivery.testNbQuestion}`
+      return Math.floor(progressions.reduce((a, b) => a + b) / progressions.length)
     },
     sortedSupervisedTestTakerIds: (state, getters) => {
       if (state.testTakers === null) {

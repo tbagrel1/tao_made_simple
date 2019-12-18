@@ -1,22 +1,31 @@
 <template lang="pug">
   b-container.p-0(fluid)#general-status
-    b-row(:style="{ 'background-color': statusColor }" align-h="around")
-      b-col(cols="2")
-        b-alert.generalStatus(variant="danger" show) {{"Déconnecté : " + nbDisconnected }}
-      b-col(cols="2")
-        b-alert.generalStatus(variant="warning" show) {{"Connecté, mais pas en test  : " + nbConnected }}
-      b-col(cols="2")
-        b-alert.generalStatus(variant="success" show) {{"En test : " + nbInProgress }}
-      b-col(cols="2")
-        b-alert.generalStatus(variant="success" show) {{"Terminé : " + nbFinished }}
-      b-col(cols="2")
-        b-alert.generalStatus(variant="light" show) {{"Progression moyenne : " + averageProgressionString }}
+    b-row
+      b-col(cols="12")
+        b-alert.general-status-alert(show variant="danger" v-if="$store.getters.nbDisconnected > 0") Attention ! Au moins un utilisateur est déconnecté
+        b-alert.general-status-alert(show variant="warning" v-else-if="$store.getters.nbConnected > 0") Attention, au moins un utilisateur n'a pas commencé le test
+        b-alert.general-status-alert(show variant="success" v-else) Tout va bien
+    b-row
+      b-col(cols="12")
+        b-progress(:value="fancyAverageTestQuestionNo" :max="delivery.testNbQuestion")
+    b-row(no-gutters)
+      b-col(cols="3")
+        b-alert.general-status.py-1.px-2(variant="danger" show) {{"Déconnecté : " + nbDisconnected }}
+      b-col(cols="3")
+        b-alert.general-status.py-1.px-2(variant="warning" show) {{"Connecté, hors test  : " + nbConnected }}
+      b-col(cols="3")
+        b-alert.general-status.py-1.px-2(variant="success" show) {{"En test : " + nbInProgress }}
+      b-col(cols="3")
+        b-alert.general-status.py-1.px-2(variant="success" show) {{"Terminé : " + nbFinished }}
 </template>
 
 <script>
 export default {
   name: 'GeneralStatus',
   computed: {
+    delivery () {
+      return this.$store.getters.delivery
+    },
     nbDisconnected () {
       return this.$store.getters.nbDisconnected
     },
@@ -29,21 +38,16 @@ export default {
     nbFinished () {
       return this.$store.getters.nbFinished
     },
-    averageProgressionString () {
-      return this.$store.getters.averageProgressionString
-    },
-    statusColor () {
-      if (this.$store.getters.nbDisconnected > 0) {
-        return 'rgba(255,217,217,1)'
-      } else if (this.$store.getters.nbConnected > 0) {
-        return 'rgba(255,243,205,1)'
-      } else {
-        return 'rgba(212,237,218,1)'
-      }
+    fancyAverageTestQuestionNo () {
+      return this.$store.getters.fancyAverageTestQuestionNo
     }
   }
 }
 </script>
 
 <style scoped lang="stylus">
+  .general-status-alert
+    height 100%
+    font-size xx-large
+    text-align center
 </style>
