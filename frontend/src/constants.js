@@ -10,6 +10,13 @@ const status = {
   FINISHED: 'finished'
 }
 
+const statusPriorities = {
+  [status.DISCONNECTED]: 0,
+  [status.CONNECTED]: 1,
+  [status.IN_PROGRESS]: 2,
+  [status.FINISHED]: 3
+}
+
 const alerts = {
   NETWORK_ERROR: {
     variant: 'danger',
@@ -41,5 +48,6 @@ const alerts = {
 export {
   tab,
   status,
-  alerts
+  alerts,
+  statusPriorities
 }

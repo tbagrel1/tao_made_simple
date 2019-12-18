@@ -6,7 +6,7 @@ import Vuex from 'vuex'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
-import { tab, status, alerts } from '@/constants'
+import { tab, status, alerts, statusPriorities } from '@/constants'
 import App from '@/components/App'
 import config from './config'
 
@@ -34,7 +34,12 @@ const sortedTestTakerIds = (originalTestTakerIds, testTakers) => {
   testTakerIds.sort((id1, id2) => {
     const testTaker1 = testTakers.get(id1)
     const testTaker2 = testTakers.get(id2)
-    return testTaker1.lastname.localeCompare(testTaker2.lastname)
+    const priorityDiff = statusPriorities[testTaker1.status] - statusPriorities[testTaker2.status]
+    if (priorityDiff === 0) {
+      return testTaker1.lastname.localeCompare(testTaker2.lastname)
+    } else {
+      return priorityDiff
+    }
   })
   return testTakerIds
 }
