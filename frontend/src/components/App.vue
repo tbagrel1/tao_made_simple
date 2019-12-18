@@ -1,33 +1,31 @@
 <template lang="pug">
-  div#app
-    b-navbar
+  div#app.h-100
+    b-navbar(type="dark" variant="primary")
       b-navbar-brand
         h1 TAO Made Simple
-    b-container(fluid)
-      Authentication(v-if="!isAuthenticated")
-      b-container(v-else fluid)
-        Loading(v-if="isRefreshInProgress")
-        Error(v-else-if="isRefreshError")
-        b-container(fluid)
-          DeliverySupervision(v-if="isDeliverySelected")
-          DeliverySelection(v-else)
+    Authentication(v-if="!isAuthenticated")
+    SupervisionAlert(v-else-if="supervisionAlert !== alerts.NOTHING")
+    DeliverySelection(v-else-if="!isDeliverySelected")
+    DeliverySupervision(v-else)
 </template>
 
 <script>
-import Error from './Error'
-import Loading from './Loading'
+import { alerts } from '../constants'
+import SupervisionAlert from './SupervisionAlert'
 import DeliverySupervision from './DeliverySupervision'
 import DeliverySelection from './DeliverySelection'
 import Authentication from './Authentication'
 export default {
   name: 'App',
   components: {
-    Error,
-    Loading,
+    SupervisionAlert,
     Authentication,
     DeliverySupervision,
     DeliverySelection
   },
+  data: () => ({
+    alerts
+  }),
   computed: {
     isAuthenticated () {
       return this.$store.getters.isAuthenticated
@@ -35,15 +33,15 @@ export default {
     isDeliverySelected () {
       return this.$store.getters.isDeliverySelected
     },
-    isRefreshInProgress () {
-      return this.$store.getters.isRefreshInProgress
-    },
-    isRefreshError () {
-      return this.$store.getters.isRefreshError
+    supervisionAlert () {
+      return this.$store.getters.supervisionAlert
     }
   }
 }
 </script>
 
 <style scoped lang="stylus">
+  #app
+    display flex
+    flex-direction column
 </style>

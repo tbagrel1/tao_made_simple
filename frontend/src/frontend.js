@@ -6,7 +6,7 @@ import Vuex from 'vuex'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
-import { tab, status, refreshStatus } from '@/constants'
+import { tab, status, alerts, statusPriorities } from '@/constants'
 import App from '@/components/App'
 import config from './config'
 
@@ -34,7 +34,12 @@ const sortedTestTakerIds = (originalTestTakerIds, testTakers) => {
   testTakerIds.sort((id1, id2) => {
     const testTaker1 = testTakers.get(id1)
     const testTaker2 = testTakers.get(id2)
-    return testTaker1.lastname.localeCompare(testTaker2.lastname)
+    const priorityDiff = statusPriorities[testTaker1.status] - statusPriorities[testTaker2.status]
+    if (priorityDiff === 0) {
+      return testTaker1.lastname.localeCompare(testTaker2.lastname)
+    } else {
+      return priorityDiff
+    }
   })
   return testTakerIds
 }
@@ -50,18 +55,14 @@ Vue.prototype.$refreshGetterValue = (self, name, params = []) => {
   setInterval(refresh, REFRESH_DELAY)
 }
 
-const repeatAction = async (dispatch, name) => {
-  const refresh = async () => {
-    await dispatch(name)
-  }
-  await refresh()
-  setInterval(refresh, REFRESH_DELAY)
-}
-
 Vue.prototype.$axios = axios
 
 Vue.use(Vuex)
 Vue.use(BootstrapVue)
+
+const waitDelay = (t) => new Promise(resolve => {
+  setTimeout(resolve, t)
+})
 
 // eslint-disable-next-line no-unused-vars
 const store = new Vuex.Store({
@@ -70,82 +71,94 @@ const store = new Vuex.Store({
     password: null,
     isAuthenticated: false,
     deliveryId: null,
-    refreshDeliveriesStatus: refreshStatus.NEVER_DONE,
-    refreshTestTakersStatus: refreshStatus.NEVER_DONE,
-    refreshAuthenticationStatus: refreshStatus.NEVER_DONE,
-    deliveries: new Map(),
-    testTakers: new Map(),
+    authenticationAlert: alerts.NOTHING,
+    supervisionAlert: alerts.NOTHING,
+    deliveries: null,
+    testTakers: null,
     testTakerIdToTab: new Map()
   },
   actions: {
-    refreshAuthentication: async ({ commit, state }, { username, password }) => {
-      if (state.refreshAuthenticationStatus !== refreshStatus.SUCCESS) {
-        commit('setRefreshAuthenticationStatus', refreshStatus.IN_PROGRESS)
-      }
-      await axios.post(makeApiUrl('delivery'), {
+    tryAuthentication: ({ commit, state, dispatch }) => {
+      commit('setAuthenticationAlert', alerts.AUTHENTICATION_LOADING)
+      return axios.post(makeApiUrl('delivery'), {
         username: state.username,
         password: state.password
       })
         .then((response) => {
+          commit('setAuthenticationAlert', alerts.NOTHING)
+          dispatch('fetchDeliveries')
           commit('setAuthenticated')
-          commit('setRefreshAuthenticationStatus', refreshStatus.SUCCESS)
         })
-        .catch(() => {
-          commit('setNotAuthenticated')
-          commit('setRefreshAuthenticationStatus', refreshStatus.ERROR)
+        .catch((error) => {
+          if (error.response) {
+            if (error.response.status === 403) {
+              commit('setAuthenticationAlert', alerts.CREDENTIALS_ERROR)
+            } else {
+              commit('setAuthenticationAlert', alerts.INTERNAL_ERROR)
+            }
+          } else {
+            commit('setAuthenticationAlert', alerts.NETWORK_ERROR)
+          }
         })
     },
-    refreshDeliveries: async ({ commit, state }) => {
-      if (state.refreshDeliveriesStatus !== refreshStatus.SUCCESS) {
-        commit('setRefreshDeliveriesStatus', refreshStatus.IN_PROGRESS)
+    fetchDeliveries: ({ commit, state, dispatch }) => {
+      if (state.supervisionAlert !== null) {
+        commit('setSupervisionAlert', alerts.DELIVERIES_LOADING)
       }
-      await axios.post(makeApiUrl('delivery'), {
+      return axios.post(makeApiUrl('delivery'), {
         username: state.username,
         password: state.password
       })
         .then((response) => {
           const deliveries = response.data.deliveries
           commit('setDeliveries', deliveries)
-          commit('setRefreshDeliveriesStatus', refreshStatus.SUCCESS)
+          commit('setSupervisionAlert', alerts.NOTHING)
         })
-        .catch(() => {
-          commit('setDeliveries', new Map())
-          commit('setRefreshDeliveriesStatus', refreshStatus.ERROR)
-        })
-    },
-    refreshTestTakers: async ({ commit, state }) => {
-      if (state.deliveryId === null) {
-        return
-      }
-      if (state.refreshTestTakersStatus !== refreshStatus.SUCCESS) {
-        commit('setRefreshTestTakersStatus', refreshStatus.IN_PROGRESS)
-      }
-      axios.post(makeApiUrl(`delivery/${state.deliveryId}/testTaker`), {
-        username: state.username,
-        password: state.password
-      })
-        .then((response) => {
-          const testTakers = response.data.testTakers
-          commit('setTestTakers', testTakers)
-          commit('addToDefaultTab')
-          commit('setRefreshTestTakersStatus', refreshStatus.SUCCESS)
-        })
-        .catch(() => {
-          commit('setTestTakers', new Map())
-          commit('setRefreshTestTakersStatus', refreshStatus.ERROR)
+        .catch((error) => {
+          commit('setDeliveries', null)
+          if (error.response) {
+            commit('setSupervisionAlert', alerts.INTERNAL_ERROR)
+          } else {
+            commit('setSupervisionAlert', alerts.NETWORK_ERROR)
+          }
+          return waitDelay(REFRESH_DELAY).then(async () => dispatch('fetchDeliveries'))
         })
     },
-    chooseDelivery: async ({ commit, dispatch }, deliveryId) => {
+    startRefreshingTestTakers: ({ commit, state }) => {
+      const refreshTestTakers = () => {
+        if (state.testTakers === null && state.supervisionAlert === null) {
+          commit('setSupervisionAlert', alerts.TEST_TAKERS_LOADING)
+        }
+        return axios.post(makeApiUrl(`delivery/${state.deliveryId}/testTaker`), {
+          username: state.username,
+          password: state.password
+        })
+          .then((response) => {
+            const testTakers = response.data.testTakers
+            commit('setTestTakers', testTakers)
+            commit('addToDefaultTab')
+            commit('setSupervisionAlert', alerts.NOTHING)
+          })
+          .catch((error) => {
+            commit('setTestTakers', null)
+            if (error.response) {
+              commit('setSupervisionAlert', alerts.INTERNAL_ERROR)
+            } else {
+              commit('setSupervisionAlert', alerts.NETWORK_ERROR)
+            }
+          })
+      }
+      refreshTestTakers()
+      setInterval(refreshTestTakers, REFRESH_DELAY)
+    },
+    chooseDelivery: ({ commit, dispatch }, deliveryId) => {
       commit('setDeliveryId', deliveryId)
-      await repeatAction(dispatch, 'refreshTestTakers')
+      dispatch('startRefreshingTestTakers')
     }
   },
   mutations: {
     setAuthenticated: (state) => {
       state.isAuthenticated = true
-    },
-    setNotAuthenticated: (state) => {
-      state.isAuthenticated = false
     },
     setUsername: (state, username) => {
       state.username = username
@@ -180,25 +193,20 @@ const store = new Vuex.Store({
       state.deliveries = new Map(deliveries.map(delivery => [delivery.id, delivery]))
     },
     setTestTakers: (state, testTakers) => {
+      if (testTakers === null) {
+        state.testTakers = new Map()
+        return
+      }
       state.testTakers = new Map(testTakers.map(testTaker => [testTaker.id, testTaker]))
     },
-    setRefreshTestTakersStatus: (state, newRefreshStatus) => {
-      state.refreshTestTakersStatus = newRefreshStatus
+    setAuthenticationAlert: (state, newAlert) => {
+      state.authenticationAlert = newAlert
     },
-    setRefreshDeliveriesStatus: (state, newRefreshStatus) => {
-      state.refreshDeliveriesStatus = newRefreshStatus
-    },
-    setRefreshAuthenticationStatus: (state, newRefreshStatus) => {
-      state.refreshAuthenticationStatus = newRefreshStatus
+    setSupervisionAlert: (state, newAlert) => {
+      state.supervisionAlert = newAlert
     }
   },
   getters: {
-    credentials: (state, getters) => {
-      return {
-        username: state.username,
-        password: state.password
-      }
-    },
     isAuthenticated: (state, getters) => {
       return state.isAuthenticated
     },
@@ -208,11 +216,11 @@ const store = new Vuex.Store({
     password: (state, getters) => {
       return state.password
     },
-    isRefreshError: (state, getters) => {
-      return state.refreshTestTakersStatus === refreshStatus.ERROR || state.refreshDeliveriesStatus === refreshStatus.ERROR
+    authenticationAlert: (state, getters) => {
+      return state.authenticationAlert
     },
-    isRefreshInProgress: (state, getters) => {
-      return !getters.isRefreshError && (state.refreshTestTakersStatus === refreshStatus.IN_PROGRESS || state.refreshDeliveriesStatus === refreshStatus.IN_PROGRESS || state.refreshDeliveriesStatus === refreshStatus.NEVER_DONE || state.refreshAuthenticationStatus === refreshStatus.IN_PROGRESS)
+    supervisionAlert: (state, getters) => {
+      return state.supervisionAlert
     },
     isDeliverySelected: (state, getters) => {
       return state.deliveryId !== null
@@ -224,19 +232,22 @@ const store = new Vuex.Store({
       return state.deliveries.get(state.deliveryId)
     },
     deliveries: (state, getters) => {
+      if (state.deliveries === null) {
+        return []
+      }
       return Array.from(state.deliveries.values())
     },
     fancyStatus: (state, getters) => (testTakerId) => {
       const testTaker = state.testTakers.get(testTakerId)
       switch (testTaker.status) {
         case status.DISCONNECTED:
-          return 'déconnecté'
+          return 'Déconnecté'
         case status.CONNECTED:
-          return 'connecté'
+          return 'Connecté'
         case status.IN_PROGRESS:
-          return 'en cours'
+          return 'En test'
         case status.FINISHED:
-          return 'terminé'
+          return 'Terminé'
       }
     },
     fancyTestQuestionNo: (state, getters) => (testTakerId) => {
@@ -325,7 +336,7 @@ const store = new Vuex.Store({
           return 'terminé'
       }
     },
-    averageProgressionString: (state, getters) => {
+    fancyAverageTestQuestionNo: (state, getters) => {
       const progressions = []
       for (const testTakerId of getters.sortedSupervisedTestTakerIds) {
         const testTaker = state.testTakers.get(testTakerId)
@@ -344,15 +355,14 @@ const store = new Vuex.Store({
         }
       }
       if (progressions.length === 0) {
-        return 'inconnue'
+        return 0
       }
-      let averageProgression = Math.floor(progressions.reduce((a, b) => a + b) / progressions.length)
-      if (averageProgression === getters.delivery.testNbQuestion) {
-        return 'terminé'
-      }
-      return `${averageProgression} / ${getters.delivery.testNbQuestion}`
+      return Math.floor(progressions.reduce((a, b) => a + b) / progressions.length)
     },
     sortedSupervisedTestTakerIds: (state, getters) => {
+      if (state.testTakers === null) {
+        return []
+      }
       const supervisedTestTakerIds = Array.from(state.testTakers.keys()).filter(testTakerId => {
         const value = state.testTakerIdToTab.get(testTakerId)
         return value === tab.SUPERVISED
@@ -360,6 +370,9 @@ const store = new Vuex.Store({
       return sortedTestTakerIds(supervisedTestTakerIds, state.testTakers)
     },
     sortedUnsupervisedTestTakerIds: (state, getters) => {
+      if (state.testTakers === null) {
+        return []
+      }
       const unsupervisedTestTakerIds = Array.from(state.testTakers.keys()).filter(testTakerId => {
         const value = state.testTakerIdToTab.get(testTakerId)
         return value === tab.UNSUPERVISED
