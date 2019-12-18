@@ -1,5 +1,5 @@
 <template lang="pug">
-  b-container(fluid)#general-status
+  b-container.p-0(fluid)#general-status
     b-row(:style="{ 'background-color': statusColor }" align-h="around")
       b-col(cols="2")
         b-alert.generalStatus(variant="danger" show) {{"Déconnecté : " + nbDisconnected }}

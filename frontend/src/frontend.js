@@ -232,13 +232,13 @@ const store = new Vuex.Store({
       const testTaker = state.testTakers.get(testTakerId)
       switch (testTaker.status) {
         case status.DISCONNECTED:
-          return 'déconnecté'
+          return 'Déconnecté'
         case status.CONNECTED:
-          return 'connecté'
+          return 'Connecté'
         case status.IN_PROGRESS:
-          return 'en cours'
+          return 'En test'
         case status.FINISHED:
-          return 'terminé'
+          return 'Terminé'
       }
     },
     fancyTestQuestionNo: (state, getters) => (testTakerId) => {

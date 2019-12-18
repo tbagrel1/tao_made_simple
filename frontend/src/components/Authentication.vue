@@ -1,7 +1,7 @@
 <template lang="pug">
   b-container#authentication.h-100(fluid)
     b-row.my-auto.mx-4.w-100(align-h="center")
-      b-col(sm="12" md="10" lg="6" xl="4")
+      b-col(xs="12" sm="12" md="10" lg="6" xl="4")
         b-card
           b-card-title
             h2 Connexion
@@ -9,7 +9,7 @@
             b-container(fluid)
               b-row
                 b-col(cols="12")
-                  b-form-input#username(placeholder="Utilisateur" type="text" v-model="username" @keyup.enter="tryAuthentication" trim)
+                  b-form-input#username(placeholder="Nom d'utilisateur" type="text" v-model="username" @keyup.enter="tryAuthentication" trim)
               b-row.mb-2
                 b-col(cols="12")
                   b-form-input#password(placeholder="Mot de passe" type="password" v-model="password" @keyup.enter="tryAuthentication" trim)

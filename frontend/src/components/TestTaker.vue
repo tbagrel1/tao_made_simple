@@ -1,9 +1,10 @@
 <template lang="pug">
-  div(@click="$bvModal.show(`test-taker-details-${testTakerId}`)").test-taker
-    div.test-taker-header
-      h3 {{ testTaker.firstname }} {{ testTaker.lastname }}
+  div.p-2(@click="$bvModal.show(`test-taker-details-${testTakerId}`)").test-taker
+    div.test-taker-header.pl-2.pr-2.pt-2
+      h3 {{ testTaker.firstname }}
+      h3 {{ testTaker.lastname }}
     div.test-taker-status
-      b-alert(:variant="statusColor" show) Statut : {{ fancyStatus }}
+      b-alert.m-0(:variant="statusColor" show) {{ fancyStatus }}
     div.test-taker-progress
       b-progress(:value="fancyTestQuestionNo" :max="delivery.testNbQuestion")
     TestTakerModal(:testTakerId="testTakerId")
@@ -63,8 +64,15 @@ export default {
   .test-taker
     display grid
     grid-template-rows 45% 45% 10%
+    border 1px solid rgba(0, 0, 0, 0.125)
+    border-radius 0.25rem
+  .test-taker-status
+    display flex
+    flex-direction column
+    justify-content center
   .test-taker-header
     display flex
-    justify-content center
-    align-content center
+    flex-direction column
+    justify-content space-around
+    align-content start
 </style>
